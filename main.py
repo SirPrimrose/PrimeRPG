@@ -1,3 +1,4 @@
+import asyncio
 import os
 import sys
 from traceback import print_exc
@@ -6,15 +7,23 @@ import discord
 
 import command_handler
 import consts
-import persistence
+from persistence import persistence
 
 client = discord.Client()
 __DEBUG__ = bool(os.getenv('__DEBUG__'))
 ready = False
 
+
 def app_setup():
     persistence.setup_db()
     print('PrimeRPG setup complete')
+
+
+async def save_to_db():
+    await client.wait_until_ready()
+    while True:
+        persistence.save_queue()
+        await asyncio.sleep(1)
 
 
 @client.event
@@ -59,4 +68,5 @@ if not token:
     print(
         'Missing BOT_TOKEN in environment variables. Copy from '
         'https://discord.com/developers/applications/816353796278976512/bot')
+client.loop.create_task(save_to_db())
 client.run(token)
