@@ -2,6 +2,7 @@ from commands.hello import Hello
 from commands.help import Help
 from commands.dice import Dice
 from commands.add import Add
+from commands.start import Start
 
 command_registry = []
 
@@ -11,6 +12,7 @@ def load_commands():
     register(Help())
     register(Dice())
     register(Add())
+    register(Start())
 
 
 def register(command):

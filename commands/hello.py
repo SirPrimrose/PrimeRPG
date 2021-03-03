@@ -1,4 +1,6 @@
 from commands.command import Command
+import discord
+from typing import List
 
 
 class Hello(Command):
@@ -11,7 +13,7 @@ class Hello(Command):
     def get_prefixes(self):
         return ['hello', 'hi']
 
-    async def run_command(self, msg, args):
+    async def run_command(self, msg: discord.Message, args: List[str]):
         if msg.author.nick:
             await msg.channel.send('Hello {0.author.name}, or should I call you {0.author.nick}?'
                                    .format(msg))

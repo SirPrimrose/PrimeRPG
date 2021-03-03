@@ -1,33 +1,43 @@
 import sqlite3
 
+# Table Names
 players_table = 'players'
-create_players_table = 'CREATE TABLE %s(id integer PRIMARY KEY, name text)' % players_table
+
+# Queries
+create_players_table = 'CREATE TABLE IF NOT EXISTS %s(unique_id integer PRIMARY KEY, name text)' % players_table
+insert_players_table = 'INSERT INTO %s (unique_id, name) VALUES (?, ?)' % players_table
+
+# Open connection to database
+connection = sqlite3.connect('primeRPG.db')
 
 
 def setup_db():
     create_tables()
 
 
-def sql_connection():
-    conn = sqlite3.connect('primeRPG.db')
-    return conn
-
-
-def create_tables(conn: sqlite3.Connection):
-    cursor_obj = conn.cursor()
+def create_tables():
+    cursor_obj = connection.cursor()
 
     cursor_obj.execute(create_players_table)
 
-    conn.commit()
+    connection.commit()
 
 
-def get_player_data(conn: sqlite3.Connection, player_name: str):
-    cursor_obj = conn.cursor()
+def get_player_data(unique_id: int):
+    cursor_obj = connection.cursor()
 
-    t = (player_name,)
-    statement = 'SELECT * FROM %s WHERE symbol=?' % players_table
-    cursor_obj.execute(statement, t)
+    stmt_args = (unique_id,)
+    statement = 'SELECT * FROM %s WHERE unique_id=?' % players_table
+    cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchone()
-    print(result)
 
     return result
+
+
+def create_player_data(unique_id: int, name: str):
+    cursor_obj = connection.cursor()
+
+    stmt_args = (unique_id, name)
+    cursor_obj.execute(insert_players_table, stmt_args)
+
+    connection.commit()

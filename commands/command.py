@@ -1,5 +1,6 @@
 from abc import abstractmethod
-
+import discord
+from typing import List
 
 class Command:
     @abstractmethod
@@ -16,5 +17,5 @@ class Command:
         pass
 
     @abstractmethod
-    def run_command(self, msg, args):
+    async def run_command(self, msg: discord.Message, args: List[str]):
         pass

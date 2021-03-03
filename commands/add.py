@@ -1,6 +1,7 @@
 import sys
 from commands.command import Command
-
+import discord
+from typing import List
 
 class Add(Command):
     def get_description(self):
@@ -12,7 +13,7 @@ class Add(Command):
     def get_prefixes(self):
         return ['add', 'sum']
 
-    async def run_command(self, msg, args):
+    async def run_command(self, msg: discord.Message, args: List[str]):
         try:
             total = sum(float(x) for x in args)
             await msg.channel.send('Sum: {0}'.format(total))

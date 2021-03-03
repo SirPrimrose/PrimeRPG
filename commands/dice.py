@@ -1,6 +1,8 @@
 import sys
 from commands.command import Command
 import random
+import discord
+from typing import List
 
 
 class Dice(Command):
@@ -13,7 +15,7 @@ class Dice(Command):
     def get_prefixes(self):
         return ['dice', 'roll']
 
-    async def run_command(self, msg, args):
+    async def run_command(self, msg: discord.Message, args: List[str]):
         try:
             min = 1
             max = 100

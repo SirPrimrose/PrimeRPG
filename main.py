@@ -3,12 +3,15 @@ import os
 import command_handler
 import consts
 import persistence
+import sys
 
 client = discord.Client()
+__DEBUG__ = bool(os.getenv('__DEBUG__'))
 
 
 def app_setup():
     persistence.setup_db()
+    print('Setup complete')
 
 
 @client.event
@@ -29,8 +32,12 @@ async def on_message(msg):
     if msg.content.startswith('beep'):
         await msg.channel.send('boop')
 
-    if msg.content.startswith(consts.command_prefix):
-        await command_handler.handle_command(msg, msg.content[len(consts.command_prefix):].split())
+    try:
+        if msg.content.startswith(consts.command_prefix):
+            await command_handler.handle_command(msg, msg.content[len(consts.command_prefix):].split())
+    except Exception:
+        if __DEBUG__:
+            msg.channel.send('Encountered error: {0}'.format(sys.exc_info()[1]))
 
 
 app_setup()
