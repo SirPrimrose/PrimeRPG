@@ -1,15 +1,21 @@
 import discord
 import os
+import command_handler
+import consts
+import persistence
 
 client = discord.Client()
-commandPrefix = '.'
-commandHello = 'hello'
+
+
+def app_setup():
+    persistence.setup_db()
 
 
 @client.event
 async def on_ready():
     print('We have logged in as {0.user}'
           .format(client))
+    command_handler.load_commands()
 
 
 @client.event
@@ -23,25 +29,13 @@ async def on_message(msg):
     if msg.content.startswith('beep'):
         await msg.channel.send('boop')
 
-    if msg.content.startswith(commandPrefix):
-        await handle_command(msg, msg.content[len(commandPrefix):])
+    if msg.content.startswith(consts.command_prefix):
+        await command_handler.handle_command(msg, msg.content[len(consts.command_prefix):].split())
 
 
-async def handle_command(msg, suffix):
-    print(suffix)
-    if suffix.startswith(commandHello):
-        await handle_hello(msg)
+app_setup()
 
-
-async def handle_hello(msg):
-    if msg.author.nick:
-        await msg.channel.send('Hello {0.author.name}, or should I call you {0.author.nick}?'
-                               .format(msg))
-    else:
-        await msg.channel.send('Hello {0.author.name}... it seems that\'s all you go by.'
-                               .format(msg))
-
-
+# Start bot client
 token = os.getenv('BOT_TOKEN')
 if not token:
     print(token)
