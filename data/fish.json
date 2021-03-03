@@ -1,0 +1,26 @@
+[
+	{
+		"unique_id": 1,
+		"name": "Minnow",
+		"start_time": "00:00:00",
+		"end_time": "24:00:00",
+		"weather": "both",
+		"weight": 70
+	},
+	{
+		"unique_id": 2,
+		"name": "Carp",
+		"start_time": "00:00:00",
+		"end_time": "24:00:00",
+		"weather": "both",
+		"weight": 25
+	},
+	{
+		"unique_id": 3,
+		"name": "Catfish",
+		"start_time": "00:00:00",
+		"end_time": "24:00:00",
+		"weather": "both",
+		"weight": 5
+	}
+]

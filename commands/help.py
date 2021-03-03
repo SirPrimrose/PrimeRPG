@@ -1,8 +1,10 @@
-from commands.command import Command
+from typing import List
+
+import discord
+
 import command_handler
 import consts
-import discord
-from typing import List
+from commands.command import Command
 
 
 class Help(Command):

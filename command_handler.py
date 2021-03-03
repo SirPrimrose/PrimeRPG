@@ -1,8 +1,11 @@
+from commands.add import Add
+from commands.data import Data
+from commands.dice import Dice
+from commands.fish import Fish
 from commands.hello import Hello
 from commands.help import Help
-from commands.dice import Dice
-from commands.add import Add
 from commands.start import Start
+from commands.time import Time
 
 command_registry = []
 
@@ -13,6 +16,9 @@ def load_commands():
     register(Dice())
     register(Add())
     register(Start())
+    register(Fish())
+    register(Data())
+    register(Time())
 
 
 def register(command):

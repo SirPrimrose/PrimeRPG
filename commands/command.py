@@ -1,6 +1,8 @@
 from abc import abstractmethod
-import discord
 from typing import List
+
+import discord
+
 
 class Command:
     @abstractmethod

@@ -1,17 +1,20 @@
-import discord
 import os
+import sys
+from traceback import print_exc
+
+import discord
+
 import command_handler
 import consts
 import persistence
-import sys
 
 client = discord.Client()
 __DEBUG__ = bool(os.getenv('__DEBUG__'))
-
+ready = False
 
 def app_setup():
     persistence.setup_db()
-    print('Setup complete')
+    print('PrimeRPG setup complete')
 
 
 @client.event
@@ -19,11 +22,17 @@ async def on_ready():
     print('We have logged in as {0.user}'
           .format(client))
     command_handler.load_commands()
+    global ready
+    ready = True
 
 
 @client.event
 async def on_message(msg):
     if msg.author == client.user:
+        return
+
+    if not ready:
+        await msg.channel.send('Bot is still loading...')
         return
 
     if msg.content.startswith('boop'):
@@ -37,7 +46,8 @@ async def on_message(msg):
             await command_handler.handle_command(msg, msg.content[len(consts.command_prefix):].split())
     except Exception:
         if __DEBUG__:
-            msg.channel.send('Encountered error: {0}'.format(sys.exc_info()[1]))
+            print_exc()
+            await msg.channel.send('Encountered error: {0}'.format(sys.exc_info()[1]))
 
 
 app_setup()

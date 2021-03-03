@@ -1,6 +1,8 @@
-from commands.command import Command
-import discord
 from typing import List
+
+import discord
+
+from commands.command import Command
 
 
 class Hello(Command):

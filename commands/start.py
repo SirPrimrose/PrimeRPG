@@ -1,7 +1,9 @@
 from typing import List
-from commands.command import Command
+
 import discord
+
 import persistence
+from commands.command import Command
 
 
 class Start(Command):

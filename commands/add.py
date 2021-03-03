@@ -1,7 +1,10 @@
 import sys
-from commands.command import Command
-import discord
 from typing import List
+
+import discord
+
+from commands.command import Command
+
 
 class Add(Command):
     def get_description(self):

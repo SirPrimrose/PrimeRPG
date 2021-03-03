@@ -1,8 +1,10 @@
-import sys
-from commands.command import Command
 import random
-import discord
+import sys
 from typing import List
+
+import discord
+
+from commands.command import Command
 
 
 class Dice(Command):
