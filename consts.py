@@ -6,3 +6,7 @@ fishing_task = 'fishing'
 mining_task = 'mining'
 woodcutting_task = 'woodcutting'
 foraging_task = 'foraging'
+
+# Weather
+raining = 'raining'
+clear = 'clear'

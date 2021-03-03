@@ -7,6 +7,7 @@ from commands.hello import Hello
 from commands.help import Help
 from commands.start import Start
 from commands.time import Time
+from commands.weather import Weather
 from persistence.connection_handler import spam_list
 
 command_registry = []
@@ -22,6 +23,7 @@ def load_commands():
     register(Data())
     register(Time())
     register(Collect())
+    register(Weather())
 
 
 def register(command):

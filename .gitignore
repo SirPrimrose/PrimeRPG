@@ -1,4 +1,5 @@
 # Custom
+__pycache__/
 venv/
 primeRPG.db
 
