@@ -1,5 +1,5 @@
-idle_state = 'idling'
-gathering_state = 'gathering'
+idle_state = "idling"
+gathering_state = "gathering"
 
 player_states = enumerate([idle_state, gathering_state])
 
@@ -11,7 +11,7 @@ class Player:
         self.state = state
 
     def __repr__(self):
-        response = 'Unique Id: %s' % self.unique_id
-        response += '\nName: %s' % self.name
-        response += '\nState: %s' % self.state
+        response = "Unique Id: %s" % self.unique_id
+        response += "\nName: %s" % self.name
+        response += "\nState: %s" % self.state
         return response

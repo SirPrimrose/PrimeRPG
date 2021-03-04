@@ -12,7 +12,9 @@ def get_fishing_task_rewards(start_time: datetime, task_time: datetime.timedelta
     rewards = []
     if total_time < 5:
         return rewards
-    for i in range(start + base_fish_frequency, start + total_time, base_fish_frequency):
+    for i in range(
+        start + base_fish_frequency, start + total_time, base_fish_frequency
+    ):
         fish = go_fish(i)
         if fish:
             rewards.append(fish)
@@ -22,7 +24,7 @@ def get_fishing_task_rewards(start_time: datetime, task_time: datetime.timedelta
 def go_fish(time):
     if random.random() < 0.2:
         if random.random() < 0.2:
-            return {'id': 0, 'name': 'Trash'}
+            return {"id": 0, "name": "Trash"}
         else:
             t = datetime.datetime.fromtimestamp(time)
             ig_time = util.get_in_game_time(t)

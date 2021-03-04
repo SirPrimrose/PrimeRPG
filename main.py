@@ -10,13 +10,13 @@ import consts
 from persistence import persistence
 
 client = discord.Client()
-__DEBUG__ = bool(os.getenv('__DEBUG__'))
+__DEBUG__ = bool(os.getenv("__DEBUG__"))
 ready = False
 
 
 def app_setup():
     persistence.setup_db()
-    print('PrimeRPG setup complete')
+    print("PrimeRPG setup complete")
 
 
 async def save_to_db():
@@ -28,8 +28,7 @@ async def save_to_db():
 
 @client.event
 async def on_ready():
-    print('We have logged in as {0.user}'
-          .format(client))
+    print("We have logged in as {0.user}".format(client))
     command_handler.load_commands()
     global ready
     ready = True
@@ -41,32 +40,35 @@ async def on_message(msg):
         return
 
     if not ready:
-        await msg.channel.send('Bot is still loading...')
+        await msg.channel.send("Bot is still loading...")
         return
 
-    if msg.content.startswith('boop'):
-        await msg.channel.send('beep')
+    if msg.content.startswith("boop"):
+        await msg.channel.send("beep")
 
-    if msg.content.startswith('beep'):
-        await msg.channel.send('boop')
+    if msg.content.startswith("beep"):
+        await msg.channel.send("boop")
 
     try:
         if msg.content.startswith(consts.command_prefix):
-            await command_handler.handle_command(msg, msg.content[len(consts.command_prefix):].split())
+            await command_handler.handle_command(
+                msg, msg.content[len(consts.command_prefix) :].split()
+            )
     except Exception:
         if __DEBUG__:
             print_exc()
-            await msg.channel.send('Encountered error: {0}'.format(sys.exc_info()[1]))
+            await msg.channel.send("Encountered error: {0}".format(sys.exc_info()[1]))
 
 
 app_setup()
 
 # Start bot client
-token = os.getenv('BOT_TOKEN')
+token = os.getenv("BOT_TOKEN")
 if not token:
     print(token)
     print(
-        'Missing BOT_TOKEN in environment variables. Copy from '
-        'https://discord.com/developers/applications/816353796278976512/bot')
+        "Missing BOT_TOKEN in environment variables. Copy from "
+        "https://discord.com/developers/applications/816353796278976512/bot"
+    )
 client.loop.create_task(save_to_db())
 client.run(token)

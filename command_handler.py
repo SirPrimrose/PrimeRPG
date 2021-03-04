@@ -31,15 +31,15 @@ def register(command):
 
 
 async def handle_command(msg, split_content):
-    print('Command Content: %s' % split_content)
+    print("Command Content: %s" % split_content)
     if len(split_content) < 1:
         return
     if msg.author.id in spam_list:
-        await msg.channel.send('Still processing previous command...')
+        await msg.channel.send("Still processing previous command...")
         return
     # TODO Instead of going through all command_registry, only allow some commands based on user's profile
     for command in command_registry:
         if split_content[0].lower().startswith(tuple(command.get_prefixes())):
             await command.run_command(msg, split_content[1:])
             return
-    await msg.channel.send('Unknown command, try `.help` to see a list of all commands')
+    await msg.channel.send("Unknown command, try `.help` to see a list of all commands")

@@ -7,21 +7,25 @@ from data.fish import Fish
 from persistence.common_persistence import get_dictionary_from_table, insert_dictionary
 from persistence.connection_handler import connection
 
-fish_table = 'fish'
+fish_table = "fish"
 
-create_fish_table = 'CREATE TABLE IF NOT EXISTS %s' \
-                    ' (unique_id integer, name text, start_time text, end_time text, weather text, weight int)' \
-                    % fish_table
-select_fish_table = 'SELECT * FROM %s WHERE datetime(start_time) <= datetime(?) AND datetime(end_time) >= datetime(' \
-                    '?) AND weather = \'both\' OR weather = ?' % fish_table
+create_fish_table = (
+    "CREATE TABLE IF NOT EXISTS %s"
+    " (unique_id integer, name text, start_time text, end_time text, weather text, weight int)"
+    % fish_table
+)
+select_fish_table = (
+    "SELECT * FROM %s WHERE datetime(start_time) <= datetime(?) AND datetime(end_time) >= datetime("
+    "?) AND weather = 'both' OR weather = ?" % fish_table
+)
 
 
 def populate_fish_table():
-    with open(data_folder / 'fish.json') as f:
+    with open(data_folder / "fish.json") as f:
         data = json.load(f)
 
     for fish in data:
-        if not get_dictionary_from_table(fish_table, fish['unique_id']):
+        if not get_dictionary_from_table(fish_table, fish["unique_id"]):
             insert_dictionary(fish_table, fish)
 
     connection.commit()

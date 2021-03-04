@@ -3,7 +3,12 @@ import random
 
 from math import sin, pi
 
-from consts import day_night_cycles_per_day, raining_weather, clear_weather, weather_frequency
+from consts import (
+    day_night_cycles_per_day,
+    raining_weather,
+    clear_weather,
+    weather_frequency,
+)
 
 
 def get_current_in_game_time():
@@ -12,7 +17,9 @@ def get_current_in_game_time():
 
 
 def get_in_game_time(time):
-    delta = datetime.timedelta(hours=time.hour, minutes=time.minute, seconds=time.second)
+    delta = datetime.timedelta(
+        hours=time.hour, minutes=time.minute, seconds=time.second
+    )
     new_delta = day_night_cycles_per_day * delta
     return new_delta
 
@@ -34,12 +41,12 @@ def get_in_game_weather(time):
 def time_delta_to_str(time_d: datetime.timedelta):
     hours, remainder = divmod(time_d.seconds, 3600)
     minutes, seconds = divmod(remainder, 60)
-    return '{:02}:{:02}:{:02}'.format(int(hours), int(minutes), int(seconds))
+    return "{:02}:{:02}:{:02}".format(int(hours), int(minutes), int(seconds))
 
 
 async def safe_send(msg, response):
     if len(response) > 2000:
-        response = response[0:1900] + '; Message was too long, partly truncated'
+        response = response[0:1900] + "; Message was too long, partly truncated"
     await msg.channel.send(response)
 
 

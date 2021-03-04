@@ -1,12 +1,16 @@
 from persistence.connection_handler import connection, queue_transaction
 
-items_table = 'items'
+items_table = "items"
 
-select_items_table = 'SELECT * FROM %s WHERE unique_id = ?' % items_table
-create_items_table = 'CREATE TABLE IF NOT EXISTS %s' \
-                            ' (unique_id integer, name text, value integer)' % items_table
-insert_items_table = 'INSERT INTO %s (unique_id, name, value) VALUES (?, ?, ?)' % items_table
-delete_items_table = 'DELETE from %s WHERE unique_id = ?' % items_table
+select_items_table = "SELECT * FROM %s WHERE unique_id = ?" % items_table
+create_items_table = (
+    "CREATE TABLE IF NOT EXISTS %s"
+    " (unique_id integer, name text, value integer)" % items_table
+)
+insert_items_table = (
+    "INSERT INTO %s (unique_id, name, value) VALUES (?, ?, ?)" % items_table
+)
+delete_items_table = "DELETE from %s WHERE unique_id = ?" % items_table
 
 
 def get_item_data(unique_id: int):

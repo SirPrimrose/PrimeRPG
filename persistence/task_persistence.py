@@ -1,12 +1,19 @@
 from persistence.connection_handler import connection, queue_transaction
 
-player_tasks_table = 'player_tasks'
+player_tasks_table = "player_tasks"
 
-select_player_tasks_table = 'SELECT * FROM %s WHERE unique_id = ?' % player_tasks_table
-create_player_tasks_table = 'CREATE TABLE IF NOT EXISTS %s' \
-                            ' (unique_id integer, task text, time_started text)' % player_tasks_table
-insert_player_tasks_table = 'INSERT INTO %s (unique_id, task, time_started) VALUES (?, ?, ?)' % player_tasks_table
-delete_player_tasks_table = 'DELETE from %s WHERE unique_id = ? AND task = ?' % player_tasks_table
+select_player_tasks_table = "SELECT * FROM %s WHERE unique_id = ?" % player_tasks_table
+create_player_tasks_table = (
+    "CREATE TABLE IF NOT EXISTS %s"
+    " (unique_id integer, task text, time_started text)" % player_tasks_table
+)
+insert_player_tasks_table = (
+    "INSERT INTO %s (unique_id, task, time_started) VALUES (?, ?, ?)"
+    % player_tasks_table
+)
+delete_player_tasks_table = (
+    "DELETE from %s WHERE unique_id = ? AND task = ?" % player_tasks_table
+)
 
 
 def get_player_task_data(unique_id: int):

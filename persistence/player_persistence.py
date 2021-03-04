@@ -1,20 +1,26 @@
 import player
 from persistence.connection_handler import connection, queue_transaction
 
-players_table = 'players'
+players_table = "players"
 
-create_players_table = 'CREATE TABLE IF NOT EXISTS {0} ' \
-                       '(unique_id integer PRIMARY KEY, name text, state text DEFAULT {1})' \
-    .format(players_table, player.idle_state)
-insert_players_table = 'INSERT INTO %s (unique_id, name) VALUES (?, ?)' % players_table
-update_players_table = 'UPDATE %s SET unique_id = ?, name = ?, state = ? WHERE unique_id = ?' % players_table
+create_players_table = (
+    "CREATE TABLE IF NOT EXISTS {0} "
+    "(unique_id integer PRIMARY KEY, name text, state text DEFAULT {1})".format(
+        players_table, player.idle_state
+    )
+)
+insert_players_table = "INSERT INTO %s (unique_id, name) VALUES (?, ?)" % players_table
+update_players_table = (
+    "UPDATE %s SET unique_id = ?, name = ?, state = ? WHERE unique_id = ?"
+    % players_table
+)
 
 
 def get_player_data(unique_id: int):
     cursor_obj = connection.cursor()
 
     stmt_args = (unique_id,)
-    statement = 'SELECT * FROM %s WHERE unique_id=?' % players_table
+    statement = "SELECT * FROM %s WHERE unique_id=?" % players_table
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchone()
 

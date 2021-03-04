@@ -1,4 +1,3 @@
-import datetime
 from typing import List
 
 import discord
@@ -9,13 +8,13 @@ from commands.command import Command
 
 class Weather(Command):
     def get_description(self):
-        return 'Check the weather.'
+        return "Check the weather."
 
     def get_name(self):
-        return 'Weather'
+        return "Weather"
 
     def get_prefixes(self):
-        return ['weather']
+        return ["weather"]
 
     async def run_command(self, msg: discord.Message, args: List[str]):
         response = util.get_current_in_game_weather()

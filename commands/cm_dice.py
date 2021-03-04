@@ -9,13 +9,13 @@ from commands.command import Command
 
 class Dice(Command):
     def get_description(self):
-        return 'Roll a dice.'
+        return "Roll a dice."
 
     def get_name(self):
-        return 'Dice'
+        return "Dice"
 
     def get_prefixes(self):
-        return ['dice', 'roll']
+        return ["dice", "roll"]
 
     async def run_command(self, msg: discord.Message, args: List[str]):
         try:
@@ -27,7 +27,9 @@ class Dice(Command):
                 min = int(args[0])
                 max = int(args[1])
             num = random.randrange(min, max)
-            await msg.channel.send('You rolled a {0}'.format(num))
+            await msg.channel.send("You rolled a {0}".format(num))
         except ValueError:
             print("Unexpected error:", sys.exc_info()[1])
-            await msg.channel.send('Please enter a range of two valid numbers, or a single number greater than 1.')
+            await msg.channel.send(
+                "Please enter a range of two valid numbers, or a single number greater than 1."
+            )

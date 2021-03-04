@@ -2,26 +2,27 @@ from typing import List
 
 import discord
 
-from persistence import persistence
 from commands.command import Command
 from persistence.player_persistence import get_player_data, insert_player_data
 
 
 class Start(Command):
     def get_description(self):
-        return 'Start the game.'
+        return "Start the game."
 
     def get_name(self):
-        return 'Start'
+        return "Start"
 
     def get_prefixes(self):
-        return ['start', 'signup', 'begin']
+        return ["start", "signup", "begin"]
 
     async def run_command(self, msg: discord.Message, args: List[str]):
         player_id = msg.author.id
         player_data = get_player_data(player_id)
         if player_data:
-            await msg.channel.send('You are already playing {0}.'.format(msg.author.name))
+            await msg.channel.send(
+                "You are already playing {0}.".format(msg.author.name)
+            )
         else:
             insert_player_data(player_id, msg.author.name)
-            await msg.channel.send('Welcome to the game {0}'.format(msg.author.name))
+            await msg.channel.send("Welcome to the game {0}".format(msg.author.name))

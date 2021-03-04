@@ -26,4 +26,3 @@ def create_tables():
     populate_fish_table()
 
     connection.commit()
-
