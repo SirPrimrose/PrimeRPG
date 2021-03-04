@@ -1,0 +1,17 @@
+[
+	{
+		"unique_id": 1,
+		"name": "Minnow",
+		"value": 100
+	},
+	{
+		"unique_id": 2,
+		"name": "Carp",
+		"value": 100
+	},
+	{
+		"unique_id": 3,
+		"name": "Catfish",
+		"value": 100
+	}
+]

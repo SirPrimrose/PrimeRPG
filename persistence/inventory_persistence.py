@@ -1,4 +1,4 @@
-from data.item import Item
+from data.player_inventory_item import PlayerInventoryItem
 from persistence.connection_handler import connection, queue_transaction
 
 inventory_table = "inventory"
@@ -47,13 +47,13 @@ def get_all_inventory_data(player_id: int):
     return items
 
 
-def insert_inventory_data(item: Item):
+def insert_inventory_data(item: PlayerInventoryItem):
     stmt = insert_inventory_table
     stmt_args = (item.player_id, item.item_id, item.quantity)
     queue_transaction(item.player_id, stmt, stmt_args)
 
 
-def update_inventory_data(item: Item):
+def update_inventory_data(item: PlayerInventoryItem):
     stmt = update_inventory_table
     stmt_args = (item.quantity, item.player_id, item.item_id)
     queue_transaction(item.player_id, stmt, stmt_args)
@@ -67,6 +67,6 @@ def delete_inventory_data(player_id: int, item_id: int):
 
 def init_item(db_row):
     if db_row:
-        return Item(db_row[0], db_row[1], db_row[2])
+        return PlayerInventoryItem(db_row[0], db_row[1], db_row[2])
     else:
         return None

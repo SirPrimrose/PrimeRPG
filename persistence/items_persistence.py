@@ -1,3 +1,7 @@
+import json
+
+from consts import data_folder
+from persistence.common_persistence import insert_dictionary
 from persistence.connection_handler import connection, queue_transaction
 
 items_table = "items"
@@ -11,6 +15,17 @@ insert_items_table = (
     "INSERT INTO %s (unique_id, name, value) VALUES (?, ?, ?)" % items_table
 )
 delete_items_table = "DELETE from %s WHERE unique_id = ?" % items_table
+
+
+def populate_item_table():
+    with open(data_folder / "items.json") as f:
+        data = json.load(f)
+
+    for item in data:
+        if not get_item_data(item["unique_id"]):
+            insert_dictionary(items_table, item)
+
+    connection.commit()
 
 
 def get_item_data(unique_id: int):

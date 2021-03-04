@@ -1,11 +1,11 @@
 class Item:
-    def __init__(self, player_id: int, item_id: int, quantity: int):
-        self.player_id = player_id
-        self.item_id = item_id
-        self.quantity = quantity
+    def __init__(self, unique_id: int, name: str, value: int):
+        self.unique_id = unique_id
+        self.name = name
+        self.value = value
 
     def __repr__(self):
-        response = "Player Id: %s" % self.player_id
-        response += "\nItem Id: %s" % self.item_id
-        response += "\nQuantity: %s" % self.quantity
+        response = "Unique Id: %s" % self.unique_id
+        response += "\nName: %s" % self.name
+        response += "\nValue: %s" % self.value
         return response
