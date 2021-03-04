@@ -7,6 +7,7 @@ from data.fish import Fish
 from persistence.connection_handler import connection, process_queue
 from persistence.player_persistence import create_players_table
 from persistence.task_persistence import create_player_tasks_table
+from persistence.items_persistence import create_items_table
 
 # Table Names
 fish_table = 'fish'
@@ -35,6 +36,7 @@ def create_tables():
     cursor_obj.execute(create_players_table)
     cursor_obj.execute(create_player_tasks_table)
     cursor_obj.execute(create_fish_table)
+    cursor_obj.execute(create_items_table)
 
     populate_fish_table()
 
