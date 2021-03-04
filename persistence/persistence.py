@@ -3,6 +3,7 @@ from datetime import timedelta
 from pathlib import Path
 
 import util
+from data.fish import Fish
 from persistence.connection_handler import connection, process_queue
 from persistence.player_persistence import create_players_table
 from persistence.task_persistence import create_player_tasks_table
@@ -60,7 +61,13 @@ def get_fish_data(time_d: timedelta, weather: str):
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchall()
 
-    return result
+    fish = [init_fish(x) for x in result]
+
+    return fish
+
+
+def init_fish(db_row):
+    return Fish(db_row[0], db_row[1], db_row[2], db_row[3], db_row[4], db_row[5])
 
 
 def get_dictionary_from_table(table_name: str, unique_id: int):

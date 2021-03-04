@@ -1,13 +1,13 @@
-from commands.add import Add
-from commands.collect import Collect
-from commands.data import Data
-from commands.dice import Dice
-from commands.fish import Fish
-from commands.hello import Hello
-from commands.help import Help
-from commands.start import Start
-from commands.time import Time
-from commands.weather import Weather
+from commands.cm_add import Add
+from commands.cm_collect import Collect
+from commands.cm_data import Data
+from commands.cm_dice import Dice
+from commands.cm_fish import Fish
+from commands.cm_hello import Hello
+from commands.cm_help import Help
+from commands.cm_start import Start
+from commands.cm_time import Time
+from commands.cm_weather import Weather
 from persistence.connection_handler import spam_list
 
 command_registry = []

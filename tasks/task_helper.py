@@ -12,7 +12,6 @@ from util import safe_send
 
 
 async def start_task(msg, player_id, task):
-    # TODO Check to make sure a conflicting task is not already started
     player_data = get_player_data(player_id)
     if player_data.state == idle_state:
         player_data.state = gathering_state

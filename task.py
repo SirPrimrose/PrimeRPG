@@ -4,6 +4,6 @@ class Task:
         self.time_started = time_started
 
     def __repr__(self):
-        response = 'Unique Id: %s' % self.task
-        response += '\nName: %s' % self.time_started
+        response = 'Task: %s' % self.task
+        response += '\nTime Started: %s' % self.time_started
         return response
