@@ -3,6 +3,7 @@ import random
 
 import util
 from consts import base_fish_frequency
+from data.fish import Fish
 from persistence.fish_persistence import get_fish_data
 
 
@@ -24,7 +25,7 @@ def get_fishing_task_rewards(start_time: datetime, task_time: datetime.timedelta
 def go_fish(time):
     if random.random() < 0.2:
         if random.random() < 0.2:
-            return {"id": 0, "name": "Trash"}
+            return Fish(0, 0, "Trash", "", "", "", 0)
         else:
             t = datetime.datetime.fromtimestamp(time)
             ig_time = util.get_in_game_time(t)

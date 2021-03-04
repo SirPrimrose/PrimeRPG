@@ -11,7 +11,7 @@ fish_table = "fish"
 
 create_fish_table = (
     "CREATE TABLE IF NOT EXISTS %s"
-    " (unique_id integer, name text, start_time text, end_time text, weather text, weight int)"
+    " (unique_id integer, item_id integer, name text, start_time text, end_time text, weather text, weight int)"
     % fish_table
 )
 select_fish_table = (
@@ -46,4 +46,9 @@ def get_fish_data(time_d: timedelta, weather: str):
 
 
 def init_fish(db_row):
-    return Fish(db_row[0], db_row[1], db_row[2], db_row[3], db_row[4], db_row[5])
+    if db_row:
+        return Fish(
+            db_row[0], db_row[1], db_row[2], db_row[3], db_row[4], db_row[5], db_row[6]
+        )
+    else:
+        return None
