@@ -1,6 +1,7 @@
 import json
 
 from consts import data_folder
+from data.item import Item
 from persistence.common_persistence import insert_dictionary
 from persistence.connection_handler import connection, queue_transaction
 
@@ -36,7 +37,7 @@ def get_item_data(unique_id: int):
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchone()
 
-    return result
+    return init_item(result)
 
 
 def insert_item_data(unique_id: int, name: str, value: int):
@@ -49,3 +50,14 @@ def delete_item_data(unique_id: int):
     stmt = delete_items_table
     stmt_args = (unique_id,)
     queue_transaction(unique_id, stmt, stmt_args)
+
+
+def init_item(db_row):
+    if db_row:
+        return Item(
+            db_row[0],
+            db_row[1],
+            db_row[2],
+        )
+    else:
+        return None
