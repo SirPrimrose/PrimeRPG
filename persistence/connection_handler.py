@@ -4,7 +4,7 @@ import time
 from collections import deque
 
 # Open connection to database
-connection = sqlite3.connect('../primeRPG.db')
+connection = sqlite3.connect('primeRPG.db')
 
 t_queue = deque()
 spam_list = list()

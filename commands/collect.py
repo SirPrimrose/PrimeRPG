@@ -3,9 +3,7 @@ from typing import List
 import discord
 
 from commands.command import Command
-from persistence.player_persistence import get_player_data, update_player_data
-from persistence.task_helper import stop_task
-from player import gathering_state, idle_state
+from tasks.task_helper import stop_task
 
 
 class Collect(Command):

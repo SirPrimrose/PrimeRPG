@@ -4,9 +4,7 @@ import discord
 
 from commands.command import Command
 from consts import fishing_task
-from persistence.player_persistence import get_player_data, update_player_data
-from persistence.task_helper import start_task
-from player import idle_state, gathering_state
+from tasks.task_helper import start_task
 
 
 class Fish(Command):

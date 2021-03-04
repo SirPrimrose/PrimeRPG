@@ -18,5 +18,5 @@ class Weather(Command):
         return ['weather']
 
     async def run_command(self, msg: discord.Message, args: List[str]):
-        response = util.get_in_game_weather(int(datetime.datetime.utcnow().timestamp()))
+        response = util.get_current_in_game_weather()
         return await msg.channel.send(response)
