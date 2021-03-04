@@ -1,3 +1,5 @@
+from pathlib import Path
+
 command_prefix = '.'
 day_night_cycles_per_day = 6
 weather_frequency = 6000  # seconds
@@ -12,3 +14,5 @@ foraging_task = 'foraging'
 # Weather
 raining_weather = 'raining'
 clear_weather = 'clear'
+
+data_folder = Path("data")

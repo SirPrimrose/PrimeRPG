@@ -2,9 +2,10 @@ import json
 from datetime import timedelta
 
 import util
+from consts import data_folder
 from data.fish import Fish
+from persistence.common_persistence import get_dictionary_from_table, insert_dictionary
 from persistence.connection_handler import connection
-from persistence.persistence import insert_dictionary, get_dictionary_from_table, data_folder
 
 fish_table = 'fish'
 
