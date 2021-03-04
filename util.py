@@ -1,4 +1,5 @@
 import datetime
+import random
 
 from math import sin, pi
 
@@ -38,5 +39,15 @@ def time_delta_to_str(time_d: datetime.timedelta):
 
 async def safe_send(msg, response):
     if len(response) > 2000:
-        response = response[0:1999]
+        response = response[0:1900] + '; Message was too long, partly truncated'
     await msg.channel.send(response)
+
+
+def get_random_from_weighted_table(w_table):
+    total_weight = sum([x.weight for x in w_table])
+    weight = random.randrange(total_weight)
+    for item in w_table:
+        if weight < item.weight:
+            return item
+        else:
+            weight -= item.weight

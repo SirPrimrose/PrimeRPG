@@ -3,7 +3,7 @@ import random
 
 import util
 from consts import base_fish_frequency
-from persistence.persistence import get_fish_data
+from persistence.fish_persistence import get_fish_data
 
 
 def get_fishing_task_rewards(start_time: datetime, task_time: datetime.timedelta):
@@ -20,14 +20,10 @@ def get_fishing_task_rewards(start_time: datetime, task_time: datetime.timedelta
 
 
 def go_fish(time):
-    print('Fishing tick: {}'.format(time))
     if random.random() < 0.2:
         if random.random() < 0.2:
-            # Trash
             return {'id': 0, 'name': 'Trash'}
         else:
-            # Fish
-            # Select all fish we can catch, then roll weight table
             t = datetime.datetime.fromtimestamp(time)
             ig_time = util.get_in_game_time(t)
             ig_weather = util.get_in_game_weather(t)
@@ -36,5 +32,4 @@ def go_fish(time):
 
 def get_fish_from_table(ig_time, ig_weather):
     fish_table = get_fish_data(ig_time, ig_weather)
-    print(fish_table)
-    return {'id': 1, 'name': 'Carp'}
+    return util.get_random_from_weighted_table(fish_table)
