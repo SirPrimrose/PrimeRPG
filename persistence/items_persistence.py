@@ -10,12 +10,9 @@ items_table = "items"
 select_items_table = "SELECT * FROM %s WHERE unique_id = ?" % items_table
 create_items_table = (
     "CREATE TABLE IF NOT EXISTS %s"
-    " (unique_id integer, name text, value integer)" % items_table
+    " (unique_id integer NOT NULL, category_id integer NOT NULL,name text NOT NULL, value integer NOT NULL)"
+    % items_table
 )
-insert_items_table = (
-    "INSERT INTO %s (unique_id, name, value) VALUES (?, ?, ?)" % items_table
-)
-delete_items_table = "DELETE from %s WHERE unique_id = ?" % items_table
 
 
 def populate_item_table():
@@ -40,24 +37,13 @@ def get_item_data(unique_id: int):
     return init_item(result)
 
 
-def insert_item_data(unique_id: int, name: str, value: int):
-    stmt = insert_items_table
-    stmt_args = (unique_id, name, value)
-    queue_transaction(unique_id, stmt, stmt_args)
-
-
-def delete_item_data(unique_id: int):
-    stmt = delete_items_table
-    stmt_args = (unique_id,)
-    queue_transaction(unique_id, stmt, stmt_args)
-
-
 def init_item(db_row):
     if db_row:
         return Item(
             db_row[0],
             db_row[1],
             db_row[2],
+            db_row[3],
         )
     else:
         return None

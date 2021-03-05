@@ -1,16 +1,19 @@
 [
 	{
 		"unique_id": 1,
+		"category_id": 1,
 		"name": "Minnow",
 		"value": 100
 	},
 	{
 		"unique_id": 2,
+		"category_id": 1,
 		"name": "Carp",
 		"value": 100
 	},
 	{
 		"unique_id": 3,
+		"category_id": 1,
 		"name": "Catfish",
 		"value": 100
 	}
