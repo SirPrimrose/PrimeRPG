@@ -11,9 +11,10 @@ select_equipment_categories_table = (
     "SELECT * FROM %s WHERE unique_id = ?" % equipment_categories_table
 )
 create_equipment_categories_table = (
-    "CREATE TABLE IF NOT EXISTS %s"
-    " (unique_id integer NOT NULL, name text NOT NULL, max_num integer NOT NULL)"
-    % equipment_categories_table
+    "CREATE TABLE IF NOT EXISTS %s ("
+    "unique_id integer PRIMARY KEY NOT NULL, "
+    "name text NOT NULL, "
+    "max_num integer NOT NULL)" % equipment_categories_table
 )
 
 
@@ -24,8 +25,6 @@ def populate_equipment_categories_table():
     for item in data:
         if not get_equipment_category(item["unique_id"]):
             insert_dictionary(equipment_categories_table, item)
-
-    connection.commit()
 
 
 def get_equipment_category(unique_id: int):

@@ -1,7 +1,14 @@
-from persistence.connection_handler import connection, process_queue
+from persistence.connection_handler import (
+    connection,
+    process_queue,
+)
 from persistence.equipment_categories_persistence import (
     create_equipment_categories_table,
     populate_equipment_categories_table,
+)
+from persistence.equipment_stats_persistence import (
+    create_equipment_stats_table,
+    populate_equipment_stats_table,
 )
 from persistence.fish_persistence import create_fish_table, populate_fish_table
 from persistence.inventory_persistence import create_inventory_table
@@ -30,20 +37,26 @@ def save_queue():
 def create_tables():
     cursor_obj = connection.cursor()
 
-    cursor_obj.execute(create_players_table)
-    cursor_obj.execute(create_player_tasks_table)
-    cursor_obj.execute(create_fish_table)
+    # Raw data tables
     cursor_obj.execute(create_items_table)
-    cursor_obj.execute(create_inventory_table)
+    cursor_obj.execute(create_fish_table)
     cursor_obj.execute(create_item_categories_table)
     cursor_obj.execute(create_equipment_categories_table)
     cursor_obj.execute(create_skill_categories_table)
-    cursor_obj.execute(create_player_skills_table)
+    cursor_obj.execute(create_equipment_stats_table)
 
-    populate_fish_table()
+    # Mutable tables
+    cursor_obj.execute(create_players_table)
+    cursor_obj.execute(create_player_tasks_table)
+    cursor_obj.execute(create_player_skills_table)
+    cursor_obj.execute(create_inventory_table)
+
+    # Populate raw data tables
     populate_items_table()
+    populate_fish_table()
     populate_item_categories_table()
     populate_equipment_categories_table()
     populate_skill_categories_table()
+    populate_equipment_stats_table()
 
     connection.commit()

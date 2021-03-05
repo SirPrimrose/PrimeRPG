@@ -11,8 +11,9 @@ select_item_categories_table = (
     "SELECT * FROM %s WHERE unique_id = ?" % item_categories_table
 )
 create_item_categories_table = (
-    "CREATE TABLE IF NOT EXISTS %s"
-    " (unique_id integer NOT NULL, name text NOT NULL)" % item_categories_table
+    "CREATE TABLE IF NOT EXISTS %s ("
+    "unique_id integer PRIMARY KEY NOT NULL, "
+    "name text NOT NULL)" % item_categories_table
 )
 
 
@@ -23,8 +24,6 @@ def populate_item_categories_table():
     for item in data:
         if not get_item_category(item["unique_id"]):
             insert_dictionary(item_categories_table, item)
-
-    connection.commit()
 
 
 def get_item_category(unique_id: int):

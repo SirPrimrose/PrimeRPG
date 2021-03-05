@@ -11,8 +11,9 @@ select_skill_categories_table = (
     "SELECT * FROM %s WHERE unique_id = ?" % skill_categories_table
 )
 create_skill_categories_table = (
-    "CREATE TABLE IF NOT EXISTS %s"
-    " (unique_id integer NOT NULL, name text NOT NULL)" % skill_categories_table
+    "CREATE TABLE IF NOT EXISTS %s ("
+    "unique_id integer PRIMARY KEY NOT NULL, "
+    "name text NOT NULL)" % skill_categories_table
 )
 
 
@@ -23,8 +24,6 @@ def populate_skill_categories_table():
     for item in data:
         if not get_skill_category(item["unique_id"]):
             insert_dictionary(skill_categories_table, item)
-
-    connection.commit()
 
 
 def get_skill_category(unique_id: int):

@@ -8,9 +8,10 @@ select_inventory_table = (
 )
 select_all_inventory_table = "SELECT * FROM %s WHERE player_id = ?" % inventory_table
 create_inventory_table = (
-    "CREATE TABLE IF NOT EXISTS %s"
-    " (player_id integer NOT NULL, item_id integer NOT NULL, quantity integer NOT NULL)"
-    % inventory_table
+    "CREATE TABLE IF NOT EXISTS %s ("
+    "player_id integer PRIMARY KEY NOT NULL, "
+    "item_id integer NOT NULL, "
+    "quantity integer NOT NULL)" % inventory_table
 )
 update_inventory_table = (
     "UPDATE %s SET quantity = ? WHERE player_id = ? AND item_id = ?" % inventory_table

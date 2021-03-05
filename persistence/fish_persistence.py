@@ -10,9 +10,14 @@ from persistence.connection_handler import connection
 fish_table = "fish"
 
 create_fish_table = (
-    "CREATE TABLE IF NOT EXISTS %s (unique_id integer NOT NULL, item_id integer NOT NULL, name text NOT NULL, "
-    "start_time text NOT NULL, end_time text NOT NULL, weather text NOT NULL, weight int NOT NULL) "
-    % fish_table
+    "CREATE TABLE IF NOT EXISTS %s ("
+    "unique_id integer PRIMARY KEY NOT NULL, "
+    "item_id integer NOT NULL, "
+    "name text NOT NULL, "
+    "start_time text NOT NULL, "
+    "end_time text NOT NULL, "
+    "weather text NOT NULL, "
+    "weight int NOT NULL) " % fish_table
 )
 select_id_fish_table = "SELECT * FROM %s WHERE unique_id = ?" % fish_table
 select_fish_table = (
@@ -28,8 +33,6 @@ def populate_fish_table():
     for fish in data:
         if not get_fish_from_id(fish["unique_id"]):
             insert_dictionary(fish_table, fish)
-
-    connection.commit()
 
 
 def get_fish_from_id(unique_id: int):

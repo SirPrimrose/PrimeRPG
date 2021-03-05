@@ -10,9 +10,11 @@ select_all_player_skills_table = (
     "SELECT * FROM %s WHERE player_id = ?" % player_skills_table
 )
 create_player_skills_table = (
-    "CREATE TABLE IF NOT EXISTS %s"
-    " (player_id integer NOT NULL, skill_id integer NOT NULL, total_xp integer NOT NULL)"
-    % player_skills_table
+    "CREATE TABLE IF NOT EXISTS %s ("
+    "player_id integer NOT NULL, "
+    "skill_id integer NOT NULL, "
+    "total_xp integer NOT NULL, "
+    "PRIMARY KEY(player_id, skill_id))" % player_skills_table
 )
 update_player_skills_table = (
     "UPDATE %s SET total_xp = ? WHERE player_id = ? AND skill_id = ?"

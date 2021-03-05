@@ -9,9 +9,12 @@ items_table = "items"
 
 select_items_table = "SELECT * FROM %s WHERE unique_id = ?" % items_table
 create_items_table = (
-    "CREATE TABLE IF NOT EXISTS %s"
-    "(unique_id integer NOT NULL, item_category_id integer NOT NULL, equipment_category_id integer NOT NULL, "
-    "name text NOT NULL, value integer NOT NULL) " % items_table
+    "CREATE TABLE IF NOT EXISTS %s ("
+    "unique_id integer PRIMARY KEY NOT NULL, "
+    "item_category_id integer NOT NULL, "
+    "equipment_category_id integer NOT NULL, "
+    "name text NOT NULL, "
+    "value integer NOT NULL)" % items_table
 )
 
 
@@ -22,8 +25,6 @@ def populate_items_table():
     for item in data:
         if not get_item(item["unique_id"]):
             insert_dictionary(items_table, item)
-
-    connection.commit()
 
 
 def get_item(unique_id: int):

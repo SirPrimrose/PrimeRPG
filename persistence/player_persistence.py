@@ -4,8 +4,11 @@ from persistence.connection_handler import connection, queue_transaction
 players_table = "players"
 
 create_players_table = (
-    "CREATE TABLE IF NOT EXISTS {0} "
-    "(unique_id integer PRIMARY KEY, name text NOT NULL, state text DEFAULT {1}, current_hp integer DEFAULT {2})".format(
+    "CREATE TABLE IF NOT EXISTS {0} ("
+    "unique_id integer PRIMARY KEY, "
+    "name text NOT NULL, "
+    "state text DEFAULT {1}, "
+    "current_hp integer DEFAULT {2})".format(
         players_table, player.idle_state, player.default_start_hp
     )
 )

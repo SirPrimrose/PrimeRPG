@@ -1,0 +1,12 @@
+[
+	{
+		"item_id": 4,
+		"skills": [
+			{
+				"skill_category_id": 4,
+				"scaling": 10,
+				"bonus": 0
+			}
+		]
+	}
+]

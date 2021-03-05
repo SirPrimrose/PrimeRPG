@@ -3,28 +3,32 @@ import time
 
 from collections import deque
 
-# Open connection to database
-connection = sqlite3.connect("primeRPG.db")
-
-t_queue = deque()
+transaction_queue = deque()
 spam_list = list()
+
+# Global Var for database connection
+connection = sqlite3.connect("primeRPG.db")
+# Foreign keys boost performance for selects, but degrade performance for insert, delete, and updates
+# Therefore, use foreign keys in tables that will be read, but not written to (Equipment Stats, Fish, etc.)
+# https://www.experts-exchange.com/articles/4293/Can-Foreign-key-improve-performance.html
+connection.execute("PRAGMA foreign_keys = 1")
 
 
 def queue_transaction(player_id, sql, params):
-    t_queue.append({"sql": sql, "params": params})
+    transaction_queue.append({"sql": sql, "params": params})
     spam_list.append(player_id)
 
 
 def process_queue():
-    if len(t_queue) == 0:
+    if len(transaction_queue) == 0:
         return
-    print("{0} transactions to run...".format(len(t_queue)))
+    print("{0} transactions to run...".format(len(transaction_queue)))
     t = time.time()
     cursor_obj = connection.cursor()
     cursor_obj.execute("BEGIN TRANSACTION")
 
-    while len(t_queue) > 0:
-        transaction = t_queue.popleft()
+    while len(transaction_queue) > 0:
+        transaction = transaction_queue.popleft()
         cursor_obj.execute(transaction["sql"], transaction["params"])
 
     connection.commit()

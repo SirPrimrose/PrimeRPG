@@ -1,3 +1,7 @@
+import sys
+from sqlite3 import OperationalError, IntegrityError
+from traceback import print_exc
+
 from persistence.connection_handler import connection
 
 
@@ -17,4 +21,11 @@ def insert_dictionary(table_name: str, my_dict: dict):
     placeholders = ", ".join(["?"] * len(my_dict))
     columns = ", ".join(my_dict.keys())
     sql = "INSERT INTO %s ( %s ) VALUES ( %s )" % (table_name, columns, placeholders)
-    cursor_obj.execute(sql, list(my_dict.values()))
+    try:
+        cursor_obj.execute(sql, list(my_dict.values()))
+    except OperationalError:
+        print_exc()
+        print("Encountered error: {0}".format(sys.exc_info()[1]))
+    except IntegrityError:
+        print("Integrity error: {0}".format(sys.exc_info()[1]))
+        print("Tried to insert {} into table {}".format(my_dict, table_name))
