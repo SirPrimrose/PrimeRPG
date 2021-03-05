@@ -39,7 +39,7 @@ def get_all_inventory_items(player_id: int):
     cursor_obj = connection.cursor()
 
     stmt_args = (player_id,)
-    statement = select_inventory_table
+    statement = select_all_inventory_table
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchall()
 
@@ -60,9 +60,9 @@ def update_inventory_data(item: PlayerInventoryItem):
     queue_transaction(item.player_id, stmt, stmt_args)
 
 
-def delete_inventory_data(player_id: int, item_id: int):
+def delete_inventory_data(player_id: int):
     stmt = delete_inventory_table
-    stmt_args = (item_id,)
+    stmt_args = (player_id,)
     queue_transaction(player_id, stmt, stmt_args)
 
 

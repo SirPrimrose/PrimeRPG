@@ -9,9 +9,15 @@ import command_handler
 import consts
 from persistence import persistence
 
-client = discord.Client()
+# System Env Vars
 __DEBUG__ = bool(os.getenv("__DEBUG__"))
+
+# Main File Vars
+client = discord.Client()
 ready = False
+
+# Quick Config Options
+start_app = True  # Start the bot application and connect to Discord. Disable to test without a connection.
 
 
 def app_setup():
@@ -63,12 +69,16 @@ async def on_message(msg):
 app_setup()
 
 # Start bot client
-token = os.getenv("BOT_TOKEN")
-if not token:
-    print(token)
-    print(
-        "Missing BOT_TOKEN in environment variables. Copy from "
-        "https://discord.com/developers/applications/816353796278976512/bot"
-    )
-client.loop.create_task(save_to_db())
-client.run(token)
+if start_app:
+    token = os.getenv("BOT_TOKEN")
+    if not token:
+        print(token)
+        print(
+            "Missing BOT_TOKEN in environment variables. Copy from "
+            "https://discord.com/developers/applications/816353796278976512/bot"
+        )
+    else:
+        client.run(token)
+        client.loop.create_task(save_to_db())
+else:
+    print("Running in non-connected mode. Will not login to Discord.")

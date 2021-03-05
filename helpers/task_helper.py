@@ -9,9 +9,9 @@ from persistence.task_persistence import (
     delete_player_task_data,
     get_player_task_data,
 )
-from player import gathering_state, idle_state
+from data.player import gathering_state, idle_state
 from task import Task
-from tasks import item_helper
+from helpers import item_helper
 from tasks.fishing_task import get_fishing_task_rewards
 from util import safe_send
 

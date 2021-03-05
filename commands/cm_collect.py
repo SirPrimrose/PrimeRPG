@@ -3,7 +3,7 @@ from typing import List
 import discord
 
 from commands.command import Command
-from tasks.task_helper import stop_task
+from helpers.task_helper import stop_task
 
 
 class Collect(Command):

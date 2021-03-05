@@ -4,7 +4,7 @@ import discord
 
 from commands.command import Command
 from consts import fishing_task
-from tasks.task_helper import start_task
+from helpers.task_helper import start_task
 
 
 class Fish(Command):

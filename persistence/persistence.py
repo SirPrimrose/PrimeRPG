@@ -11,6 +11,11 @@ from persistence.item_categories_persistence import (
 )
 from persistence.items_persistence import create_items_table, populate_items_table
 from persistence.player_persistence import create_players_table
+from persistence.player_skill_persistence import create_player_skills_table
+from persistence.skill_categories_persistence import (
+    create_skill_categories_table,
+    populate_skill_categories_table,
+)
 from persistence.task_persistence import create_player_tasks_table
 
 
@@ -32,10 +37,13 @@ def create_tables():
     cursor_obj.execute(create_inventory_table)
     cursor_obj.execute(create_item_categories_table)
     cursor_obj.execute(create_equipment_categories_table)
+    cursor_obj.execute(create_skill_categories_table)
+    cursor_obj.execute(create_player_skills_table)
 
     populate_fish_table()
     populate_items_table()
     populate_item_categories_table()
     populate_equipment_categories_table()
+    populate_skill_categories_table()
 
     connection.commit()
