@@ -15,4 +15,4 @@ foraging_task = "foraging"
 raining_weather = "raining"
 clear_weather = "clear"
 
-data_folder = Path("data")
+data_folder = Path("data/raw_data")

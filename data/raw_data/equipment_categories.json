@@ -1,0 +1,17 @@
+[
+	{
+		"unique_id": 0,
+		"name": "Unequippable",
+        "max_num": 0
+	},
+	{
+		"unique_id": 1,
+		"name": "Weapon",
+        "max_num": 1
+	},
+	{
+		"unique_id": 2,
+		"name": "Helmet",
+        "max_num": 1
+	}
+]

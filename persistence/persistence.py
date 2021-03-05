@@ -1,13 +1,17 @@
 from persistence.connection_handler import connection, process_queue
-from persistence.item_categories_persistence import (
-    populate_item_category_table,
-    create_item_category_table,
+from persistence.equipment_categories_persistence import (
+    create_equipment_categories_table,
+    populate_equipment_categories_table,
 )
-from persistence.player_persistence import create_players_table
-from persistence.task_persistence import create_player_tasks_table
-from persistence.items_persistence import create_items_table, populate_item_table
 from persistence.fish_persistence import create_fish_table, populate_fish_table
 from persistence.inventory_persistence import create_inventory_table
+from persistence.item_categories_persistence import (
+    populate_item_categories_table,
+    create_item_categories_table,
+)
+from persistence.items_persistence import create_items_table, populate_items_table
+from persistence.player_persistence import create_players_table
+from persistence.task_persistence import create_player_tasks_table
 
 
 def setup_db():
@@ -26,10 +30,12 @@ def create_tables():
     cursor_obj.execute(create_fish_table)
     cursor_obj.execute(create_items_table)
     cursor_obj.execute(create_inventory_table)
-    cursor_obj.execute(create_item_category_table)
+    cursor_obj.execute(create_item_categories_table)
+    cursor_obj.execute(create_equipment_categories_table)
 
     populate_fish_table()
-    populate_item_table()
-    populate_item_category_table()
+    populate_items_table()
+    populate_item_categories_table()
+    populate_equipment_categories_table()
 
     connection.commit()
