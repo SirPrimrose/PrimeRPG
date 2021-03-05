@@ -4,7 +4,7 @@ import random
 import util
 from consts import base_fish_frequency
 from data.fish import Fish
-from persistence.fish_persistence import get_fish_data
+from persistence.fish_persistence import get_fish
 
 
 def get_fishing_task_rewards(start_time: datetime, task_time: datetime.timedelta):
@@ -34,5 +34,5 @@ def go_fish(time):
 
 
 def get_fish_from_table(ig_time, ig_weather):
-    fish_table = get_fish_data(ig_time, ig_weather)
+    fish_table = get_fish(ig_time, ig_weather)
     return util.get_random_from_weighted_table(fish_table)

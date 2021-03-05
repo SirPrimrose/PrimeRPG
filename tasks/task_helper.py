@@ -3,7 +3,7 @@ import datetime
 import discord
 
 from consts import fishing_task, mining_task
-from persistence.player_persistence import update_player_data, get_player_data
+from persistence.player_persistence import update_player_data, get_player
 from persistence.task_persistence import (
     insert_player_task_data,
     delete_player_task_data,
@@ -17,7 +17,7 @@ from util import safe_send
 
 
 async def start_task(msg, player_id, task):
-    player_data = get_player_data(player_id)
+    player_data = get_player(player_id)
     if player_data.state == idle_state:
         player_data.state = gathering_state
         update_player_data(player_data.unique_id, vars(player_data))
@@ -30,7 +30,7 @@ async def start_task(msg, player_id, task):
 
 
 async def stop_task(msg, player_id):
-    player_data = get_player_data(player_id)
+    player_data = get_player(player_id)
     if player_data.state == gathering_state:
         # Get task data
         player_data.state = idle_state

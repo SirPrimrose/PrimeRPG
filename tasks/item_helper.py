@@ -3,7 +3,7 @@ from persistence import inventory_persistence
 
 
 def give_player_item(player_id, item_id, amount):
-    current_item = inventory_persistence.get_inventory_data(player_id, item_id)
+    current_item = inventory_persistence.get_inventory(player_id, item_id)
     if current_item:
         current_item.quantity += amount
         inventory_persistence.update_inventory_data(current_item)

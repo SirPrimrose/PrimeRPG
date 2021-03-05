@@ -20,13 +20,13 @@ def populate_item_table():
         data = json.load(f)
 
     for item in data:
-        if not get_item_data(item["unique_id"]):
+        if not get_item(item["unique_id"]):
             insert_dictionary(items_table, item)
 
     connection.commit()
 
 
-def get_item_data(unique_id: int):
+def get_item(unique_id: int):
     cursor_obj = connection.cursor()
 
     stmt_args = (unique_id,)

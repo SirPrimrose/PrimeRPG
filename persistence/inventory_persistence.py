@@ -9,7 +9,8 @@ select_inventory_table = (
 select_all_inventory_table = "SELECT * FROM %s WHERE player_id = ?" % inventory_table
 create_inventory_table = (
     "CREATE TABLE IF NOT EXISTS %s"
-    " (player_id integer, item_id integer, quantity integer)" % inventory_table
+    " (player_id integer NOT NULL, item_id integer NOT NULL, quantity integer NOT NULL)"
+    % inventory_table
 )
 update_inventory_table = (
     "UPDATE %s SET quantity = ? WHERE player_id = ? AND item_id = ?" % inventory_table
@@ -20,7 +21,7 @@ insert_inventory_table = (
 delete_inventory_table = "DELETE from %s WHERE player_id = ?"
 
 
-def get_inventory_data(player_id: int, item_id: int):
+def get_inventory_item(player_id: int, item_id: int):
     cursor_obj = connection.cursor()
 
     stmt_args = (
@@ -31,10 +32,10 @@ def get_inventory_data(player_id: int, item_id: int):
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchone()
 
-    return init_item(result)
+    return init_inventory_item(result)
 
 
-def get_all_inventory_data(player_id: int):
+def get_all_inventory_items(player_id: int):
     cursor_obj = connection.cursor()
 
     stmt_args = (player_id,)
@@ -42,7 +43,7 @@ def get_all_inventory_data(player_id: int):
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchall()
 
-    items = [init_item(x) for x in result]
+    items = [init_inventory_item(x) for x in result]
 
     return items
 
@@ -65,7 +66,7 @@ def delete_inventory_data(player_id: int, item_id: int):
     queue_transaction(player_id, stmt, stmt_args)
 
 
-def init_item(db_row):
+def init_inventory_item(db_row):
     if db_row:
         return PlayerInventoryItem(db_row[0], db_row[1], db_row[2])
     else:

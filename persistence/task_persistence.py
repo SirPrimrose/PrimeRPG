@@ -5,7 +5,8 @@ player_tasks_table = "player_tasks"
 select_player_tasks_table = "SELECT * FROM %s WHERE unique_id = ?" % player_tasks_table
 create_player_tasks_table = (
     "CREATE TABLE IF NOT EXISTS %s"
-    " (unique_id integer, task text, time_started text)" % player_tasks_table
+    " (unique_id integer NOT NULL, task text NOT NULL, time_started text NOT NULL)"
+    % player_tasks_table
 )
 insert_player_tasks_table = (
     "INSERT INTO %s (unique_id, task, time_started) VALUES (?, ?, ?)"

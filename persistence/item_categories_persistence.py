@@ -12,7 +12,7 @@ select_item_category_table = (
 )
 create_item_category_table = (
     "CREATE TABLE IF NOT EXISTS %s"
-    " (unique_id integer, name text)" % item_category_table
+    " (unique_id integer NOT NULL, name text NOT NULL)" % item_category_table
 )
 
 
@@ -21,13 +21,13 @@ def populate_item_category_table():
         data = json.load(f)
 
     for item in data:
-        if not get_item_category_data(item["unique_id"]):
+        if not get_item_category(item["unique_id"]):
             insert_dictionary(item_category_table, item)
 
     connection.commit()
 
 
-def get_item_category_data(unique_id: int):
+def get_item_category(unique_id: int):
     cursor_obj = connection.cursor()
 
     stmt_args = (unique_id,)
