@@ -78,7 +78,7 @@ if start_app:
             "https://discord.com/developers/applications/816353796278976512/bot"
         )
     else:
-        client.run(token)
         client.loop.create_task(save_to_db())
+        client.run(token)
 else:
     print("Running in non-connected mode. Will not login to Discord.")

@@ -29,9 +29,17 @@ def process_queue():
 
     while len(transaction_queue) > 0:
         transaction = transaction_queue.popleft()
-        cursor_obj.execute(transaction["sql"], transaction["params"])
+        safe_execute(cursor_obj, transaction["sql"], transaction["params"])
 
     connection.commit()
     spam_list.clear()
 
     print("Time taken: %.3f sec" % (time.time() - t))
+
+
+def safe_execute(cursor: sqlite3.Cursor, sql, params):
+    try:
+        cursor.execute(sql, params)
+    except (sqlite3.ProgrammingError, sqlite3.IntegrityError) as e:
+        print("Exception: {}".format(e))
+        print("Error saving\nSQL: {}\nParams: {}".format(sql, params))

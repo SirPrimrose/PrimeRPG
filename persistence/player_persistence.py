@@ -17,7 +17,7 @@ insert_players_table = (
     % players_table
 )
 update_players_table = (
-    "UPDATE %s SET unique_id = ?, name = ?, state = ? WHERE unique_id = ?"
+    "UPDATE %s SET unique_id = ?, name = ?, state = ?, current_hp = ? WHERE unique_id = ?"
     % players_table
 )
 
@@ -30,10 +30,7 @@ def get_player(unique_id: int):
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchone()
 
-    if result is None:
-        return None
-
-    return player.Player(result[0], result[1], result[2])
+    return init_player(result)
 
 
 def insert_player_data(unique_id: int, name: str, state: str, current_hp: int):
@@ -46,3 +43,10 @@ def update_player_data(unique_id: int, player_dict: dict):
     stmt = update_players_table
     stmt_args = tuple(player_dict.values()) + (unique_id,)
     queue_transaction(unique_id, stmt, stmt_args)
+
+
+def init_player(db_row):
+    if db_row:
+        return player.Player(db_row[0], db_row[1], db_row[2], db_row[3])
+    else:
+        return None
