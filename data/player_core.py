@@ -5,7 +5,7 @@ default_start_hp = 100
 player_states = enumerate([idle_state, gathering_state])
 
 
-class Player:
+class PlayerCore:
     def __init__(self, unique_id, name, state, current_hp):
         self.unique_id = unique_id
         self.name = name

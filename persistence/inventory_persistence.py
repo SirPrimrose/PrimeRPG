@@ -51,19 +51,19 @@ def get_all_inventory_items(player_id: int):
     return items
 
 
-def insert_inventory_data(item: PlayerInventoryItem):
+def insert_inventory_item(item: PlayerInventoryItem):
     stmt = insert_inventory_table
     stmt_args = (item.player_id, item.item_id, item.quantity)
     queue_transaction(item.player_id, stmt, stmt_args)
 
 
-def update_inventory_data(item: PlayerInventoryItem):
+def update_inventory_item(item: PlayerInventoryItem):
     stmt = update_inventory_table
     stmt_args = (item.quantity, item.player_id, item.item_id)
     queue_transaction(item.player_id, stmt, stmt_args)
 
 
-def delete_inventory_data(player_id: int):
+def delete_inventory_item(player_id: int):
     stmt = delete_inventory_table
     stmt_args = (player_id,)
     queue_transaction(player_id, stmt, stmt_args)

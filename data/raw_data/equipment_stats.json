@@ -1,11 +1,14 @@
 [
 	{
 		"item_id": 4,
-		"skills": [
+		"stats": [
 			{
-				"skill_category_id": 4,
-				"scaling": 10,
-				"bonus": 0
+				"equipment_stat_category_id": 1,
+				"value": 10,
+				"scales_with": {
+					"Strength": 10,
+					"Dexterity": 5
+				}
 			}
 		]
 	}

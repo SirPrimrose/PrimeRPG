@@ -2,18 +2,18 @@ class EquipmentStat:
     def __init__(
         self,
         item_id: int,
-        skill_category_id: int,
-        scaling: int,
-        bonus: int,
+        equipment_stat_category_id: int,
+        value: int,
+        scales_with: dict,
     ):
         self.item_id = item_id
-        self.skill_category_id = skill_category_id
-        self.scaling = scaling
-        self.bonus = bonus
+        self.equipment_stat_category_id = equipment_stat_category_id
+        self.value = value
+        self.scales_with = scales_with
 
     def __repr__(self):
         response = "Item Id: %s" % self.item_id
-        response += "\nSkill Category Id: %s" % self.skill_category_id
-        response += "\nScaling: %s" % self.scaling
-        response += "\nBonus: %s" % self.bonus
+        response += "\nEquipment Stat Category Id: %s" % self.equipment_stat_category_id
+        response += "\nValue: %s" % self.value
+        response += "\nScaling: %s" % self.scales_with
         return response

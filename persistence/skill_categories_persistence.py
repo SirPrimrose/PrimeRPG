@@ -1,4 +1,5 @@
 import json
+from typing import List
 
 from consts import data_folder
 from data.skill_category import SkillCategory
@@ -10,6 +11,7 @@ skill_categories_table = "skill_categories"
 select_skill_categories_table = (
     "SELECT * FROM %s WHERE unique_id = ?" % skill_categories_table
 )
+select_all_skill_categories_table = "SELECT * FROM %s" % skill_categories_table
 create_skill_categories_table = (
     "CREATE TABLE IF NOT EXISTS %s ("
     "unique_id integer PRIMARY KEY NOT NULL, "
@@ -26,7 +28,7 @@ def populate_skill_categories_table():
             insert_dictionary(skill_categories_table, item)
 
 
-def get_skill_category(unique_id: int):
+def get_skill_category(unique_id: int) -> SkillCategory:
     cursor_obj = connection.cursor()
 
     stmt_args = (unique_id,)
@@ -35,6 +37,16 @@ def get_skill_category(unique_id: int):
     result = cursor_obj.fetchone()
 
     return init_skill_category(result)
+
+
+def get_all_skill_categories() -> List[SkillCategory]:
+    cursor_obj = connection.cursor()
+
+    statement = select_all_skill_categories_table
+    cursor_obj.execute(statement)
+    result = cursor_obj.fetchall()
+
+    return [init_skill_category(r) for r in result]
 
 
 def init_skill_category(db_row):

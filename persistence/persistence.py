@@ -6,7 +6,11 @@ from persistence.equipment_categories_persistence import (
     create_equipment_categories_table,
     populate_equipment_categories_table,
 )
-from persistence.equipment_stats_persistence import (
+from persistence.equipment_stat_categories_persistence import (
+    create_equipment_stat_categories_table,
+    populate_equipment_stat_categories_table,
+)
+from persistence.equipment_stat_persistence import (
     create_equipment_stats_table,
     populate_equipment_stats_table,
 )
@@ -17,6 +21,7 @@ from persistence.item_categories_persistence import (
     create_item_categories_table,
 )
 from persistence.items_persistence import create_items_table, populate_items_table
+from persistence.player_equipment_persistence import create_player_equipment_table
 from persistence.player_persistence import create_players_table
 from persistence.player_skill_persistence import create_player_skills_table
 from persistence.skill_categories_persistence import (
@@ -43,12 +48,14 @@ def create_tables():
     cursor_obj.execute(create_item_categories_table)
     cursor_obj.execute(create_equipment_categories_table)
     cursor_obj.execute(create_skill_categories_table)
+    cursor_obj.execute(create_equipment_stat_categories_table)
     cursor_obj.execute(create_equipment_stats_table)
 
     # Mutable tables
     cursor_obj.execute(create_players_table)
     cursor_obj.execute(create_player_tasks_table)
     cursor_obj.execute(create_player_skills_table)
+    cursor_obj.execute(create_player_equipment_table)
     cursor_obj.execute(create_inventory_table)
 
     # Populate raw data tables
@@ -57,6 +64,7 @@ def create_tables():
     populate_item_categories_table()
     populate_equipment_categories_table()
     populate_skill_categories_table()
+    populate_equipment_stat_categories_table()
     populate_equipment_stats_table()
 
     connection.commit()

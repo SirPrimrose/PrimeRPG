@@ -9,7 +9,7 @@ from persistence.task_persistence import (
     delete_player_task_data,
     get_player_task_data,
 )
-from data.player import gathering_state, idle_state
+from data.player_core import gathering_state, idle_state
 from task import Task
 from helpers import item_helper
 from tasks.fishing_task import get_fishing_task_rewards

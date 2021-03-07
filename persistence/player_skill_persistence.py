@@ -1,3 +1,5 @@
+from typing import List
+
 from data.player_skill import PlayerSkill
 from persistence.connection_handler import connection, queue_transaction
 
@@ -27,7 +29,7 @@ insert_player_skills_table = (
 delete_player_skills_table = "DELETE from %s WHERE player_id = ?"
 
 
-def get_player_skill(player_id: int, skill_id: int):
+def get_player_skill(player_id: int, skill_id: int) -> PlayerSkill:
     cursor_obj = connection.cursor()
 
     stmt_args = (
@@ -41,7 +43,7 @@ def get_player_skill(player_id: int, skill_id: int):
     return init_player_skill(result)
 
 
-def get_all_player_skills(player_id: int):
+def get_all_player_skills(player_id: int) -> List[PlayerSkill]:
     cursor_obj = connection.cursor()
 
     stmt_args = (player_id,)
@@ -56,14 +58,14 @@ def get_all_player_skills(player_id: int):
 
 def insert_player_skill(skill: PlayerSkill):
     stmt = insert_player_skills_table
-    stmt_args = (skill.player_id, skill.skill_id, skill.total_xp)
-    queue_transaction(skill.player_id, stmt, stmt_args)
+    stmt_args = (skill.get_player_id(), skill.skill_id, skill.total_xp)
+    queue_transaction(skill.get_player_id(), stmt, stmt_args)
 
 
 def update_player_skill(skill: PlayerSkill):
     stmt = update_player_skills_table
-    stmt_args = (skill.total_xp, skill.player_id, skill.skill_id)
-    queue_transaction(skill.player_id, stmt, stmt_args)
+    stmt_args = (skill.total_xp, skill.get_player_id(), skill.skill_id)
+    queue_transaction(skill.get_player_id(), stmt, stmt_args)
 
 
 def delete_player_skills(player_id: int):

@@ -1,4 +1,4 @@
-from data import player
+from data.player_core import PlayerCore, idle_state, default_start_hp
 from persistence.connection_handler import connection, queue_transaction
 
 players_table = "players"
@@ -9,7 +9,7 @@ create_players_table = (
     "name text NOT NULL, "
     "state text DEFAULT {1}, "
     "current_hp integer DEFAULT {2})".format(
-        players_table, player.idle_state, player.default_start_hp
+        players_table, idle_state, default_start_hp
     )
 )
 insert_players_table = (
@@ -22,7 +22,7 @@ update_players_table = (
 )
 
 
-def get_player(unique_id: int):
+def get_player(unique_id: int) -> PlayerCore:
     cursor_obj = connection.cursor()
 
     stmt_args = (unique_id,)
@@ -47,6 +47,6 @@ def update_player_data(unique_id: int, player_dict: dict):
 
 def init_player(db_row):
     if db_row:
-        return player.Player(db_row[0], db_row[1], db_row[2], db_row[3])
+        return PlayerCore(db_row[0], db_row[1], db_row[2], db_row[3])
     else:
         return None
