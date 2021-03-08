@@ -3,6 +3,7 @@ from typing import List
 import discord
 
 from commands.command import Command
+import emojis
 
 
 class EmbedCommand(Command):
@@ -17,5 +18,7 @@ class EmbedCommand(Command):
 
     async def run_command(self, msg: discord.Message, args: List[str]):
         embed = discord.Embed(title="Title Here")
-        embed.add_field(name="Example", value="Text", inline=False)
+        embed.add_field(
+            name="Example", value="Text {}".format(emojis.triumph_emoji), inline=False
+        )
         await msg.channel.send(embed=embed)
