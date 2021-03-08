@@ -2,7 +2,7 @@ from consts import strength_skill_id, vitality_skill_id
 from data.entity_base import EntityBase
 
 
-class Monster(EntityBase):
+class MobProfile(EntityBase):
     def __init__(self, *args):
         super(EntityBase, self).__init__(args)
 

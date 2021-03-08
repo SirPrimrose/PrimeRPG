@@ -22,6 +22,8 @@ def populate_mobs_table():
 
     for mob in data:
         if not get_mob(mob["unique_id"]):
+            del mob["skills"]
+            del mob["equipment"]
             insert_dictionary(mobs_table, mob)
 
 

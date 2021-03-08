@@ -1,10 +1,8 @@
 import math
 import random
 
-from consts import speed_skill_id, strength_skill_id, luck_skill_id
+from consts import speed_skill_id, luck_skill_id
 from data.entity_base import EntityBase
-from data.monster import Monster
-from data.player_profile import PlayerProfile
 
 attack_variance = 0.3
 crit_divider = 50

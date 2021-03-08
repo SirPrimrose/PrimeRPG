@@ -2,6 +2,7 @@ from commands.cm_add import Add
 from commands.cm_collect import Collect
 from commands.cm_data import Data
 from commands.cm_dice import Dice
+from commands.cm_embed import EmbedCommand
 from commands.cm_fight import Fight
 from commands.cm_fish import Fish
 from commands.cm_hello import Hello
@@ -26,6 +27,7 @@ def load_commands():
     register(Collect())
     register(Weather())
     register(Fight())
+    register(EmbedCommand())
 
 
 def register(command):
