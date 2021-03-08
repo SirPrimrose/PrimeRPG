@@ -1,0 +1,26 @@
+[
+  {
+    "unique_id": 1,
+    "name": "Goblin",
+    "base_xp": 10,
+    "skills": {
+      "Strength": 5,
+      "Dexterity": 10
+    },
+    "equipment": {
+      "Weapon": "Starter Sword"
+    }
+  },
+  {
+    "unique_id": 2,
+    "name": "Slime",
+    "base_xp": 40,
+    "skills": {
+      "Strength": 10,
+      "Dexterity": 5
+    },
+    "equipment": {
+      "Weapon": "Starter Sword"
+    }
+  }
+]

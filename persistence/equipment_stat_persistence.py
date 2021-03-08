@@ -3,8 +3,7 @@ from typing import List
 
 from consts import data_folder
 from data.equipment_stat import EquipmentStat
-from data.skill_category import SkillCategory
-from persistence.common_persistence import insert_dictionary
+from persistence.common_persistence import insert_dictionary, convert_skill_names_to_id
 from persistence.connection_handler import connection
 from persistence.skill_categories_persistence import get_all_skill_categories
 
@@ -40,21 +39,13 @@ def populate_equipment_stats_table():
             if not get_equipment_stat(
                 item["item_id"], stat["equipment_stat_category_id"]
             ):
-                new_scalings = convert_scaling(skill_categories, stat["scales_with"])
+                new_scalings = convert_skill_names_to_id(
+                    skill_categories, stat["scales_with"]
+                )
                 stat.update(
                     {"scales_with": str(new_scalings), "item_id": item["item_id"]}
                 )
                 insert_dictionary(equipment_stats_table, stat)
-
-
-def convert_scaling(skill_categories: List[SkillCategory], scalings: dict):
-    new_scalings = {}
-    for skill_name, scaling in scalings.items():
-        category = next(
-            filter(lambda cat: cat.name == skill_name, skill_categories), None
-        )
-        new_scalings[category.unique_id] = scaling
-    return new_scalings
 
 
 def get_equipment_stat(item_id: int, equipment_stat_category_id: int) -> EquipmentStat:

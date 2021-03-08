@@ -1,4 +1,5 @@
 import json
+from typing import List
 
 from consts import data_folder
 from data.equipment_category import EquipmentCategory
@@ -10,6 +11,7 @@ equipment_categories_table = "equipment_categories"
 select_equipment_categories_table = (
     "SELECT * FROM %s WHERE unique_id = ?" % equipment_categories_table
 )
+select_all_equipment_categories_table = "SELECT * FROM %s" % equipment_categories_table
 create_equipment_categories_table = (
     "CREATE TABLE IF NOT EXISTS %s ("
     "unique_id integer PRIMARY KEY NOT NULL, "
@@ -36,6 +38,16 @@ def get_equipment_category(unique_id: int):
     result = cursor_obj.fetchone()
 
     return init_equipment_category(result)
+
+
+def get_all_equipment_categories() -> List[EquipmentCategory]:
+    cursor_obj = connection.cursor()
+
+    statement = select_all_equipment_categories_table
+    cursor_obj.execute(statement)
+    result = cursor_obj.fetchall()
+
+    return [init_equipment_category(r) for r in result]
 
 
 def init_equipment_category(db_row):

@@ -1,4 +1,5 @@
 import json
+from typing import List
 
 from consts import data_folder
 from data.item import Item
@@ -8,6 +9,7 @@ from persistence.connection_handler import connection
 items_table = "items"
 
 select_items_table = "SELECT * FROM %s WHERE unique_id = ?" % items_table
+select_all_items_table = "SELECT * FROM %s" % items_table
 create_items_table = (
     "CREATE TABLE IF NOT EXISTS %s ("
     "unique_id integer PRIMARY KEY NOT NULL, "
@@ -36,6 +38,16 @@ def get_item(unique_id: int):
     result = cursor_obj.fetchone()
 
     return init_item(result)
+
+
+def get_all_items() -> List[Item]:
+    cursor_obj = connection.cursor()
+
+    statement = select_all_items_table
+    cursor_obj.execute(statement)
+    result = cursor_obj.fetchall()
+
+    return [init_item(r) for r in result]
 
 
 def init_item(db_row):
