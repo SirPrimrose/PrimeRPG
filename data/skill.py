@@ -1,4 +1,4 @@
-from math import floor
+from util import level_from_total_xp, progress_to_next_level
 
 
 class EntitySkill:
@@ -16,4 +16,7 @@ class EntitySkill:
         return response
 
     def calculate_level(self):
-        return floor(self.total_xp / 100)
+        return level_from_total_xp(self.total_xp)
+
+    def calculate_progress_to_next_level(self):
+        return progress_to_next_level(self.total_xp)

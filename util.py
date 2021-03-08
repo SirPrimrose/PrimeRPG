@@ -1,6 +1,6 @@
 import datetime
+import math
 import random
-
 from math import sin, pi
 
 from consts import (
@@ -9,6 +9,9 @@ from consts import (
     clear_weather,
     weather_frequency,
 )
+
+base_xp_per_level = 100
+increased_xp_per_level = 40
 
 
 def get_current_in_game_time():
@@ -58,3 +61,36 @@ def get_random_from_weighted_table(w_table):
             return item
         else:
             weight -= item.weight
+
+
+def xp_at_level(level: int) -> int:
+    return base_xp_per_level + increased_xp_per_level * (level - 1)
+
+
+def req_xp_for_level(level: int) -> int:
+    return int(level * 0.5 * (xp_at_level(1) + xp_at_level(level)))
+
+
+def level_from_total_xp(total_xp: int) -> int:
+    return math.floor(
+        equation_roots(
+            increased_xp_per_level,
+            2 * base_xp_per_level - increased_xp_per_level,
+            -2 * total_xp,
+        )
+    )
+
+
+def progress_to_next_level(total_xp: int) -> float:
+    level = level_from_total_xp(total_xp)
+    return (total_xp - req_xp_for_level(level)) / xp_at_level(level + 1)
+
+
+def equation_roots(a, b, c):
+    dis = b * b - 4 * a * c
+    sqrt_val = math.sqrt(abs(dis))
+
+    val1 = (-b + sqrt_val) / (2 * a)
+    val2 = (-b - sqrt_val) / (2 * a)
+
+    return max(val1, val2)
