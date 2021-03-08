@@ -3,8 +3,15 @@ from typing import List
 import discord
 
 from commands.command import Command
+from embeds.inventory_embed import InventoryEmbed
 from embeds.profile_embed import ProfileEmbed
 from helpers.player_helper import get_player_profile
+
+
+async def inventory_embed(msg):
+    player_id = msg.author.id
+    embed = InventoryEmbed(player_id, msg.author).generate_embed()
+    await msg.channel.send(embed=embed)
 
 
 async def test_profile_embed(msg):
@@ -25,4 +32,4 @@ class EmbedCommand(Command):
         return ["embed"]
 
     async def run_command(self, msg: discord.Message, args: List[str]):
-        await test_profile_embed(msg)
+        await inventory_embed(msg)
