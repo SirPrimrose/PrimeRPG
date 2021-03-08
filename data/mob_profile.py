@@ -9,5 +9,5 @@ class MobProfile(EntityBase):
     def get_attack_power(self):
         return self.get_skill_value(strength_skill_id) * 10
 
-    def get_defense_power(self):
+    def get_armor_power(self):
         return self.get_skill_value(vitality_skill_id) * 10

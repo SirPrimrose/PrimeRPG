@@ -33,4 +33,4 @@ luck_skill_id = 9
 
 # Equipment Stat ids
 attack_stat_id = 1
-defense_stat_id = 2
+armor_stat_id = 2

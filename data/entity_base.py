@@ -28,5 +28,5 @@ class EntityBase:
         pass
 
     @abstractmethod
-    def get_defense_power(self):
+    def get_armor_power(self):
         pass

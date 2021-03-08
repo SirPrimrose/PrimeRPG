@@ -7,20 +7,21 @@ from data.entity_base import EntityBase
 attack_variance = 0.3
 crit_divider = 50
 crit_cap = 0.4  # percent
+dodge_spd_divider = 5
+dodge_lck_divider = 25
+dodge_cap = 0.1  # percent
 
 
-def get_damage(attack, defense):
-    if attack > defense:
+def get_damage(attack, armor):
+    if attack > armor:
         damage = (
-            0.60307 * defense
-            + attack
-            - 0.79 * defense * math.exp(-0.27 * defense / attack)
+            0.60307 * armor + attack - 0.79 * armor * math.exp(-0.27 * armor / attack)
         )
         pass
     else:
         damage = (
-            1 * (math.pow(attack, 3) / math.pow(defense, 2))
-            - 0.09 * math.pow(attack, 2) / defense
+            1 * (math.pow(attack, 3) / math.pow(armor, 2))
+            - 0.09 * math.pow(attack, 2) / armor
             + 0.09 * attack
         )
         pass
@@ -79,7 +80,7 @@ def process_attack(attacker: EntityBase, defender: EntityBase):
             response += "Dodged! "
             damage = 0
         else:
-            damage = get_damage(modified_attack, defender.get_defense_power())
+            damage = get_damage(modified_attack, defender.get_armor_power())
 
     defender.current_hp -= damage
     response += "{0} dealt {1:.2f} damage to {2}. {2} has {3:.2f} hp remaining.".format(
@@ -105,5 +106,6 @@ def get_dobule_attack_chance(attacker, defender):
 # Dependent on both attacker's speed, defender's speed, and defender's luck
 def get_dodge_chance(atk_spd, def_spd, def_lck):
     return (
-        math.tanh(max(def_spd - atk_spd, 0) / 5) * 0.1 + math.tanh(def_lck / 25) * 0.1
+        math.tanh(max(def_spd - atk_spd, 0) / dodge_spd_divider) * dodge_cap
+        + math.tanh(def_lck / dodge_lck_divider) * dodge_cap
     )

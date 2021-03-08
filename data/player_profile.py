@@ -1,6 +1,6 @@
 from typing import List
 
-from consts import attack_stat_id, defense_stat_id
+from consts import attack_stat_id, armor_stat_id
 from data.entity_base import EntityBase
 from data.player_core import PlayerCore
 from data.player_equipment import PlayerEquipment
@@ -33,13 +33,13 @@ class PlayerProfile(EntityBase):
 
         return attack_power
 
-    def get_defense_power(self):
-        defense_power = 10
+    def get_armor_power(self):
+        armor_power = 10
         for e in self.equipment:
-            defense_power_stat = get_equipment_stat(e.item_id, defense_stat_id)
-            defense_power += self.apply_scaling(defense_power_stat)
+            armor_power_stat = get_equipment_stat(e.item_id, armor_stat_id)
+            armor_power += self.apply_scaling(armor_power_stat)
 
-        return defense_power
+        return armor_power
 
     def apply_scaling(self, stat):
         base_value = stat.value
