@@ -9,24 +9,24 @@ from persistence.skill_categories_persistence import get_all_skill_categories
 
 mob_skills_table = "mob_skills"
 
-select_mob_skills_table = (
+select_mob_skills_query = (
     "SELECT * FROM %s WHERE mob_id = ? AND skill_id = ?" % mob_skills_table
 )
-select_all_mob_skills_table = "SELECT * FROM %s WHERE mob_id = ?" % mob_skills_table
-create_mob_skills_table = (
+select_all_mob_skills_query = "SELECT * FROM %s WHERE mob_id = ?" % mob_skills_table
+create_mob_skills_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
     "mob_id integer NOT NULL, "
     "skill_id integer NOT NULL, "
     "total_xp integer NOT NULL, "
     "PRIMARY KEY(mob_id, skill_id))" % mob_skills_table
 )
-update_mob_skills_table = (
+update_mob_skills_query = (
     "UPDATE %s SET total_xp = ? WHERE mob_id = ? AND skill_id = ?" % mob_skills_table
 )
-insert_mob_skills_table = (
+insert_mob_skills_query = (
     "INSERT INTO %s (mob_id, skill_id, total_xp) VALUES (?, ?, ?)" % mob_skills_table
 )
-delete_mob_skills_table = "DELETE from %s WHERE mob_id = ?"
+delete_mob_skills_query = "DELETE from %s WHERE mob_id = ?"
 
 
 def populate_mob_skills_table():
@@ -53,7 +53,7 @@ def get_mob_skill(mob_id: int, skill_id: int) -> MobSkill:
         mob_id,
         skill_id,
     )
-    statement = select_mob_skills_table
+    statement = select_mob_skills_query
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchone()
 
@@ -64,7 +64,7 @@ def get_all_mob_skills(mob_id: int) -> List[MobSkill]:
     cursor_obj = connection.cursor()
 
     stmt_args = (mob_id,)
-    statement = select_all_mob_skills_table
+    statement = select_all_mob_skills_query
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchall()
 
@@ -74,19 +74,19 @@ def get_all_mob_skills(mob_id: int) -> List[MobSkill]:
 
 
 def insert_mob_skill(skill: MobSkill):
-    stmt = insert_mob_skills_table
+    stmt = insert_mob_skills_query
     stmt_args = (skill.get_mob_id(), skill.skill_id, skill.total_xp)
     queue_transaction(skill.get_mob_id(), stmt, stmt_args)
 
 
 def update_mob_skill(skill: MobSkill):
-    stmt = update_mob_skills_table
+    stmt = update_mob_skills_query
     stmt_args = (skill.total_xp, skill.get_mob_id(), skill.skill_id)
     queue_transaction(skill.get_mob_id(), stmt, stmt_args)
 
 
 def delete_mob_skills(mob_id: int):
-    stmt = delete_mob_skills_table
+    stmt = delete_mob_skills_query
     stmt_args = (mob_id,)
     queue_transaction(mob_id, stmt, stmt_args)
 

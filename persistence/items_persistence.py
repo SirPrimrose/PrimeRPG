@@ -8,9 +8,9 @@ from persistence.connection_handler import connection
 
 items_table = "items"
 
-select_items_table = "SELECT * FROM %s WHERE unique_id = ?" % items_table
-select_all_items_table = "SELECT * FROM %s" % items_table
-create_items_table = (
+select_items_query = "SELECT * FROM %s WHERE unique_id = ?" % items_table
+select_all_items_query = "SELECT * FROM %s" % items_table
+create_items_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
     "unique_id integer PRIMARY KEY NOT NULL, "
     "item_category_id integer NOT NULL, "
@@ -33,7 +33,7 @@ def get_item(unique_id: int):
     cursor_obj = connection.cursor()
 
     stmt_args = (unique_id,)
-    statement = select_items_table
+    statement = select_items_query
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchone()
 
@@ -43,7 +43,7 @@ def get_item(unique_id: int):
 def get_all_items() -> List[Item]:
     cursor_obj = connection.cursor()
 
-    statement = select_all_items_table
+    statement = select_all_items_query
     cursor_obj.execute(statement)
     result = cursor_obj.fetchall()
 

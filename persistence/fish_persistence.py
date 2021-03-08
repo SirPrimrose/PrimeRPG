@@ -9,7 +9,7 @@ from persistence.connection_handler import connection
 
 fish_table = "fish"
 
-create_fish_table = (
+create_fish_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
     "unique_id integer PRIMARY KEY NOT NULL, "
     "item_id integer NOT NULL, "
@@ -19,8 +19,8 @@ create_fish_table = (
     "weather text NOT NULL, "
     "weight int NOT NULL) " % fish_table
 )
-select_id_fish_table = "SELECT * FROM %s WHERE unique_id = ?" % fish_table
-select_fish_table = (
+select_id_fish_query = "SELECT * FROM %s WHERE unique_id = ?" % fish_table
+select_fish_query = (
     "SELECT * FROM %s WHERE datetime(start_time) <= datetime(?) AND datetime(end_time) >= datetime("
     "?) AND weather = 'both' OR weather = ?" % fish_table
 )
@@ -39,7 +39,7 @@ def get_fish_from_id(unique_id: int):
     cursor_obj = connection.cursor()
 
     stmt_args = (unique_id,)
-    statement = select_id_fish_table
+    statement = select_id_fish_query
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchone()
 
@@ -51,7 +51,7 @@ def get_fish(time_d: timedelta, weather: str):
 
     time_str = util.time_delta_to_str(time_d)
     stmt_args = (time_str, time_str, weather)
-    statement = select_fish_table
+    statement = select_fish_query
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchall()
 

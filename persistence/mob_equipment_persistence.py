@@ -14,27 +14,27 @@ from persistence.items_persistence import get_all_items
 
 mob_equipment_table = "mob_equipment"
 
-select_mob_equipment_table = (
+select_mob_equipment_query = (
     "SELECT * FROM %s WHERE mob_id = ? AND equipment_slot_id = ?" % mob_equipment_table
 )
-select_all_mob_equipment_table = (
+select_all_mob_equipment_query = (
     "SELECT * FROM %s WHERE mob_id = ?" % mob_equipment_table
 )
-create_mob_equipment_table = (
+create_mob_equipment_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
     "mob_id integer NOT NULL, "
     "equipment_slot_id integer NOT NULL, "
     "item_id integer NOT NULL)" % mob_equipment_table
 )
-update_mob_equipment_table = (
+update_mob_equipment_query = (
     "UPDATE %s SET item_id = ? WHERE mob_id = ? AND equipment_slot_id = ?"
     % mob_equipment_table
 )
-insert_mob_equipment_table = (
+insert_mob_equipment_query = (
     "INSERT INTO %s (mob_id, equipment_slot_id, item_id) VALUES (?, ?, ?)"
     % mob_equipment_table
 )
-delete_mob_equipment_table = "DELETE from %s WHERE mob_id = ?"
+delete_mob_equipment_query = "DELETE from %s WHERE mob_id = ?"
 
 
 def populate_mob_equipment_table():
@@ -63,7 +63,7 @@ def get_mob_equipment(mob_id: int, equipment_slot_id: int) -> MobEquipment:
         mob_id,
         equipment_slot_id,
     )
-    statement = select_mob_equipment_table
+    statement = select_mob_equipment_query
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchone()
 
@@ -74,7 +74,7 @@ def get_all_mob_equipment(mob_id: int) -> List[MobEquipment]:
     cursor_obj = connection.cursor()
 
     stmt_args = (mob_id,)
-    statement = select_all_mob_equipment_table
+    statement = select_all_mob_equipment_query
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchall()
 
@@ -84,19 +84,19 @@ def get_all_mob_equipment(mob_id: int) -> List[MobEquipment]:
 
 
 def insert_mob_equipment(equipment: MobEquipment):
-    stmt = insert_mob_equipment_table
+    stmt = insert_mob_equipment_query
     stmt_args = (equipment.mob_id, equipment.equipment_slot_id, equipment.item_id)
     queue_transaction(equipment.mob_id, stmt, stmt_args)
 
 
 def update_mob_equipment(equipment: MobEquipment):
-    stmt = update_mob_equipment_table
+    stmt = update_mob_equipment_query
     stmt_args = (equipment.item_id, equipment.mob_id, equipment.equipment_slot_id)
     queue_transaction(equipment.mob_id, stmt, stmt_args)
 
 
 def delete_mob_equipment(mob_id: int):
-    stmt = delete_mob_equipment_table
+    stmt = delete_mob_equipment_query
     stmt_args = (mob_id,)
     queue_transaction(mob_id, stmt, stmt_args)
 

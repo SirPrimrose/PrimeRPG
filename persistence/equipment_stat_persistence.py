@@ -9,14 +9,14 @@ from persistence.skill_categories_persistence import get_all_skill_categories
 
 equipment_stats_table = "equipment_stats"
 
-select_equipment_stat_table = (
+select_equipment_stat_query = (
     "SELECT * FROM %s WHERE item_id = ? AND equipment_stat_category_id = ?"
     % equipment_stats_table
 )
-select_equipment_stats_table = (
+select_equipment_stats_query = (
     "SELECT * FROM %s WHERE item_id = ?" % equipment_stats_table
 )
-create_equipment_stats_table = (
+create_equipment_stats_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
     "item_id integer NOT NULL, "
     "equipment_stat_category_id integer NOT NULL, "
@@ -52,7 +52,7 @@ def get_equipment_stat(item_id: int, equipment_stat_category_id: int) -> Equipme
     cursor_obj = connection.cursor()
 
     stmt_args = (item_id, equipment_stat_category_id)
-    statement = select_equipment_stat_table
+    statement = select_equipment_stat_query
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchone()
 
@@ -63,7 +63,7 @@ def get_equipment_stats(item_id: int) -> List[EquipmentStat]:
     cursor_obj = connection.cursor()
 
     stmt_args = (item_id,)
-    statement = select_equipment_stats_table
+    statement = select_equipment_stats_query
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchall()
 

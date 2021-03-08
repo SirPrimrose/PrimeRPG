@@ -8,11 +8,11 @@ from persistence.connection_handler import connection
 
 skill_categories_table = "skill_categories"
 
-select_skill_categories_table = (
+select_skill_categories_query = (
     "SELECT * FROM %s WHERE unique_id = ?" % skill_categories_table
 )
-select_all_skill_categories_table = "SELECT * FROM %s" % skill_categories_table
-create_skill_categories_table = (
+select_all_skill_categories_query = "SELECT * FROM %s" % skill_categories_table
+create_skill_categories_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
     "unique_id integer PRIMARY KEY NOT NULL, "
     "name text NOT NULL)" % skill_categories_table
@@ -32,7 +32,7 @@ def get_skill_category(unique_id: int) -> SkillCategory:
     cursor_obj = connection.cursor()
 
     stmt_args = (unique_id,)
-    statement = select_skill_categories_table
+    statement = select_skill_categories_query
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchone()
 
@@ -42,7 +42,7 @@ def get_skill_category(unique_id: int) -> SkillCategory:
 def get_all_skill_categories() -> List[SkillCategory]:
     cursor_obj = connection.cursor()
 
-    statement = select_all_skill_categories_table
+    statement = select_all_skill_categories_query
     cursor_obj.execute(statement)
     result = cursor_obj.fetchall()
 

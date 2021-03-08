@@ -3,7 +3,7 @@ from persistence.connection_handler import connection, queue_transaction
 
 players_table = "players"
 
-create_players_table = (
+create_players_query = (
     "CREATE TABLE IF NOT EXISTS {0} ("
     "unique_id integer PRIMARY KEY, "
     "name text NOT NULL, "
@@ -12,11 +12,11 @@ create_players_table = (
         players_table, idle_state, default_start_hp
     )
 )
-insert_players_table = (
+insert_players_query = (
     "INSERT INTO %s (unique_id, name, state, current_hp) VALUES (?, ?, ?, ?)"
     % players_table
 )
-update_players_table = (
+update_players_query = (
     "UPDATE %s SET unique_id = ?, name = ?, state = ?, current_hp = ? WHERE unique_id = ?"
     % players_table
 )
@@ -34,13 +34,13 @@ def get_player(unique_id: int) -> PlayerCore:
 
 
 def insert_player_data(unique_id: int, name: str, state: str, current_hp: int):
-    stmt = insert_players_table
+    stmt = insert_players_query
     stmt_args = (unique_id, name, state, current_hp)
     queue_transaction(unique_id, stmt, stmt_args)
 
 
 def update_player_data(unique_id: int, player_dict: dict):
-    stmt = update_players_table
+    stmt = update_players_query
     stmt_args = tuple(player_dict.values()) + (unique_id,)
     queue_transaction(unique_id, stmt, stmt_args)
 

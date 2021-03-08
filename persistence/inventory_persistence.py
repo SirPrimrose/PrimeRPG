@@ -3,11 +3,11 @@ from persistence.connection_handler import connection, queue_transaction
 
 inventory_table = "inventory"
 
-select_inventory_table = (
+select_inventory_query = (
     "SELECT * FROM %s WHERE player_id = ? AND item_id = ?" % inventory_table
 )
-select_all_inventory_table = "SELECT * FROM %s WHERE player_id = ?" % inventory_table
-create_inventory_table = (
+select_all_inventory_query = "SELECT * FROM %s WHERE player_id = ?" % inventory_table
+create_inventory_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
     "player_id integer NOT NULL, "
     "item_id integer NOT NULL, "
@@ -15,13 +15,13 @@ create_inventory_table = (
     "FOREIGN KEY(player_id) REFERENCES players(unique_id), "
     "FOREIGN KEY(item_id) REFERENCES items(unique_id))" % inventory_table
 )
-update_inventory_table = (
+update_inventory_query = (
     "UPDATE %s SET quantity = ? WHERE player_id = ? AND item_id = ?" % inventory_table
 )
-insert_inventory_table = (
+insert_inventory_query = (
     "INSERT INTO %s (player_id, item_id, quantity) VALUES (?, ?, ?)" % inventory_table
 )
-delete_inventory_table = "DELETE from %s WHERE player_id = ?"
+delete_inventory_query = "DELETE from %s WHERE player_id = ?"
 
 
 def get_inventory_item(player_id: int, item_id: int):
@@ -31,7 +31,7 @@ def get_inventory_item(player_id: int, item_id: int):
         player_id,
         item_id,
     )
-    statement = select_inventory_table
+    statement = select_inventory_query
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchone()
 
@@ -42,7 +42,7 @@ def get_all_inventory_items(player_id: int):
     cursor_obj = connection.cursor()
 
     stmt_args = (player_id,)
-    statement = select_all_inventory_table
+    statement = select_all_inventory_query
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchall()
 
@@ -52,19 +52,19 @@ def get_all_inventory_items(player_id: int):
 
 
 def insert_inventory_item(item: PlayerInventoryItem):
-    stmt = insert_inventory_table
+    stmt = insert_inventory_query
     stmt_args = (item.player_id, item.item_id, item.quantity)
     queue_transaction(item.player_id, stmt, stmt_args)
 
 
 def update_inventory_item(item: PlayerInventoryItem):
-    stmt = update_inventory_table
+    stmt = update_inventory_query
     stmt_args = (item.quantity, item.player_id, item.item_id)
     queue_transaction(item.player_id, stmt, stmt_args)
 
 
 def delete_inventory_item(player_id: int):
-    stmt = delete_inventory_table
+    stmt = delete_inventory_query
     stmt_args = (player_id,)
     queue_transaction(player_id, stmt, stmt_args)
 

@@ -7,8 +7,8 @@ from persistence.connection_handler import connection
 
 mobs_table = "mobs"
 
-select_mobs_table = "SELECT * FROM %s WHERE unique_id = ?" % mobs_table
-create_mobs_table = (
+select_mobs_query = "SELECT * FROM %s WHERE unique_id = ?" % mobs_table
+create_mobs_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
     "unique_id integer PRIMARY KEY NOT NULL,"
     "name text NOT NULL,"
@@ -31,7 +31,7 @@ def get_mob(unique_id: int):
     cursor_obj = connection.cursor()
 
     stmt_args = (unique_id,)
-    statement = select_mobs_table
+    statement = select_mobs_query
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchone()
 
