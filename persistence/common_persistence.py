@@ -3,10 +3,6 @@ from sqlite3 import OperationalError, IntegrityError
 from traceback import print_exc
 from typing import List
 
-from data.equipment_category import EquipmentCategory
-from data.equipment_stat_category import EquipmentStatCategory
-from data.item import Item
-from data.skill_category import SkillCategory
 from persistence.connection_handler import connection
 
 
@@ -58,12 +54,12 @@ def convert_dict_keys_to_id(
     for key, value in convert_dict.items():
         if replace_values:
             matching_obj = next(
-                filter(lambda obj: getattr(obj, "name") == value, elem_list), None
+                filter(lambda obj: getattr(obj, name_prop) == value, elem_list), None
             )
-            new_dict[key] = getattr(matching_obj, "unique_id")
+            new_dict[key] = getattr(matching_obj, id_prop)
         else:
             matching_obj = next(
-                filter(lambda obj: getattr(obj, "name") == key, elem_list), None
+                filter(lambda obj: getattr(obj, name_prop) == key, elem_list), None
             )
-            new_dict[getattr(matching_obj, "unique_id")] = value
+            new_dict[getattr(matching_obj, id_prop)] = value
     return new_dict
