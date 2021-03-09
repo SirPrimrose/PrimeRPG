@@ -1,6 +1,10 @@
 [
-	{
-		"unique_id": 1,
-		"name": "Attack Power"
-	}
+  {
+    "unique_id": 1,
+    "name": "Attack Power"
+  },
+  {
+    "unique_id": 2,
+    "name": "Armor"
+  }
 ]

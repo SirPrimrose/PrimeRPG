@@ -14,7 +14,7 @@ class ProfileEmbed(BaseEmbed):
         self.author = author
 
     def generate_embed(self) -> Embed:
-        embed = Embed(title="Cool Guy")
+        embed = Embed()
         embed.set_author(
             name="{}'s Profile".format(self.author.name),
             icon_url=self.author.avatar_url,
@@ -51,13 +51,4 @@ class ProfileEmbed(BaseEmbed):
                 skills_on_line += 1
 
         embed.add_field(name="Skills", value=value, inline=False)
-        """for skill_emoji, skill_id in emojis.skill_emojis.items():
-            skill = next(
-                filter(lambda s: s.skill_id == skill_id, self.player_profile.skills),
-                None,
-            )
-            if skill:
-                embed.add_field(
-                    name=skill_emoji, value=skill.calculate_level(), inline=True
-                )"""
         return embed

@@ -32,4 +32,4 @@ class EmbedCommand(Command):
         return ["embed"]
 
     async def run_command(self, msg: discord.Message, args: List[str]):
-        await inventory_embed(msg)
+        await test_profile_embed(msg)

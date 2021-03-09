@@ -5,8 +5,7 @@ from consts import data_folder
 from data.mob_equipment import MobEquipment
 from persistence.common_persistence import (
     insert_dictionary,
-    convert_equipment_slot_names_to_id,
-    convert_item_names_to_id,
+    convert_dict_keys_to_id,
 )
 from persistence.connection_handler import connection, queue_transaction
 from persistence.equipment_categories_persistence import get_all_equipment_categories
@@ -44,9 +43,9 @@ def populate_mob_equipment_table():
     equipment_categories = get_all_equipment_categories()
     items = get_all_items()
     for mob in data:
-        a = convert_equipment_slot_names_to_id(equipment_categories, mob["equipment"])
-        new_equipment = convert_item_names_to_id(items, a)
-        for equipment_slot_id, item_id in new_equipment.items():
+        equipment = convert_dict_keys_to_id(equipment_categories, mob["equipment"])
+        equipment = convert_dict_keys_to_id(items, equipment, True)
+        for equipment_slot_id, item_id in equipment.items():
             if not get_mob_equipment(mob["unique_id"], equipment_slot_id):
                 mob_equipment = {
                     "mob_id": mob["unique_id"],

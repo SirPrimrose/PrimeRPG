@@ -4,6 +4,7 @@ from traceback import print_exc
 from typing import List
 
 from data.equipment_category import EquipmentCategory
+from data.equipment_stat_category import EquipmentStatCategory
 from data.item import Item
 from data.skill_category import SkillCategory
 from persistence.connection_handler import connection
@@ -35,31 +36,34 @@ def insert_dictionary(table_name: str, my_dict: dict):
         print("Tried to insert {} into table {}".format(my_dict, table_name))
 
 
-def convert_skill_names_to_id(skill_categories: List[SkillCategory], skills: dict):
-    new_skills = {}
-    for skill_name, scaling in skills.items():
-        category = next(
-            filter(lambda cat: cat.name == skill_name, skill_categories), None
-        )
-        new_skills[category.unique_id] = scaling
-    return new_skills
-
-
-def convert_equipment_slot_names_to_id(
-    equipment_categories: List[EquipmentCategory], equipment: dict
+def convert_dict_keys_to_id(
+    elem_list: List,
+    convert_dict: dict,
+    replace_values: bool = False,
+    name_prop="name",
+    id_prop="unique_id",
 ):
-    new_equipment = {}
-    for equipment_name, item_name in equipment.items():
-        category = next(
-            filter(lambda cat: cat.name == equipment_name, equipment_categories), None
-        )
-        new_equipment[category.unique_id] = item_name
-    return new_equipment
+    """
+    Takes a dictionary and replaces the dictionary keys with ids.
+    This process is based on id-name association provided in the list_with_names property
 
-
-def convert_item_names_to_id(items: List[Item], equipment: dict):
-    new_equipment = {}
-    for equipment_name, item_name in equipment.items():
-        item = next(filter(lambda cat: cat.name == item_name, items), None)
-        new_equipment[equipment_name] = item.unique_id
-    return new_equipment
+    :param elem_list: Each element of the list will be searched to replace the key values of the convert dictionary.
+    :param convert_dict: Dictionary of which to convert key values
+    :param replace_values: If true, replaces values of the dictionary with the id instead of keys
+    :param name_prop: The name of the property to access a name in an element in elem_list
+    :param id_prop: The name of the property to access an id in an element in elem_list
+    :return: A new dictionary containing the key-value pairs, with the keys replaced by ids
+    """
+    new_dict = {}
+    for key, value in convert_dict.items():
+        if replace_values:
+            matching_obj = next(
+                filter(lambda obj: getattr(obj, "name") == value, elem_list), None
+            )
+            new_dict[key] = getattr(matching_obj, "unique_id")
+        else:
+            matching_obj = next(
+                filter(lambda obj: getattr(obj, "name") == key, elem_list), None
+            )
+            new_dict[getattr(matching_obj, "unique_id")] = value
+    return new_dict

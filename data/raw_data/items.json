@@ -1,37 +1,58 @@
 [
-	{
-		"unique_id": 1,
-		"item_category_id": 1,
-		"equipment_category_id": 0,
-		"name": "Minnow",
-		"value": 100
-	},
-	{
-		"unique_id": 2,
-		"item_category_id": 1,
-		"equipment_category_id": 0,
-		"name": "Carp",
-		"value": 100
-	},
-	{
-		"unique_id": 3,
-		"item_category_id": 1,
-		"equipment_category_id": 0,
-		"name": "Catfish",
-		"value": 100
-	},
-	{
-		"unique_id": 4,
-		"item_category_id": 3,
-		"equipment_category_id": 1,
-		"name": "Starter Sword",
-		"value": 100
-	},
-	{
-		"unique_id": 5,
-		"item_category_id": 3,
-		"equipment_category_id": 2,
-		"name": "Starter Helmet",
-		"value": 100
-	}
+  {
+    "unique_id": 1,
+    "item_category_id": 1,
+    "equipment_category_id": 0,
+    "name": "Minnow",
+    "value": 100
+  },
+  {
+    "unique_id": 2,
+    "item_category_id": 1,
+    "equipment_category_id": 0,
+    "name": "Carp",
+    "value": 100
+  },
+  {
+    "unique_id": 3,
+    "item_category_id": 1,
+    "equipment_category_id": 0,
+    "name": "Catfish",
+    "value": 100
+  },
+  {
+    "unique_id": 4,
+    "item_category_id": 3,
+    "equipment_category_id": 1,
+    "name": "Starter Sword",
+    "value": 100,
+    "stats": [
+      {
+        "Attack Power": {
+          "value": 10,
+          "scales_with": {
+            "Strength": 10,
+            "Dexterity": 5
+          }
+        }
+      }
+    ]
+  },
+  {
+    "unique_id": 5,
+    "item_category_id": 3,
+    "equipment_category_id": 2,
+    "name": "Starter Helmet",
+    "value": 100,
+    "stats": [
+      {
+        "Armor": {
+          "value": 10,
+          "scales_with": {
+            "Defense": 5
+          }
+        }
+      }
+    ]
+  }
 ]

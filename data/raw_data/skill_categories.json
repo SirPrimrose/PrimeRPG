@@ -1,38 +1,38 @@
 [
-	{
-		"unique_id": 1,
-		"name": "Health"
-	},
-	{
-		"unique_id": 2,
-		"name": "Strength"
-	},
-	{
-		"unique_id": 3,
-		"name": "Dexterity"
-	},
-	{
-		"unique_id": 4,
-		"name": "Defense"
-	},
-	{
-		"unique_id": 5,
-		"name": "Intellect"
-	},
-	{
-		"unique_id": 6,
-		"name": "Faith"
-	},
-	{
-		"unique_id": 7,
-		"name": "Resistance"
-	},
-	{
-		"unique_id": 8,
-		"name": "Speed"
-	},
-	{
-		"unique_id": 9,
-		"name": "Luck"
-	}
+  {
+    "unique_id": 1,
+    "name": "Health"
+  },
+  {
+    "unique_id": 2,
+    "name": "Strength"
+  },
+  {
+    "unique_id": 3,
+    "name": "Dexterity"
+  },
+  {
+    "unique_id": 4,
+    "name": "Defense"
+  },
+  {
+    "unique_id": 5,
+    "name": "Intellect"
+  },
+  {
+    "unique_id": 6,
+    "name": "Faith"
+  },
+  {
+    "unique_id": 7,
+    "name": "Resistance"
+  },
+  {
+    "unique_id": 8,
+    "name": "Speed"
+  },
+  {
+    "unique_id": 9,
+    "name": "Luck"
+  }
 ]

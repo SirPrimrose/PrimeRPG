@@ -3,8 +3,14 @@ from typing import List
 
 from consts import data_folder
 from data.equipment_stat import EquipmentStat
-from persistence.common_persistence import insert_dictionary, convert_skill_names_to_id
+from persistence.common_persistence import (
+    convert_dict_keys_to_id,
+    insert_dictionary,
+)
 from persistence.connection_handler import connection
+from persistence.equipment_stat_categories_persistence import (
+    get_all_equipment_stat_categories,
+)
 from persistence.skill_categories_persistence import get_all_skill_categories
 
 equipment_stats_table = "equipment_stats"
@@ -30,22 +36,32 @@ create_equipment_stats_query = (
 
 
 def populate_equipment_stats_table():
-    with open(data_folder / "equipment_stats.json") as f:
+    with open(data_folder / "items.json") as f:
         data = json.load(f)
 
+    eqst_categories = get_all_equipment_stat_categories()
     skill_categories = get_all_skill_categories()
     for item in data:
-        for stat in item["stats"]:
-            if not get_equipment_stat(
-                item["item_id"], stat["equipment_stat_category_id"]
-            ):
-                new_scalings = convert_skill_names_to_id(
-                    skill_categories, stat["scales_with"]
-                )
-                stat.update(
-                    {"scales_with": str(new_scalings), "item_id": item["item_id"]}
-                )
-                insert_dictionary(equipment_stats_table, stat)
+        if "stats" not in item:
+            continue
+        stats = item["stats"]
+        for stat in stats:
+            stat = convert_dict_keys_to_id(eqst_categories, stat)
+            for (
+                stat_id,
+                value_and_scaling,
+            ) in stat.items():
+                if not get_equipment_stat(item["unique_id"], stat_id):
+                    scalings = convert_dict_keys_to_id(
+                        skill_categories, value_and_scaling["scales_with"]
+                    )
+                    equipment_stat = {
+                        "item_id": item["unique_id"],
+                        "equipment_stat_category_id": stat_id,
+                        "value": value_and_scaling["value"],
+                        "scales_with": str(scalings),
+                    }
+                    insert_dictionary(equipment_stats_table, equipment_stat)
 
 
 def get_equipment_stat(item_id: int, equipment_stat_category_id: int) -> EquipmentStat:

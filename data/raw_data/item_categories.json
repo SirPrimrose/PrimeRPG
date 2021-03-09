@@ -1,14 +1,14 @@
 [
-	{
-		"unique_id": 1,
-		"name": "Items"
-	},
-	{
-		"unique_id": 2,
-		"name": "Consumables"
-	},
-	{
-		"unique_id": 3,
-		"name": "Equipment"
-	}
+  {
+    "unique_id": 1,
+    "name": "Items"
+  },
+  {
+    "unique_id": 2,
+    "name": "Consumables"
+  },
+  {
+    "unique_id": 3,
+    "name": "Equipment"
+  }
 ]

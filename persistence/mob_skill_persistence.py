@@ -3,7 +3,10 @@ from typing import List
 
 from consts import data_folder
 from data.mob_skill import MobSkill
-from persistence.common_persistence import insert_dictionary, convert_skill_names_to_id
+from persistence.common_persistence import (
+    insert_dictionary,
+    convert_dict_keys_to_id,
+)
 from persistence.connection_handler import connection, queue_transaction
 from persistence.skill_categories_persistence import get_all_skill_categories
 
@@ -35,8 +38,8 @@ def populate_mob_skills_table():
 
     skill_categories = get_all_skill_categories()
     for mob in data:
-        new_skills = convert_skill_names_to_id(skill_categories, mob["skills"])
-        for skill_id, skill_value in new_skills.items():
+        skills = convert_dict_keys_to_id(skill_categories, mob["skills"])
+        for skill_id, skill_value in skills.items():
             if not get_mob_skill(mob["unique_id"], skill_id):
                 mob_skill = {
                     "mob_id": mob["unique_id"],
