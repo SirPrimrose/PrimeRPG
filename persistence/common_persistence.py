@@ -27,6 +27,7 @@ def insert_dictionary(table_name: str, my_dict: dict):
     except OperationalError:
         print_exc()
         print("Encountered error: {0}".format(sys.exc_info()[1]))
+        raise
     except IntegrityError:
         print("Integrity error: {0}".format(sys.exc_info()[1]))
         print("Tried to insert {} into table {}".format(my_dict, table_name))

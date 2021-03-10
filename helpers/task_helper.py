@@ -20,7 +20,7 @@ async def start_task(msg, player_id, task):
     player_data = get_player(player_id)
     if player_data.state == idle_state:
         player_data.state = gathering_state
-        update_player_data(player_data.unique_id, vars(player_data))
+        update_player_data(player_data)
         insert_player_task_data(
             player_id, task, str_from_date(datetime.datetime.utcnow())
         )
@@ -37,7 +37,7 @@ async def stop_task(msg, player_id):
         task_data = get_player_task_data(player_id)
         task = Task(task_data[1], task_data[2])
 
-        update_player_data(player_data.unique_id, vars(player_data))
+        update_player_data(player_data)
         delete_player_task_data(player_id, task.task)
 
         await get_task_rewards(msg, player_id, task)

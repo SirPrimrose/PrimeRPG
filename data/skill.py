@@ -15,6 +15,9 @@ class EntitySkill:
         response += "\nLevel: %s" % self.level
         return response
 
+    def get_total_xp(self):
+        return self._total_xp
+
     def modify_xp(self, xp_delta):
         self._total_xp += xp_delta
         self.level = self._calculate_level()

@@ -26,6 +26,8 @@ def populate_items_table():
 
     for item in data:
         if not get_item(item["unique_id"]):
+            if "stats" in item:
+                del item["stats"]
             insert_dictionary(items_table, item)
 
 

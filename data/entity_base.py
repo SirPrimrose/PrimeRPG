@@ -17,9 +17,12 @@ from data.skill import EntitySkill
 
 
 class EntityBase:
-    def __init__(self, current_hp: int, name: str, skills: List[EntitySkill]):
+    def __init__(
+        self, current_hp: int, name: str, icon_url: str, skills: List[EntitySkill]
+    ):
         self.current_hp = current_hp
         self.name = name
+        self.icon_url = icon_url
         self.skills = skills
 
     def __repr__(self):
@@ -57,6 +60,9 @@ class EntityBase:
         atk_cb = max(phys_atk, mag_atk) + 0.25 * min(phys_atk, mag_atk)
         def_cb = max(phys_def, mag_def) + 0.25 * min(phys_def, mag_def)
         return floor((atk_cb + def_cb + aux + hp) / 5)
+
+    def get_icon_url(self):
+        return self.icon_url
 
     @abstractmethod
     def get_attack_power(self):

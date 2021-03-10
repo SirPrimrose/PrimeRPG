@@ -58,13 +58,13 @@ def get_all_player_skills(player_id: int) -> List[PlayerSkill]:
 
 def insert_player_skill(skill: PlayerSkill):
     stmt = insert_player_skills_query
-    stmt_args = (skill.get_player_id(), skill.skill_id, skill.total_xp)
+    stmt_args = (skill.get_player_id(), skill.skill_id, skill.get_total_xp())
     queue_transaction(skill.get_player_id(), stmt, stmt_args)
 
 
 def update_player_skill(skill: PlayerSkill):
     stmt = update_player_skills_query
-    stmt_args = (skill.total_xp, skill.get_player_id(), skill.skill_id)
+    stmt_args = (skill.get_total_xp(), skill.get_player_id(), skill.skill_id)
     queue_transaction(skill.get_player_id(), stmt, stmt_args)
 
 

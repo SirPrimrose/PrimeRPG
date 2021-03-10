@@ -15,12 +15,12 @@ class PlayerProfile(EntityBase):
         skills: List[PlayerSkill],
         equipment: List[PlayerEquipment],
     ):
-        super().__init__(core.current_hp, core.name, skills)
+        super().__init__(core.current_hp, core.name, core.avatar_url, skills)
         self.core = core
         self.equipment = equipment
 
     def __repr__(self):
-        response = super.__repr__()
+        response = super.__repr__(self)
         response += "\nCore: \n%s" % self.core
         response += "\nEquipment: \n%s" % self.equipment
         return response

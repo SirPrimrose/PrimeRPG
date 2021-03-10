@@ -24,8 +24,8 @@ player_starting_stat = {
 }
 
 
-def create_new_player_data(player_id, player_name):
-    insert_player_data(player_id, player_name, idle_state, default_start_hp)
+def create_new_player_data(player_id, player_name, avatar_url):
+    insert_player_data(player_id, player_name, avatar_url)
     for skill in get_all_skill_categories():
         insert_player_skill(
             PlayerSkill(

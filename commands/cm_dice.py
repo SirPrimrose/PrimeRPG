@@ -19,14 +19,14 @@ class Dice(Command):
 
     async def run_command(self, msg: discord.Message, args: List[str]):
         try:
-            min = 1
-            max = 100
+            low = 1
+            high = 100
             if len(args) == 1:
-                max = int(args[0])
+                high = int(args[0])
             if len(args) >= 2:
-                min = int(args[0])
-                max = int(args[1])
-            num = random.randrange(min, max)
+                low = int(args[0])
+                high = int(args[1])
+            num = random.randrange(low, high)
             await msg.channel.send("You rolled a {0}".format(num))
         except ValueError:
             print("Unexpected error:", sys.exc_info()[1])

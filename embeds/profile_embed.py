@@ -3,6 +3,9 @@ from discord import User, Embed
 import emojis
 from data.player_profile import PlayerProfile
 from embeds.base_embed import BaseEmbed
+from embeds.common_embed import add_stat_field
+from text_consts import large_space, small_space
+from urls import profile_url
 
 skills_per_line = 3
 
@@ -19,19 +22,8 @@ class ProfileEmbed(BaseEmbed):
             name="{}'s Profile".format(self.author.name),
             icon_url=self.author.avatar_url,
         )
-        embed.set_thumbnail(
-            url="https://image.flaticon.com/icons/png/128/3075/3075884.png"
-        )
-        stats_value = "Combat Level: {}\nHP: {}/{}".format(
-            self.player_profile.get_combat_level(),
-            self.player_profile.current_hp,
-            self.player_profile.get_max_hp(),
-        )
-        embed.add_field(
-            name="Stats",
-            value=stats_value,
-            inline=False,
-        )
+        embed.set_thumbnail(url=profile_url)
+        add_stat_field(embed, "Stats", self.player_profile)
         value = "\n|"
         skills_on_line = 0
         for skill_emoji, skill_id in emojis.skill_emojis.items():
@@ -47,7 +39,9 @@ class ProfileEmbed(BaseEmbed):
                 skill_text = "`{}{}`".format(
                     (2 - len(skill_level_text)) * " ", skill_level_text
                 )
-                value += "\u2001{}\u2000{}\u2001|".format(skill_emoji, skill_text)
+                value += "{2}{0}{3}{1}{2}|".format(
+                    skill_emoji, skill_text, large_space, small_space
+                )
                 skills_on_line += 1
 
         embed.add_field(name="Skills", value=value, inline=False)

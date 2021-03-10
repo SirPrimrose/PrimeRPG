@@ -4,7 +4,7 @@ import discord
 
 from commands.command import Command
 from helpers.player_helper import create_new_player_data
-from persistence.player_persistence import get_player, insert_player_data
+from persistence.player_persistence import get_player
 
 
 class Start(Command):
@@ -25,5 +25,7 @@ class Start(Command):
                 "You are already playing {0}.".format(msg.author.name)
             )
         else:
-            create_new_player_data(player_id, msg.author.name)
+            create_new_player_data(
+                player_id, msg.author.name, str(msg.author.avatar_url)
+            )
             await msg.channel.send("Welcome to the game {0}".format(msg.author.name))

@@ -78,13 +78,13 @@ def get_all_mob_skills(mob_id: int) -> List[MobSkill]:
 
 def insert_mob_skill(skill: MobSkill):
     stmt = insert_mob_skills_query
-    stmt_args = (skill.get_mob_id(), skill.skill_id, skill.total_xp)
+    stmt_args = (skill.get_mob_id(), skill.skill_id, skill.get_total_xp())
     queue_transaction(skill.get_mob_id(), stmt, stmt_args)
 
 
 def update_mob_skill(skill: MobSkill):
     stmt = update_mob_skills_query
-    stmt_args = (skill.total_xp, skill.get_mob_id(), skill.skill_id)
+    stmt_args = (skill.get_total_xp(), skill.get_mob_id(), skill.skill_id)
     queue_transaction(skill.get_mob_id(), stmt, stmt_args)
 
 
