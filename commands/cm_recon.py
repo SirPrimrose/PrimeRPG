@@ -22,6 +22,6 @@ class Recon(Command):
         player_id = msg.author.id
         player_profile = get_player_profile(player_id)
         dupe_profile = get_player_profile(player_id)
-        sim_fight(player_profile, dupe_profile)
-        embed = ReconEmbed(player_profile, dupe_profile).generate_embed()
-        await msg.channel.send(embed=embed)
+        embed = ReconEmbed(player_profile, dupe_profile)
+        embed_message = await msg.channel.send(embed=embed.generate_embed())
+        await embed.connect_reaction_listener(embed_message, msg.author)

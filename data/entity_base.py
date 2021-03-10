@@ -31,7 +31,7 @@ class EntityBase:
         response += "\nSkills: %s" % self.skills
         return response
 
-    def get_skill_value(self, skill_id):
+    def get_skill_value(self, skill_id) -> EntitySkill:
         result = next(filter(lambda skill: skill.skill_id == skill_id, self.skills))
         return result if result else 0
 

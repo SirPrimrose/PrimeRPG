@@ -13,6 +13,11 @@ resistance_emoji = ":mirror:"
 speed_emoji = ":feather:"
 luck_emoji = ":four_leaf_clover:"
 
+fight_emoji = "<:YourFault:773361376558448681>"
+heal_emoji = "<:Heal:819307410334023720>"
+run_emoji = "<:JoshChad:639687592614297610>"
+
+
 skill_emojis = {
     strength_emoji: consts.strength_skill_id,
     dexterity_emoji: consts.dexterity_skill_id,

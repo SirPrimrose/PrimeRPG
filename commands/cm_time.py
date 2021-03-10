@@ -18,5 +18,4 @@ class Time(Command):
 
     async def run_command(self, msg: discord.Message, args: List[str]):
         ig_time = util.get_current_in_game_time()
-        response = util.time_delta_to_str(ig_time)
-        return await msg.channel.send(response)
+        return await msg.channel.send(ig_time)

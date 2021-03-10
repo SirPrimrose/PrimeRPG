@@ -3,7 +3,7 @@ from discord import User, Embed
 import emojis
 from data.player_profile import PlayerProfile
 from embeds.base_embed import BaseEmbed
-from embeds.common_embed import add_stat_field
+from embeds.common_embed import add_detailed_stat_field
 from text_consts import large_space, small_space
 from urls import profile_url
 
@@ -23,7 +23,7 @@ class ProfileEmbed(BaseEmbed):
             icon_url=self.author.avatar_url,
         )
         embed.set_thumbnail(url=profile_url)
-        add_stat_field(embed, "Stats", self.player_profile)
+        add_detailed_stat_field(embed, "Stats", self.player_profile)
         value = "\n|"
         skills_on_line = 0
         for skill_emoji, skill_id in emojis.skill_emojis.items():

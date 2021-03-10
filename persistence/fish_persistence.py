@@ -46,11 +46,10 @@ def get_fish_from_id(unique_id: int):
     return init_fish(result)
 
 
-def get_fish(time_d: timedelta, weather: str):
+def get_fish(time: str, weather: str):
     cursor_obj = connection.cursor()
 
-    time_str = util.time_delta_to_str(time_d)
-    stmt_args = (time_str, time_str, weather)
+    stmt_args = (time, time, weather)
     statement = select_fish_query
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchall()

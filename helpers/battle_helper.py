@@ -54,7 +54,7 @@ def process_turn(attacker: EntityBase, defender: EntityBase):
         return
     else:
         print(process_attack(attacker, defender))
-        if random.random() < get_dobule_attack_chance(attacker, defender):
+        if random.random() < get_double_attack_chance(attacker, defender):
             print("Double attack for {}!".format(attacker.name))
             print(process_attack(attacker, defender))
 
@@ -97,7 +97,7 @@ def get_crit_chance(luck):
     return math.tanh(luck / crit_divider) * crit_cap
 
 
-def get_dobule_attack_chance(attacker, defender):
+def get_double_attack_chance(attacker, defender):
     attacker_speed = attacker.get_skill_value(speed_skill_id).level
     defender_speed = defender.get_skill_value(speed_skill_id).level
     return (attacker_speed - defender_speed) * 0.1
@@ -109,3 +109,10 @@ def get_dodge_chance(atk_spd, def_spd, def_lck):
         math.tanh(max(def_spd - atk_spd, 0) / dodge_spd_divider) * dodge_cap
         + math.tanh(def_lck / dodge_lck_divider) * dodge_cap
     )
+
+
+def get_flee_chance(fighter_speed: int, enemy_speed: int) -> float:
+    if enemy_speed <= 0:
+        return 1.0
+    speed_ratio = fighter_speed / enemy_speed
+    return min(max(speed_ratio + (1 / 8) * (1 - speed_ratio), 0.0), 1.0)

@@ -1,6 +1,9 @@
 from pathlib import Path
 
+import discord
+
 command_prefix = "."
+game_client = discord.Client()
 
 # Game Vars
 day_night_cycles_per_day = 6

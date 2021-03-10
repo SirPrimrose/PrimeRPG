@@ -1,9 +1,17 @@
-from discord import Embed
+import asyncio
+from asyncio import create_task
 
+from discord import Embed, Message, User
+
+from consts import speed_skill_id, game_client
 from data.entity_base import EntityBase
 from embeds.base_embed import BaseEmbed
-from embeds.common_embed import add_stat_field
+from embeds.common_embed import add_detailed_stat_field
+from embeds.recon_results_embed import ReconResultsEmbed
+from emojis import fight_emoji, heal_emoji, run_emoji
+from helpers.battle_helper import get_flee_chance, sim_fight
 from text_consts import no_space
+from util import get_current_in_game_time, get_current_in_game_weather
 
 
 class ReconEmbed(BaseEmbed):
@@ -11,17 +19,89 @@ class ReconEmbed(BaseEmbed):
         super().__init__()
         self.fighter_profile = fighter_profile
         self.enemy_profile = enemy_profile
+        self.embed_message = None
+        self.author = None
 
     def generate_embed(self) -> Embed:
+        # TODO Add random events into the recon action
+        # TODO Randomly select an enemy to fight based on player area
         embed = Embed(
-            title="Fight Status",
-            description="{} did some recon and fought a {}".format(
+            title="Recon",
+            description="{} did some recon and found a {}".format(
                 self.fighter_profile.name, self.enemy_profile.name
             ),
         )
+        embed.set_author(name=no_space, icon_url=self.fighter_profile.get_icon_url())
         embed.set_thumbnail(url=self.enemy_profile.get_icon_url())
-        embed.add_field(name="Ending Stats", value=no_space, inline=False)
-        add_stat_field(embed, self.fighter_profile.name, self.fighter_profile, True)
-        add_stat_field(embed, self.enemy_profile.name, self.enemy_profile, True)
-        embed.add_field(name="Rewards", value="Gold: 5", inline=False)
+        add_detailed_stat_field(
+            embed, self.fighter_profile.name, self.fighter_profile, True
+        )
+        add_detailed_stat_field(
+            embed, self.enemy_profile.name, self.enemy_profile, True
+        )
+        fighter_speed = self.fighter_profile.get_skill_value(speed_skill_id).level
+        enemy_speed = self.enemy_profile.get_skill_value(speed_skill_id).level
+        flee_chance = get_flee_chance(fighter_speed, enemy_speed)
+        action_text = "{} Fight\n{} Heal\n{} Run Away ({:.1f}%)".format(
+            fight_emoji,
+            heal_emoji,
+            run_emoji,
+            flee_chance * 100,
+        )
+        embed.add_field(name="Actions", value=action_text, inline=False)
+        embed.set_footer(
+            text="It is {} and {}".format(
+                get_current_in_game_time(), get_current_in_game_weather()
+            )
+        )
         return embed
+
+    async def connect_reaction_listener(self, embed_message: Message, author: User):
+        self.embed_message = embed_message
+        self.author = author
+        await asyncio.gather(
+            self.embed_message.add_reaction(fight_emoji),
+            self.embed_message.add_reaction(heal_emoji),
+            self.embed_message.add_reaction(run_emoji),
+            self.listen_for_reaction(),
+        )
+
+    async def listen_for_reaction(self):
+        try:
+            reaction, user = await game_client.wait_for(
+                "reaction_add", timeout=10.0, check=self.__reaction_check
+            )
+        except asyncio.TimeoutError:
+            await self.embed_message.channel.send("Failed to respond. Fighting...")
+            await self.start_fight()
+        else:
+            await self.handle_reaction(reaction)
+
+    async def handle_reaction(self, reaction):
+        if str(reaction) == fight_emoji:
+            await self.start_fight()
+        elif str(reaction) == heal_emoji:
+            await self.embed_message.channel.send("Attempt to heal")
+        elif str(reaction) == run_emoji:
+            await self.embed_message.channel.send("Attempt to run")
+        else:
+            await self.embed_message.channel.send("Failed to handle reaction")
+
+    async def start_fight(self):
+        sim_fight(self.fighter_profile, self.enemy_profile)
+        embed = ReconResultsEmbed(
+            self.fighter_profile, self.enemy_profile
+        ).generate_embed()
+        await self.embed_message.channel.send(embed=embed)
+
+    def __reaction_check(self, reaction, user):
+        return (
+            user == self.author
+            and reaction.message == self.embed_message
+            and str(reaction.emoji)
+            in [
+                fight_emoji,
+                heal_emoji,
+                run_emoji,
+            ]
+        )

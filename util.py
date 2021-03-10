@@ -14,25 +14,25 @@ base_xp_per_level = 100
 increased_xp_per_level = 40
 
 
-def get_current_in_game_time():
+def get_current_in_game_time() -> str:
     now = datetime.datetime.utcnow()
     return get_in_game_time(now)
 
 
-def get_in_game_time(time):
+def get_in_game_time(time: datetime) -> str:
     delta = datetime.timedelta(
         hours=time.hour, minutes=time.minute, seconds=time.second
     )
     new_delta = day_night_cycles_per_day * delta
-    return new_delta
+    return time_delta_to_str(new_delta)
 
 
-def get_current_in_game_weather():
+def get_current_in_game_weather() -> str:
     now = datetime.datetime.utcnow()
     return get_in_game_weather(now)
 
 
-def get_in_game_weather(time):
+def get_in_game_weather(time: datetime) -> str:
     scaled_time = int(time.timestamp()) / weather_frequency
     humidity = 0.5 * (sin(2 * scaled_time) + sin(pi * scaled_time))
     if humidity > 0:

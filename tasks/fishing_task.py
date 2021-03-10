@@ -33,6 +33,6 @@ def go_fish(time):
             return get_fish_from_table(ig_time, ig_weather)
 
 
-def get_fish_from_table(ig_time, ig_weather):
+def get_fish_from_table(ig_time: str, ig_weather: str):
     fish_table = get_fish(ig_time, ig_weather)
     return util.get_random_from_weighted_table(fish_table)
