@@ -42,18 +42,11 @@ async def on_message(msg):
     if msg.author == game_client.user:
         return
 
-    if not ready:
-        await msg.channel.send("Bot is still loading...")
-        return
-
-    if msg.content.startswith("boop"):
-        await msg.channel.send("beep")
-
-    if msg.content.startswith("beep"):
-        await msg.channel.send("boop")
-
     try:
         if msg.content.startswith(command_prefix):
+            if not ready:
+                await msg.channel.send("Bot is still loading...")
+                return
             await command_handler.handle_command(
                 msg, msg.content[len(command_prefix) :].split()
             )
