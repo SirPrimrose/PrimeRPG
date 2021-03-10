@@ -5,7 +5,6 @@ import discord
 from commands.command import Command
 from embeds.inventory_embed import InventoryEmbed
 from embeds.profile_embed import ProfileEmbed
-from embeds.recon_embed import ReconEmbed
 from helpers.player_helper import get_player_profile
 
 

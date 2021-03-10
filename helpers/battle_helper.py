@@ -3,6 +3,10 @@ import random
 
 from consts import speed_skill_id, luck_skill_id
 from data.entity_base import EntityBase
+from data.fight_log.damage_action import DamageAction
+from data.fight_log.fight_log import FightLog, ActionBase
+from data.fight_log.turn_action import TurnAction
+from data.player_profile import PlayerProfile
 
 attack_variance = 0.3
 crit_divider = 50
@@ -17,49 +21,49 @@ def get_damage(attack, armor):
         damage = (
             0.60307 * armor + attack - 0.79 * armor * math.exp(-0.27 * armor / attack)
         )
-        pass
     else:
         damage = (
             1 * (math.pow(attack, 3) / math.pow(armor, 2))
             - 0.09 * math.pow(attack, 2) / armor
             + 0.09 * attack
         )
-        pass
     return round(max(damage, 1))
 
 
-def sim_fight(attacker: EntityBase, defender: EntityBase):
+def sim_fight(attacker: EntityBase, defender: EntityBase) -> FightLog:
     """Simulates a fight between two StatEntity objects
 
     :param attacker:
     :param defender:
     :return: The winner of the fight
     """
+    log = FightLog()
     turn = 0
     while turn < 100:
-        print("Turn {}:".format(turn))
+        log.add_action(TurnAction(turn))
         if attacker.is_dead():
-            print("{} won!".format(defender.name))
-            return defender
+            log.add_action(ActionBase("{} won!".format(defender.name)))
+            return log
         if defender.is_dead():
-            print("{} won!".format(attacker.name))
-            return attacker
-        process_turn(attacker, defender)
-        process_turn(defender, attacker)
+            log.add_action(ActionBase("{} won!".format(defender.name)))
+            return log
+        process_turn(attacker, defender, log)
+        process_turn(defender, attacker, log)
         turn += 1
+    return log
 
 
-def process_turn(attacker: EntityBase, defender: EntityBase):
+def process_turn(attacker: EntityBase, defender: EntityBase, log: FightLog):
     if attacker.is_dead():
         return
     else:
-        print(process_attack(attacker, defender))
+        process_attack(attacker, defender, log)
         if random.random() < get_double_attack_chance(attacker, defender):
-            print("Double attack for {}!".format(attacker.name))
-            print(process_attack(attacker, defender))
+            log.add_action(ActionBase("Double attack for {}!".format(attacker.name)))
+            process_attack(attacker, defender, log)
 
 
-def process_attack(attacker: EntityBase, defender: EntityBase):
+def process_attack(attacker: EntityBase, defender: EntityBase, log: FightLog):
     modified_attack = get_variance() * attacker.get_attack_power()
 
     attacker_luck = attacker.get_skill_value(luck_skill_id).level
@@ -85,6 +89,15 @@ def process_attack(attacker: EntityBase, defender: EntityBase):
     defender.current_hp -= damage
     response += "{0} dealt {1:.2f} damage to {2}. {2} has {3:.2f} hp remaining.".format(
         attacker.name, damage, defender.name, defender.current_hp
+    )
+    log.add_action(
+        DamageAction(
+            attacker.name,
+            defender.name,
+            defender.current_hp,
+            damage,
+            type(attacker) == PlayerProfile,
+        )
     )
     return response
 

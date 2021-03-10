@@ -3,10 +3,10 @@ from commands.cm_collect import Collect
 from commands.cm_data import Data
 from commands.cm_dice import Dice
 from commands.cm_embed import EmbedCommand
-from commands.cm_recon import Recon
 from commands.cm_fish import Fish
 from commands.cm_hello import Hello
 from commands.cm_help import Help
+from commands.cm_recon import Recon
 from commands.cm_start import Start
 from commands.cm_time import Time
 from commands.cm_weather import Weather

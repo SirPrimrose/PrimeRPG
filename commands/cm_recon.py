@@ -4,7 +4,6 @@ import discord
 
 from commands.command import Command
 from embeds.recon_embed import ReconEmbed
-from helpers.battle_helper import sim_fight
 from helpers.player_helper import get_player_profile
 
 

@@ -1,12 +1,11 @@
 import asyncio
-from asyncio import create_task
 
 from discord import Embed, Message, User
 
 from consts import speed_skill_id, game_client
 from data.entity_base import EntityBase
 from embeds.base_embed import BaseEmbed
-from embeds.common_embed import add_detailed_stat_field
+from embeds.common_embed import add_detailed_stat_field, get_reaction_check
 from embeds.recon_results_embed import ReconResultsEmbed
 from emojis import fight_emoji, heal_emoji, run_emoji
 from helpers.battle_helper import get_flee_chance, sim_fight
@@ -15,12 +14,18 @@ from util import get_current_in_game_time, get_current_in_game_weather
 
 
 class ReconEmbed(BaseEmbed):
-    def __init__(self, fighter_profile: EntityBase, enemy_profile: EntityBase):
+    def __init__(
+        self,
+        fighter_profile: EntityBase,
+        enemy_profile: EntityBase,
+        embed_message: Message = None,
+        author=None,
+    ):
         super().__init__()
         self.fighter_profile = fighter_profile
         self.enemy_profile = enemy_profile
-        self.embed_message = None
-        self.author = None
+        self.embed_message = embed_message
+        self.author = author
 
     def generate_embed(self) -> Embed:
         # TODO Add random events into the recon action
@@ -56,7 +61,9 @@ class ReconEmbed(BaseEmbed):
         )
         return embed
 
-    async def connect_reaction_listener(self, embed_message: Message, author: User):
+    async def connect_reaction_listener(
+        self, embed_message: Message, author: User
+    ) -> None:
         self.embed_message = embed_message
         self.author = author
         await asyncio.gather(
@@ -69,7 +76,17 @@ class ReconEmbed(BaseEmbed):
     async def listen_for_reaction(self):
         try:
             reaction, user = await game_client.wait_for(
-                "reaction_add", timeout=10.0, check=self.__reaction_check
+                "reaction_add",
+                timeout=60.0,
+                check=get_reaction_check(
+                    self.embed_message,
+                    self.author,
+                    [
+                        fight_emoji,
+                        heal_emoji,
+                        run_emoji,
+                    ],
+                ),
             )
         except asyncio.TimeoutError:
             await self.embed_message.channel.send("Failed to respond. Fighting...")
@@ -88,20 +105,7 @@ class ReconEmbed(BaseEmbed):
             await self.embed_message.channel.send("Failed to handle reaction")
 
     async def start_fight(self):
-        sim_fight(self.fighter_profile, self.enemy_profile)
-        embed = ReconResultsEmbed(
-            self.fighter_profile, self.enemy_profile
-        ).generate_embed()
-        await self.embed_message.channel.send(embed=embed)
-
-    def __reaction_check(self, reaction, user):
-        return (
-            user == self.author
-            and reaction.message == self.embed_message
-            and str(reaction.emoji)
-            in [
-                fight_emoji,
-                heal_emoji,
-                run_emoji,
-            ]
-        )
+        fight_log = sim_fight(self.fighter_profile, self.enemy_profile)
+        embed = ReconResultsEmbed(self.fighter_profile, self.enemy_profile, fight_log)
+        msg = await self.embed_message.channel.send(embed=embed.generate_embed())
+        await embed.connect_reaction_listener(msg, self.author)

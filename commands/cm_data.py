@@ -2,9 +2,9 @@ from typing import List
 
 import discord
 
-from persistence.player_persistence import get_player
 from commands.command import Command
 from consts import command_prefix
+from persistence.player_persistence import get_player
 
 
 class Data(Command):

@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from discord import Embed
+from discord import Embed, User, Message
 
 
 class BaseEmbed:
@@ -9,4 +9,10 @@ class BaseEmbed:
 
     @abstractmethod
     def generate_embed(self) -> Embed:
+        pass
+
+    @abstractmethod
+    async def connect_reaction_listener(
+        self, embed_message: Message, author: User
+    ) -> None:
         pass

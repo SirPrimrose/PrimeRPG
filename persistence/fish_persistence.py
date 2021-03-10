@@ -1,7 +1,5 @@
 import json
-from datetime import timedelta
 
-import util
 from consts import data_folder
 from data.fish import Fish
 from persistence.common_persistence import insert_dictionary

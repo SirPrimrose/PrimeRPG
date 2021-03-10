@@ -1,4 +1,4 @@
-from data.player_core import idle_state, default_start_hp
+import consts
 from data.player_profile import PlayerProfile
 from data.player_skill import PlayerSkill
 from persistence.player_equipment_persistence import get_all_player_equipment
@@ -8,7 +8,6 @@ from persistence.player_skill_persistence import (
     insert_player_skill,
 )
 from persistence.skill_categories_persistence import get_all_skill_categories
-import consts
 from util import req_xp_for_level
 
 player_starting_stat = {

@@ -13,10 +13,16 @@ resistance_emoji = ":mirror:"
 speed_emoji = ":feather:"
 luck_emoji = ":four_leaf_clover:"
 
-fight_emoji = "<:YourFault:773361376558448681>"
-heal_emoji = "<:Heal:819307410334023720>"
-run_emoji = "<:JoshChad:639687592614297610>"
+player_heart = ":hearts:"
+enemy_heart = ":green_heart:"
 
+fight_emoji = "<:Fight:819317657266028574>"
+heal_emoji = "<:Heal:819307410334023720>"
+run_emoji = "<:RunAway:819318716486385705>"
+info_emoji = "<:NeverForget:717899422691885067>"
+attack_emoji = ":crossed_swords:"
+damage_emoji = ":boom:"
+turn_emoji = ":arrows_counterclockwise:"
 
 skill_emojis = {
     strength_emoji: consts.strength_skill_id,
