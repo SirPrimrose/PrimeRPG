@@ -7,6 +7,7 @@ from commands.cm_fish import Fish
 from commands.cm_hello import Hello
 from commands.cm_help import Help
 from commands.cm_recon import Recon
+from commands.cm_skills import Skills
 from commands.cm_start import Start
 from commands.cm_time import Time
 from commands.cm_weather import Weather
@@ -28,6 +29,7 @@ def load_commands():
     register(Weather())
     register(Recon())
     register(EmbedCommand())
+    register(Skills())
 
 
 def register(command):

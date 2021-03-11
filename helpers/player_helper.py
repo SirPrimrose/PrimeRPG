@@ -15,7 +15,7 @@ from persistence.skill_categories_persistence import get_all_skill_categories
 from util import req_xp_for_level
 
 player_starting_stat = {
-    consts.health_skill_id: req_xp_for_level(10),
+    consts.vitality_skill_id: req_xp_for_level(10),
     consts.strength_skill_id: 0,
     consts.dexterity_skill_id: 0,
     consts.defense_skill_id: 0,

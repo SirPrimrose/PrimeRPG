@@ -5,7 +5,7 @@
     "base_xp": 10,
     "icon_url": "https://i.imgur.com/026QYTo.png",
     "skills": {
-      "Health": 3,
+      "Vitality": 3,
       "Strength": 5,
       "Dexterity": 10,
       "Speed": 4,
@@ -21,7 +21,7 @@
     "base_xp": 40,
     "icon_url": "https://i.imgur.com/RskTsQK.png",
     "skills": {
-      "Health": 10,
+      "Vitality": 10,
       "Strength": 4,
       "Defense": 7
     },

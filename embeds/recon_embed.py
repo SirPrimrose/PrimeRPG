@@ -9,7 +9,6 @@ from embeds.common_embed import add_detailed_stat_field, get_reaction_check
 from embeds.recon_results_embed import ReconResultsEmbed
 from emojis import fight_emoji, heal_emoji, run_emoji
 from helpers.battle_helper import get_flee_chance, sim_fight
-from text_consts import no_space
 from util import get_current_in_game_time, get_current_in_game_weather
 
 
@@ -25,12 +24,11 @@ class ReconEmbed(BaseEmbed):
         # TODO Add random events into the recon action
         # TODO Randomly select an enemy to fight based on player area
         embed = Embed(
-            title="Recon",
             description="{} did some recon and found a {}".format(
                 self.fighter_profile.name, self.enemy_profile.name
             ),
         )
-        embed.set_author(name=no_space, icon_url=self.fighter_profile.get_icon_url())
+        embed.set_author(name="Recon", icon_url=self.fighter_profile.get_icon_url())
         embed.set_thumbnail(url=self.enemy_profile.get_icon_url())
         add_detailed_stat_field(
             embed, self.fighter_profile.name, self.fighter_profile, True

@@ -15,7 +15,8 @@ select_all_skill_categories_query = "SELECT * FROM %s" % skill_categories_table
 create_skill_categories_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
     "unique_id integer PRIMARY KEY NOT NULL, "
-    "name text NOT NULL)" % skill_categories_table
+    "name text NOT NULL, "
+    "short_name text NOT NULL)" % skill_categories_table
 )
 
 
@@ -29,6 +30,11 @@ def populate_skill_categories_table():
 
 
 def get_skill_category(unique_id: int) -> SkillCategory:
+    """If making a request to get the name or short name, prefer to use the methods provided in util.
+
+    :param unique_id: Unique id of the skill category
+    :return: The skill category
+    """
     cursor_obj = connection.cursor()
 
     stmt_args = (unique_id,)
@@ -54,6 +60,7 @@ def init_skill_category(db_row):
         return SkillCategory(
             db_row[0],
             db_row[1],
+            db_row[2],
         )
     else:
         return None

@@ -24,7 +24,7 @@ clear_weather = "clear"
 data_folder = Path("data/raw_data")
 
 # Skill ids
-health_skill_id = 1
+vitality_skill_id = 1
 strength_skill_id = 2
 dexterity_skill_id = 3
 defense_skill_id = 4

@@ -48,3 +48,8 @@ def get_reaction_check(embed_message, author: User, emoji_list: List[str]):
         )
 
     return __reaction_check
+
+
+def pretty_format_skill_level(level: int) -> str:
+    skill_level_text = "{}".format(level)
+    return "`{}{}`".format((2 - len(skill_level_text)) * " ", skill_level_text)

@@ -1,6 +1,7 @@
 import asyncio
 import os
 import sys
+import time
 from traceback import print_exc
 
 import command_handler
@@ -11,6 +12,9 @@ from persistence import persistence
 __DEBUG__ = bool(os.getenv("__DEBUG__"))
 
 # Main File Vars
+from persistence.skill_categories_persistence import get_skill_category
+from util import load_util_data, get_skill_category_name
+
 ready = False
 
 # Quick Config Options
@@ -19,6 +23,7 @@ start_app = True  # Start the bot application and connect to Discord. Disable to
 
 def app_setup():
     persistence.setup_db()
+    load_util_data()
     print("PrimeRPG setup complete")
 
 

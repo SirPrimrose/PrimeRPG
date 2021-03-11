@@ -3,7 +3,7 @@ import consts
 
 triumph_emoji = ":triumph:"
 
-health_emoji = ":heart:"
+vitality_emoji = ":heart:"
 strength_emoji = ":right_fist:"
 dexterity_emoji = ":dagger:"
 defense_emoji = ":shield:"
@@ -31,7 +31,7 @@ skill_emojis = {
     intellect_emoji: consts.intellect_skill_id,
     faith_emoji: consts.faith_skill_id,
     resistance_emoji: consts.resistance_skill_id,
-    health_emoji: consts.health_skill_id,
+    vitality_emoji: consts.vitality_skill_id,
     speed_emoji: consts.speed_skill_id,
     luck_emoji: consts.luck_skill_id,
 }

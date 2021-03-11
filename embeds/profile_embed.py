@@ -5,7 +5,11 @@ from discord import User, Embed, Message
 from consts import game_client
 from data.player_profile import PlayerProfile
 from embeds.base_embed import BaseEmbed
-from embeds.common_embed import add_detailed_stat_field, get_reaction_check
+from embeds.common_embed import (
+    add_detailed_stat_field,
+    get_reaction_check,
+    pretty_format_skill_level,
+)
 from emojis import skill_emojis, heal_emoji
 from text_consts import large_space, small_space
 from urls import profile_url
@@ -37,15 +41,13 @@ class ProfileEmbed(BaseEmbed):
                 filter(lambda s: s.skill_id == skill_id, self.player_profile.skills),
                 None,
             )
-            if skill:
-                skill_level_text = "{}".format(skill.level)
-                skill_text = "`{}{}`".format(
-                    (2 - len(skill_level_text)) * " ", skill_level_text
-                )
-                value += "{2}{0}{3}{1}{2}|".format(
-                    skill_emoji, skill_text, large_space, small_space
-                )
-                skills_on_line += 1
+            value += "{2}{0}{3}{1}{2}|".format(
+                skill_emoji,
+                pretty_format_skill_level(skill.level),
+                large_space,
+                small_space,
+            )
+            skills_on_line += 1
 
         embed.add_field(name="Skills", value=value, inline=False)
         return embed

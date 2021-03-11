@@ -2,6 +2,7 @@ import datetime
 import math
 import random
 from math import sin, pi
+from typing import List
 
 from consts import (
     day_night_cycles_per_day,
@@ -9,9 +10,46 @@ from consts import (
     clear_weather,
     weather_frequency,
 )
+from data.skill_category import SkillCategory
+from persistence.skill_categories_persistence import get_all_skill_categories
 
+does_not_exist_string = "DNE"
 base_xp_per_level = 100
 increased_xp_per_level = 40
+skill_categories: List[SkillCategory] = []
+
+
+def load_util_data() -> None:
+    global skill_categories
+    skill_categories = get_all_skill_categories()
+
+
+def get_skill_category_name(skill_id: int) -> str:
+    """Gets the skill category name without hitting the database
+
+    :param skill_id: Unique id of the skill category
+    :return: The name of the skill category, or "DNE" if it does not exist
+    """
+    try:
+        return next(
+            filter(lambda skill: skill.unique_id == skill_id, skill_categories)
+        ).name
+    except StopIteration:
+        return does_not_exist_string
+
+
+def get_skill_category_short_name(skill_id: int) -> str:
+    """Gets the skill category short name without hitting the database
+
+    :param skill_id: Unique id of the skill category
+    :return: The name of the skill category, or "DNE" if it does not exist
+    """
+    try:
+        return next(
+            filter(lambda skill: skill.unique_id == skill_id, skill_categories)
+        ).short_name
+    except StopIteration:
+        return does_not_exist_string
 
 
 def get_current_in_game_time() -> str:

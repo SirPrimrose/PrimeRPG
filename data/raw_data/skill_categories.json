@@ -1,38 +1,47 @@
 [
   {
     "unique_id": 1,
-    "name": "Health"
+    "name": "Vitality",
+    "short_name": "VIT"
   },
   {
     "unique_id": 2,
-    "name": "Strength"
+    "name": "Strength",
+    "short_name": "STR"
   },
   {
     "unique_id": 3,
-    "name": "Dexterity"
+    "name": "Dexterity",
+    "short_name": "DEX"
   },
   {
     "unique_id": 4,
-    "name": "Defense"
+    "name": "Defense",
+    "short_name": "DEF"
   },
   {
     "unique_id": 5,
-    "name": "Intellect"
+    "name": "Intellect",
+    "short_name": "INT"
   },
   {
     "unique_id": 6,
-    "name": "Faith"
+    "name": "Faith",
+    "short_name": "FTH"
   },
   {
     "unique_id": 7,
-    "name": "Resistance"
+    "name": "Resistance",
+    "short_name": "RES"
   },
   {
     "unique_id": 8,
-    "name": "Speed"
+    "name": "Speed",
+    "short_name": "SPD"
   },
   {
     "unique_id": 9,
-    "name": "Luck"
+    "name": "Luck",
+    "short_name": "LCK"
   }
 ]

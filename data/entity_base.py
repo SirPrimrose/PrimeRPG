@@ -2,7 +2,7 @@ from math import floor
 from typing import List
 
 from consts import (
-    health_skill_id,
+    vitality_skill_id,
     strength_skill_id,
     dexterity_skill_id,
     intellect_skill_id,
@@ -51,7 +51,7 @@ class EntityBase:
         return self.current_hp <= 0
 
     def get_max_hp(self):
-        return self.get_skill_level(health_skill_id) * 10
+        return self.get_skill_level(vitality_skill_id) * 10
 
     def get_combat_level(self):
         phys_atk = self.get_skill_level(strength_skill_id) + self.get_skill_level(
@@ -63,7 +63,7 @@ class EntityBase:
         phys_def = self.get_skill_level(defense_skill_id)
         mag_def = self.get_skill_level(resistance_skill_id)
         aux = self.get_skill_level(speed_skill_id) + self.get_skill_level(luck_skill_id)
-        hp = self.get_skill_level(health_skill_id)
+        hp = self.get_skill_level(vitality_skill_id)
         atk_cb = max(phys_atk, mag_atk) + 0.25 * min(phys_atk, mag_atk)
         def_cb = max(phys_def, mag_def) + 0.25 * min(phys_def, mag_def)
         return floor((atk_cb + def_cb + aux + hp) / 5)
