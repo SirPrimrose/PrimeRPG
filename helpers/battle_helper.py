@@ -4,7 +4,7 @@ import random
 from consts import speed_skill_id, luck_skill_id
 from data.entity_base import EntityBase
 from data.fight_log.damage_action import DamageAction
-from data.fight_log.fight_log import FightLog, ActionBase
+from data.fight_log.fight_log import FightLog
 from data.fight_log.message_action import MessageAction
 from data.fight_log.turn_action import TurnAction
 from data.player_profile import PlayerProfile

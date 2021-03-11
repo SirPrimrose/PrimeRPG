@@ -58,14 +58,22 @@ def get_all_player_equipment(player_id: int) -> List[PlayerEquipment]:
 
 def insert_player_equipment(equipment: PlayerEquipment):
     stmt = insert_player_equipment_query
-    stmt_args = (equipment.player_id, equipment.equipment_slot_id, equipment.item_id)
-    queue_transaction(equipment.player_id, stmt, stmt_args)
+    stmt_args = (
+        equipment.get_player_id(),
+        equipment.equipment_slot_id,
+        equipment.item_id,
+    )
+    queue_transaction(equipment.get_player_id(), stmt, stmt_args)
 
 
 def update_player_equipment(equipment: PlayerEquipment):
     stmt = update_player_equipment_query
-    stmt_args = (equipment.item_id, equipment.player_id, equipment.equipment_slot_id)
-    queue_transaction(equipment.player_id, stmt, stmt_args)
+    stmt_args = (
+        equipment.item_id,
+        equipment.get_player_id(),
+        equipment.equipment_slot_id,
+    )
+    queue_transaction(equipment.get_player_id(), stmt, stmt_args)
 
 
 def delete_player_equipment(player_id: int):

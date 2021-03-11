@@ -1,4 +1,4 @@
-from discord import User, Embed
+from discord import User, Embed, Message
 
 from embeds.base_embed import BaseEmbed
 from persistence.inventory_persistence import get_all_inventory_items
@@ -8,9 +8,8 @@ from urls import backpack_url
 
 class InventoryEmbed(BaseEmbed):
     def __init__(self, player_id: int, author: User):
-        super().__init__()
+        super().__init__(author)
         self.player_id = player_id
-        self.author = author
 
     def generate_embed(self) -> Embed:
         embed = Embed(title="My Player Inventory")
@@ -27,3 +26,6 @@ class InventoryEmbed(BaseEmbed):
             inline=False,
         )
         return embed
+
+    async def connect_reaction_listener(self, embed_message: Message) -> None:
+        pass

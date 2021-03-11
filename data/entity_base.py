@@ -1,5 +1,5 @@
 from math import floor
-from typing import List, Optional
+from typing import List
 
 from consts import (
     health_skill_id,

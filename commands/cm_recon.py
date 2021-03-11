@@ -21,6 +21,6 @@ class Recon(Command):
         player_id = msg.author.id
         player_profile = get_player_profile(player_id)
         mob_profile = get_mob_profile(1)
-        embed = ReconEmbed(player_profile, mob_profile)
+        embed = ReconEmbed(player_profile, mob_profile, msg.author)
         embed_message = await msg.channel.send(embed=embed.generate_embed())
-        await embed.connect_reaction_listener(embed_message, msg.author)
+        await embed.connect_reaction_listener(embed_message)

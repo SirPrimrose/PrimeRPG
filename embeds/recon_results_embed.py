@@ -17,13 +17,12 @@ class ReconResultsEmbed(BaseEmbed):
         fighter_profile: EntityBase,
         enemy_profile: EntityBase,
         fight_log: FightLog,
+        author: User,
     ):
-        super().__init__()
+        super().__init__(author)
         self.fighter_profile = fighter_profile
         self.enemy_profile = enemy_profile
         self.fight_log = fight_log
-        self.embed_message = None
-        self.author = None
 
     def generate_embed(self) -> Embed:
         embed = Embed()
@@ -48,11 +47,8 @@ class ReconResultsEmbed(BaseEmbed):
         embed.add_field(name="Rewards", value="Gold: 5", inline=False)
         return embed
 
-    async def connect_reaction_listener(
-        self, embed_message: Message, author: User
-    ) -> None:
+    async def connect_reaction_listener(self, embed_message: Message) -> None:
         self.embed_message = embed_message
-        self.author = author
         await asyncio.gather(
             self.embed_message.add_reaction(info_emoji),
             self.listen_for_reaction(),

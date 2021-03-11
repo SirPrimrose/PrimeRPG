@@ -1,6 +1,5 @@
 from typing import List
 
-from consts import strength_skill_id, defense_skill_id
 from data.entity_base import EntityBase
 from data.entity_equipment import EntityEquipment
 from data.entity_skill import EntitySkill

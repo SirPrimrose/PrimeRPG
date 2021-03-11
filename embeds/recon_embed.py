@@ -15,17 +15,11 @@ from util import get_current_in_game_time, get_current_in_game_weather
 
 class ReconEmbed(BaseEmbed):
     def __init__(
-        self,
-        fighter_profile: EntityBase,
-        enemy_profile: EntityBase,
-        embed_message: Message = None,
-        author=None,
+        self, fighter_profile: EntityBase, enemy_profile: EntityBase, author: User
     ):
-        super().__init__()
+        super().__init__(author)
         self.fighter_profile = fighter_profile
         self.enemy_profile = enemy_profile
-        self.embed_message = embed_message
-        self.author = author
 
     def generate_embed(self) -> Embed:
         # TODO Add random events into the recon action
@@ -61,11 +55,8 @@ class ReconEmbed(BaseEmbed):
         )
         return embed
 
-    async def connect_reaction_listener(
-        self, embed_message: Message, author: User
-    ) -> None:
+    async def connect_reaction_listener(self, embed_message: Message) -> None:
         self.embed_message = embed_message
-        self.author = author
         await asyncio.gather(
             self.embed_message.add_reaction(fight_emoji),
             self.embed_message.add_reaction(heal_emoji),
@@ -106,6 +97,8 @@ class ReconEmbed(BaseEmbed):
 
     async def start_fight(self):
         fight_log = sim_fight(self.fighter_profile, self.enemy_profile)
-        embed = ReconResultsEmbed(self.fighter_profile, self.enemy_profile, fight_log)
+        embed = ReconResultsEmbed(
+            self.fighter_profile, self.enemy_profile, fight_log, self.author
+        )
         msg = await self.embed_message.channel.send(embed=embed.generate_embed())
-        await embed.connect_reaction_listener(msg, self.author)
+        await embed.connect_reaction_listener(msg)

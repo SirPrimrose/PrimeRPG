@@ -4,7 +4,9 @@ from discord import Embed, User, Message
 
 
 class BaseEmbed:
-    def __init__(self):
+    def __init__(self, author: User):
+        self.embed_message = None
+        self.author = author
         pass
 
     @abstractmethod
@@ -12,7 +14,5 @@ class BaseEmbed:
         pass
 
     @abstractmethod
-    async def connect_reaction_listener(
-        self, embed_message: Message, author: User
-    ) -> None:
+    async def connect_reaction_listener(self, embed_message: Message) -> None:
         pass

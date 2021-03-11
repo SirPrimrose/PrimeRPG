@@ -84,14 +84,14 @@ def get_all_mob_equipment(mob_id: int) -> List[MobEquipment]:
 
 def insert_mob_equipment(equipment: MobEquipment):
     stmt = insert_mob_equipment_query
-    stmt_args = (equipment.mob_id, equipment.equipment_slot_id, equipment.item_id)
-    queue_transaction(equipment.mob_id, stmt, stmt_args)
+    stmt_args = (equipment.get_mob_id(), equipment.equipment_slot_id, equipment.item_id)
+    queue_transaction(equipment.get_mob_id(), stmt, stmt_args)
 
 
 def update_mob_equipment(equipment: MobEquipment):
     stmt = update_mob_equipment_query
-    stmt_args = (equipment.item_id, equipment.mob_id, equipment.equipment_slot_id)
-    queue_transaction(equipment.mob_id, stmt, stmt_args)
+    stmt_args = (equipment.item_id, equipment.get_mob_id(), equipment.equipment_slot_id)
+    queue_transaction(equipment.get_mob_id(), stmt, stmt_args)
 
 
 def delete_mob_equipment(mob_id: int):
