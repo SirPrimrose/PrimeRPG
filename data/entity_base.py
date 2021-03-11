@@ -26,7 +26,7 @@ class EntityBase:
         icon_url: str,
         skills: List[EntitySkill],
         equipment: List[EntityEquipment],
-        current_hp: int = None,
+        current_hp: float = None,
     ):
         self.name = name
         self.icon_url = icon_url
@@ -50,8 +50,20 @@ class EntityBase:
     def is_dead(self):
         return self.current_hp <= 0
 
-    def get_max_hp(self):
-        return self.get_skill_level(vitality_skill_id) * 10
+    def get_max_hp(self) -> float:
+        vitality = self.get_skill_level(vitality_skill_id)
+        if vitality < 10:
+            return vitality * 50
+        elif vitality < 20:
+            return (vitality - 10) * 40 + 500
+        elif vitality < 30:
+            return (vitality - 20) * 30 + 500 + 400
+        elif vitality < 40:
+            return (vitality - 30) * 25 + 500 + 400 + 300
+        elif vitality < 50:
+            return (vitality - 40) * 20 + 500 + 400 + 300 + 250
+        else:
+            return (vitality - 50) * 15 + 500 + 400 + 300 + 250 + 200
 
     def get_combat_level(self):
         phys_atk = self.get_skill_level(strength_skill_id) + self.get_skill_level(
@@ -60,10 +72,12 @@ class EntityBase:
         mag_atk = self.get_skill_level(intellect_skill_id) + self.get_skill_level(
             faith_skill_id
         )
-        phys_def = self.get_skill_level(defense_skill_id)
-        mag_def = self.get_skill_level(resistance_skill_id)
-        aux = self.get_skill_level(speed_skill_id) + self.get_skill_level(luck_skill_id)
-        hp = self.get_skill_level(vitality_skill_id)
+        phys_def = self.get_skill_level(defense_skill_id) * 0.75
+        mag_def = self.get_skill_level(resistance_skill_id) * 0.75
+        aux = (
+            self.get_skill_level(speed_skill_id) + self.get_skill_level(luck_skill_id)
+        ) * 0.5
+        hp = self.get_skill_level(vitality_skill_id) * 0.5
         atk_cb = max(phys_atk, mag_atk) + 0.25 * min(phys_atk, mag_atk)
         def_cb = max(phys_def, mag_def) + 0.25 * min(phys_def, mag_def)
         return floor((atk_cb + def_cb + aux + hp) / 5)
@@ -84,6 +98,7 @@ class EntityBase:
     def get_armor_power(self):
         armor_power = 10
         for e in self.equipment:
+            # TODO Preload this data so it isn't fetched from the database
             armor_power_stat = get_equipment_stat(e.item_id, armor_stat_id)
             if armor_power_stat:
                 armor_power += self.apply_scaling(armor_power_stat)
@@ -99,3 +114,12 @@ class EntityBase:
                 scaling_values.append(base_value * scaling * (skill.level / 100))
 
         return base_value + sum(scaling_values)
+
+    def give_skill_effort(self, skill_id, value):
+        if value < 0:
+            return
+        try:
+            result = next(filter(lambda skill: skill.skill_id == skill_id, self.skills))
+            result.modify_xp(value)
+        except StopIteration:
+            result = None

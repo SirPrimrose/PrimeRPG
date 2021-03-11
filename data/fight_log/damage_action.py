@@ -7,7 +7,7 @@ class DamageAction(ActionBase):
         self,
         attacker_name: str,
         defender_name: str,
-        defender_hp: int,
+        defender_hp: float,
         damage: int,
         player_attacking,
     ):

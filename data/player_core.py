@@ -7,7 +7,7 @@ player_states = enumerate([idle_state, gathering_state])
 
 class PlayerCore:
     def __init__(
-        self, unique_id: int, name: str, avatar_url: str, state: str, current_hp: int
+        self, unique_id: int, name: str, avatar_url: str, state: str, current_hp: float
     ):
         self.unique_id = unique_id
         self.name = name

@@ -9,9 +9,7 @@ create_players_query = (
     "name text NOT NULL, "
     "avatar_url text NOT NULL, "
     "state text DEFAULT {1}, "
-    "current_hp integer DEFAULT {2})".format(
-        players_table, idle_state, default_start_hp
-    )
+    "current_hp real DEFAULT {2})".format(players_table, idle_state, default_start_hp)
 )
 insert_players_query = (
     "INSERT INTO %s (unique_id, name, avatar_url) VALUES (?, ?, ?)" % players_table

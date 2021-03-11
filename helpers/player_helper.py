@@ -5,11 +5,19 @@ from data.player_skill import PlayerSkill
 from persistence.mob_equipment_persistence import get_all_mob_equipment
 from persistence.mob_persistence import get_mob
 from persistence.mob_skill_persistence import get_all_mob_skills
-from persistence.player_equipment_persistence import get_all_player_equipment
-from persistence.player_persistence import insert_player_data, get_player
+from persistence.player_equipment_persistence import (
+    get_all_player_equipment,
+    update_player_equipment,
+)
+from persistence.player_persistence import (
+    insert_player_data,
+    get_player,
+    update_player_data,
+)
 from persistence.player_skill_persistence import (
     get_all_player_skills,
     insert_player_skill,
+    update_player_skill,
 )
 from persistence.skill_categories_persistence import get_all_skill_categories
 from util import req_xp_for_level
@@ -42,6 +50,14 @@ def get_player_profile(player_id) -> PlayerProfile:
     skills = get_all_player_skills(player_id)
     equipment = get_all_player_equipment(player_id)
     return PlayerProfile(core, skills, equipment)
+
+
+def save_player_profile(player_profile: PlayerProfile):
+    update_player_data(player_profile.core)
+    for skill in player_profile.skills:
+        update_player_skill(skill)
+    for equipment in player_profile.equipment:
+        update_player_equipment(equipment)
 
 
 def get_mob_profile(mob_id) -> MobProfile:

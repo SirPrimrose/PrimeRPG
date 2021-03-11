@@ -87,7 +87,8 @@ class ReconResultsEmbed(BaseEmbed):
         for log in self.fight_log.actions:
             if type(log) == TurnAction:
                 await check_add_turn_to_response()
-            current_turn += "{}\n".format(log.get_message())
+            current_turn += "\n" if log.newline else ""
+            current_turn += "{}".format(log.get_message())
         await check_add_turn_to_response()
 
         await self.embed_message.channel.send(response)

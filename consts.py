@@ -34,6 +34,18 @@ resistance_skill_id = 7
 speed_skill_id = 8
 luck_skill_id = 9
 
+skill_ids = [
+    vitality_skill_id,
+    strength_skill_id,
+    dexterity_skill_id,
+    defense_skill_id,
+    intellect_skill_id,
+    faith_skill_id,
+    resistance_skill_id,
+    speed_skill_id,
+    luck_skill_id,
+]
+
 # Equipment Stat ids
 attack_stat_id = 1
 armor_stat_id = 2

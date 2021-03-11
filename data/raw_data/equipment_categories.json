@@ -11,7 +11,22 @@
   },
   {
     "unique_id": 2,
-    "name": "Helmet",
+    "name": "Head",
+    "max_num": 1
+  },
+  {
+    "unique_id": 3,
+    "name": "Chest",
+    "max_num": 1
+  },
+  {
+    "unique_id": 4,
+    "name": "Legs",
+    "max_num": 1
+  },
+  {
+    "unique_id": 5,
+    "name": "Feet",
     "max_num": 1
   }
 ]

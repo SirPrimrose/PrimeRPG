@@ -1,37 +1,71 @@
 [
   {
-    "unique_id": 1,
+    "unique_id": 101,
     "item_category_id": 1,
     "equipment_category_id": 0,
     "name": "Minnow",
     "value": 100
   },
   {
-    "unique_id": 2,
+    "unique_id": 102,
     "item_category_id": 1,
     "equipment_category_id": 0,
     "name": "Carp",
     "value": 100
   },
   {
-    "unique_id": 3,
+    "unique_id": 103,
     "item_category_id": 1,
     "equipment_category_id": 0,
     "name": "Catfish",
     "value": 100
   },
   {
-    "unique_id": 4,
+    "unique_id": 201,
     "item_category_id": 3,
     "equipment_category_id": 1,
-    "name": "Starter Sword",
-    "value": 100,
+    "name": "Toy Club",
+    "value": 10,
     "stats": [
       {
         "Attack Power": {
-          "value": 10,
+          "value": 3,
           "scales_with": {
-            "Strength": 10,
+            "Strength": 5
+          }
+        }
+      }
+    ]
+  },
+  {
+    "unique_id": 202,
+    "item_category_id": 3,
+    "equipment_category_id": 1,
+    "name": "Toy Sword",
+    "value": 10,
+    "stats": [
+      {
+        "Attack Power": {
+          "value": 3,
+          "scales_with": {
+            "Strength": 3,
+            "Dexterity": 3
+          }
+        }
+      }
+    ]
+  },
+  {
+    "unique_id": 203,
+    "item_category_id": 3,
+    "equipment_category_id": 1,
+    "name": "Toy Bow",
+    "value": 10,
+    "stats": [
+      {
+        "Attack Power": {
+          "value": 3,
+          "scales_with": {
             "Dexterity": 5
           }
         }
@@ -39,17 +73,105 @@
     ]
   },
   {
-    "unique_id": 5,
+    "unique_id": 204,
+    "item_category_id": 3,
+    "equipment_category_id": 1,
+    "name": "Wooden Club",
+    "value": 100,
+    "stats": [
+      {
+        "Attack Power": {
+          "value": 5,
+          "scales_with": {
+            "Strength": 10
+          }
+        }
+      }
+    ]
+  },
+  {
+    "unique_id": 205,
+    "item_category_id": 3,
+    "equipment_category_id": 1,
+    "name": "Wooden Sword",
+    "value": 100,
+    "stats": [
+      {
+        "Attack Power": {
+          "value": 5,
+          "scales_with": {
+            "Strength": 6,
+            "Dexterity": 6
+          }
+        }
+      }
+    ]
+  },
+  {
+    "unique_id": 206,
+    "item_category_id": 3,
+    "equipment_category_id": 1,
+    "name": "Wooden Bow",
+    "value": 100,
+    "stats": [
+      {
+        "Attack Power": {
+          "value": 5,
+          "scales_with": {
+            "Dexterity": 10
+          }
+        }
+      }
+    ]
+  },
+  {
+    "unique_id": 301,
     "item_category_id": 3,
     "equipment_category_id": 2,
     "name": "Starter Helmet",
+    "value": 10,
+    "stats": [
+      {
+        "Armor": {
+          "value": 2,
+          "scales_with": {
+            "Defense": 5
+          }
+        }
+      }
+    ]
+  },
+  {
+    "unique_id": 302,
+    "item_category_id": 3,
+    "equipment_category_id": 2,
+    "name": "Wooden Helmet",
     "value": 100,
     "stats": [
       {
         "Armor": {
-          "value": 10,
+          "value": 4,
           "scales_with": {
-            "Defense": 5
+            "Defense": 10
+          }
+        }
+      }
+    ]
+  },
+  {
+    "unique_id": 501,
+    "item_category_id": 3,
+    "equipment_category_id": 1,
+    "name": "Claw",
+    "value": 10,
+    "stats": [
+      {
+        "Attack Power": {
+          "value": 6,
+          "scales_with": {
+            "Strength": 4,
+            "Dexterity": 3,
+            "Speed": 2
           }
         }
       }

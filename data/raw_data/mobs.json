@@ -5,14 +5,14 @@
     "base_xp": 10,
     "icon_url": "https://i.imgur.com/026QYTo.png",
     "skills": {
-      "Vitality": 3,
-      "Strength": 5,
-      "Dexterity": 10,
+      "Vitality": 1,
+      "Strength": 2,
+      "Dexterity": 4,
       "Speed": 4,
       "Luck": 11
     },
     "equipment": {
-      "Weapon": "Starter Sword"
+      "Weapon": "Wooden Club"
     }
   },
   {
@@ -21,12 +21,13 @@
     "base_xp": 40,
     "icon_url": "https://i.imgur.com/RskTsQK.png",
     "skills": {
-      "Vitality": 10,
+      "Vitality": 4,
       "Strength": 4,
-      "Defense": 7
+      "Defense": 7,
+      "Speed": 1
     },
     "equipment": {
-      "Weapon": "Starter Sword"
+      "Weapon": "Claw"
     }
   }
 ]

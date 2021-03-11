@@ -4,11 +4,13 @@ from discord import Embed, Message, User
 
 from consts import speed_skill_id, game_client
 from data.entity_base import EntityBase
+from data.player_profile import PlayerProfile
 from embeds.base_embed import BaseEmbed
 from embeds.common_embed import add_detailed_stat_field, get_reaction_check
 from embeds.recon_results_embed import ReconResultsEmbed
 from emojis import fight_emoji, heal_emoji, run_emoji
 from helpers.battle_helper import get_flee_chance, sim_fight
+from helpers.player_helper import save_player_profile
 from util import get_current_in_game_time, get_current_in_game_weather
 
 
@@ -95,6 +97,7 @@ class ReconEmbed(BaseEmbed):
 
     async def start_fight(self):
         fight_log = sim_fight(self.fighter_profile, self.enemy_profile)
+        save_player_profile(self.fighter_profile)
         embed = ReconResultsEmbed(
             self.fighter_profile, self.enemy_profile, fight_log, self.author
         )
