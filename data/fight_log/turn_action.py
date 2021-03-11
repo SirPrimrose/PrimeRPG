@@ -3,8 +3,8 @@ from emojis import turn_emoji
 
 
 class TurnAction(ActionBase):
-    def __init__(self, turn_number: int, *args):
-        super(ActionBase, self).__init__(*args)
+    def __init__(self, turn_number: int):
+        super().__init__()
         self.turn_number = turn_number
 
     def get_message(self):

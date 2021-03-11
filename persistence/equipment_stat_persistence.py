@@ -72,7 +72,7 @@ def get_equipment_stat(item_id: int, equipment_stat_category_id: int) -> Equipme
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchone()
 
-    return result
+    return init_equipment_stat(result)
 
 
 def get_equipment_stats(item_id: int) -> List[EquipmentStat]:
@@ -92,7 +92,7 @@ def init_equipment_stat(db_row):
             db_row[0],
             db_row[1],
             db_row[2],
-            dict(db_row[3]),
+            eval(db_row[3]),
         )
     else:
         return None

@@ -12,7 +12,8 @@ create_mobs_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
     "unique_id integer PRIMARY KEY NOT NULL,"
     "name text NOT NULL,"
-    "base_xp integer NOT NULL)" % mobs_table
+    "base_xp integer NOT NULL,"
+    "icon_url text NOT NULL)" % mobs_table
 )
 
 
@@ -44,6 +45,7 @@ def init_mob(db_row):
             db_row[0],
             db_row[1],
             db_row[2],
+            db_row[3],
         )
     else:
         return None

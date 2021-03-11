@@ -9,6 +9,7 @@ from persistence.common_persistence import (
 )
 from persistence.connection_handler import connection, queue_transaction
 from persistence.skill_categories_persistence import get_all_skill_categories
+from util import req_xp_for_level
 
 mob_skills_table = "mob_skills"
 
@@ -44,7 +45,7 @@ def populate_mob_skills_table():
                 mob_skill = {
                     "mob_id": mob["unique_id"],
                     "skill_id": skill_id,
-                    "total_xp": skill_value,
+                    "total_xp": req_xp_for_level(skill_value),
                 }
                 insert_dictionary(mob_skills_table, mob_skill)
 

@@ -1,6 +1,10 @@
 import consts
+from data.mob_profile import MobProfile
 from data.player_profile import PlayerProfile
 from data.player_skill import PlayerSkill
+from persistence.mob_equipment_persistence import get_all_mob_equipment
+from persistence.mob_persistence import get_mob
+from persistence.mob_skill_persistence import get_all_mob_skills
 from persistence.player_equipment_persistence import get_all_player_equipment
 from persistence.player_persistence import insert_player_data, get_player
 from persistence.player_skill_persistence import (
@@ -38,3 +42,10 @@ def get_player_profile(player_id) -> PlayerProfile:
     skills = get_all_player_skills(player_id)
     equipment = get_all_player_equipment(player_id)
     return PlayerProfile(core, skills, equipment)
+
+
+def get_mob_profile(mob_id) -> MobProfile:
+    core = get_mob(mob_id)
+    skills = get_all_mob_skills(mob_id)
+    equipment = get_all_mob_equipment(mob_id)
+    return MobProfile(core, core.name, core.icon_url, skills, equipment)

@@ -10,9 +10,8 @@ class DamageAction(ActionBase):
         defender_hp: int,
         damage: int,
         player_attacking,
-        *args
     ):
-        super(ActionBase, self).__init__(*args)
+        super().__init__()
         self.attacker_name = attacker_name
         self.defender_name = defender_name
         self.defender_hp = defender_hp

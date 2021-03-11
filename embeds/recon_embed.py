@@ -44,8 +44,8 @@ class ReconEmbed(BaseEmbed):
         add_detailed_stat_field(
             embed, self.enemy_profile.name, self.enemy_profile, True
         )
-        fighter_speed = self.fighter_profile.get_skill_value(speed_skill_id).level
-        enemy_speed = self.enemy_profile.get_skill_value(speed_skill_id).level
+        fighter_speed = self.fighter_profile.get_skill_level(speed_skill_id)
+        enemy_speed = self.enemy_profile.get_skill_level(speed_skill_id)
         flee_chance = get_flee_chance(fighter_speed, enemy_speed)
         action_text = "{} Fight\n{} Heal\n{} Run Away ({:.1f}%)".format(
             fight_emoji,

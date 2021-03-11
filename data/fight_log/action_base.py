@@ -1,6 +1,10 @@
-class ActionBase:
-    def __init__(self, message):
-        self.message = message
+from abc import abstractmethod
 
+
+class ActionBase:
+    def __init__(self):
+        pass
+
+    @abstractmethod
     def get_message(self):
-        return self.message
+        pass

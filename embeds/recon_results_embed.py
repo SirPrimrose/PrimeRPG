@@ -79,13 +79,19 @@ class ReconResultsEmbed(BaseEmbed):
     async def print_log(self):
         response = ""
         current_turn = ""
+
+        async def check_add_turn_to_response():
+            nonlocal response, current_turn
+            if len(response) + len(current_turn) >= 2000:
+                await self.embed_message.channel.send(response)
+                response = ""
+            response += current_turn
+            current_turn = ""
+
         for log in self.fight_log.actions:
             if type(log) == TurnAction:
-                if len(response) + len(current_turn) >= 2000:
-                    await self.embed_message.channel.send(response)
-                    response = ""
-                response += current_turn
-                current_turn = ""
+                await check_add_turn_to_response()
             current_turn += "{}\n".format(log.get_message())
+        await check_add_turn_to_response()
 
         await self.embed_message.channel.send(response)

@@ -5,6 +5,7 @@ from consts import speed_skill_id, luck_skill_id
 from data.entity_base import EntityBase
 from data.fight_log.damage_action import DamageAction
 from data.fight_log.fight_log import FightLog, ActionBase
+from data.fight_log.message_action import MessageAction
 from data.fight_log.turn_action import TurnAction
 from data.player_profile import PlayerProfile
 
@@ -42,10 +43,10 @@ def sim_fight(attacker: EntityBase, defender: EntityBase) -> FightLog:
     while turn < 100:
         log.add_action(TurnAction(turn))
         if attacker.is_dead():
-            log.add_action(ActionBase("{} won!".format(defender.name)))
+            log.add_action(MessageAction("{} won!".format(defender.name)))
             return log
         if defender.is_dead():
-            log.add_action(ActionBase("{} won!".format(defender.name)))
+            log.add_action(MessageAction("{} won!".format(attacker.name)))
             return log
         process_turn(attacker, defender, log)
         process_turn(defender, attacker, log)
@@ -59,17 +60,17 @@ def process_turn(attacker: EntityBase, defender: EntityBase, log: FightLog):
     else:
         process_attack(attacker, defender, log)
         if random.random() < get_double_attack_chance(attacker, defender):
-            log.add_action(ActionBase("Double attack for {}!".format(attacker.name)))
+            log.add_action(MessageAction("Double attack for {}!".format(attacker.name)))
             process_attack(attacker, defender, log)
 
 
 def process_attack(attacker: EntityBase, defender: EntityBase, log: FightLog):
     modified_attack = get_variance() * attacker.get_attack_power()
 
-    attacker_luck = attacker.get_skill_value(luck_skill_id).level
-    defender_luck = attacker.get_skill_value(luck_skill_id).level
-    attacker_speed = attacker.get_skill_value(speed_skill_id).level
-    defender_speed = attacker.get_skill_value(speed_skill_id).level
+    attacker_luck = attacker.get_skill_level(luck_skill_id)
+    defender_luck = attacker.get_skill_level(luck_skill_id)
+    attacker_speed = attacker.get_skill_level(speed_skill_id)
+    defender_speed = attacker.get_skill_level(speed_skill_id)
     crit = random.random() < get_crit_chance(attacker_luck)
 
     response = ""
@@ -111,8 +112,8 @@ def get_crit_chance(luck):
 
 
 def get_double_attack_chance(attacker, defender):
-    attacker_speed = attacker.get_skill_value(speed_skill_id).level
-    defender_speed = defender.get_skill_value(speed_skill_id).level
+    attacker_speed = attacker.get_skill_level(speed_skill_id)
+    defender_speed = defender.get_skill_level(speed_skill_id)
     return (attacker_speed - defender_speed) * 0.1
 
 

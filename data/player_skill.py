@@ -1,4 +1,4 @@
-from data.skill import EntitySkill
+from data.entity_skill import EntitySkill
 
 
 class PlayerSkill(EntitySkill):
