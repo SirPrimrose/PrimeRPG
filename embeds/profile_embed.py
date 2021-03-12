@@ -43,7 +43,7 @@ class ProfileEmbed(BaseEmbed):
             )
             value += "{2}{0}{3}{1}{2}|".format(
                 skill_emoji,
-                pretty_format_skill_level(skill.level),
+                pretty_format_skill_level(skill.get_level()),
                 large_space,
                 small_space,
             )

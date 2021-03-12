@@ -9,6 +9,7 @@ from data.fight_log.fight_log import FightLog, Effort
 from data.fight_log.message_action import MessageAction
 from data.fight_log.turn_action import TurnAction
 from data.weighted_value import WeightedValue
+from helpers.player_helper import apply_player_death_penalty
 from util import get_random_from_weighted_table
 
 attack_variance = 0.3
@@ -54,13 +55,27 @@ def sim_fight(attacker: EntityBase, defender: EntityBase) -> FightLog:
         log.add_action(TurnAction(turn))
         if attacker.is_dead():
             log.add_action(MessageAction("{} won!".format(defender.name)))
+            log.add_action(
+                MessageAction(
+                    "{} died and lost 50% of each skill level (above level 5)".format(
+                        attacker.name
+                    )
+                )
+            )
+            apply_player_death_penalty(attacker)
             return log
         if defender.is_dead():
             log.add_action(MessageAction("{} won!".format(attacker.name)))
             credit_effort(attacker, log)
             return log
-        process_turn(attacker, defender, log, True)
-        process_turn(defender, attacker, log, False)
+        if defender.get_skill_level(speed_skill_id) <= attacker.get_skill_level(
+            speed_skill_id
+        ):
+            process_turn(attacker, defender, log, True)
+            process_turn(defender, attacker, log, False)
+        else:
+            process_turn(defender, attacker, log, False)
+            process_turn(attacker, defender, log, True)
         turn += 1
     return log
 

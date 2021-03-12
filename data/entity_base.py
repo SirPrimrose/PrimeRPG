@@ -46,7 +46,7 @@ class EntityBase:
             result = next(filter(lambda skill: skill.skill_id == skill_id, self.skills))
         except StopIteration:
             result = None
-        return 0 if not result else result.level
+        return 0 if not result else result.get_level()
 
     def is_dead(self):
         return self.current_hp <= 0
@@ -76,7 +76,7 @@ class EntityBase:
         return self.icon_url
 
     def get_attack_power(self):
-        attack_power = 10.0
+        attack_power = 5.0
         for e in self.equipment:
             # TODO Preload this data so it isn't fetched from the database every attack
             attack_power_stat = get_equipment_stat(e.item_id, attack_stat_id)
@@ -86,7 +86,7 @@ class EntityBase:
         return floor(attack_power)
 
     def get_armor_power(self):
-        armor_power = 10.0
+        armor_power = 5.0
         for e in self.equipment:
             # TODO Preload this data so it isn't fetched from the database every attack
             armor_power_stat = get_equipment_stat(e.item_id, armor_stat_id)
@@ -101,7 +101,7 @@ class EntityBase:
         for skill in self.skills:
             if skill.skill_id in stat.scales_with:
                 scaling = stat.scales_with[skill.skill_id]
-                scaling_values.append(base_value * scaling * (skill.level / 100))
+                scaling_values.append(base_value * scaling * (skill.get_level() / 100))
 
         return base_value + sum(scaling_values)
 
@@ -112,4 +112,4 @@ class EntityBase:
             result = next(filter(lambda skill: skill.skill_id == skill_id, self.skills))
             result.modify_xp(value)
         except StopIteration:
-            result = None
+            pass

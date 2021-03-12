@@ -15,7 +15,7 @@ class Recon(Command):
         return "Recon"
 
     def get_prefixes(self):
-        return ["recon", "r"]
+        return ["recon", "r", "fight"]
 
     async def run_command(self, msg: discord.Message, args: List[str]):
         player_id = msg.author.id

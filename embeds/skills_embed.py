@@ -30,13 +30,13 @@ class SkillsEmbed(BaseEmbed):
                 filter(lambda s: s.skill_id == skill_id, self.player_profile.skills),
                 None,
             )
-            progress = skill.calculate_progress_to_next_level()
+            progress = skill.progress_to_next_level()
             full_bars = floor(progress_bar_length * progress)
             light_bars = progress_bar_length - full_bars
             progress_text = full_bars * full_bar + light_bars * light_bar
             value += "{} `{}`{}`{}`\n".format(
                 skill_emoji,
-                pretty_format_skill_level(skill.level),
+                pretty_format_skill_level(skill.get_level()),
                 progress_text,
                 get_skill_category_short_name(skill_id),
             )

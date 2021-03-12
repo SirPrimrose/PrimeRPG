@@ -31,15 +31,15 @@ def app_setup():
 async def save_to_db():
     await game_client.wait_until_ready()
     while True:
-        persistence.save_queue()
         await asyncio.sleep(db_save_tick_rate)
+        persistence.save_queue()
 
 
 async def regen_player_hp():
     await game_client.wait_until_ready()
     while True:
-        regen_tick()
         await asyncio.sleep(regen_tick_rate)
+        regen_tick()
 
 
 @game_client.event

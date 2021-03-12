@@ -4,7 +4,7 @@ import discord
 
 from commands.command import Command
 from embeds.profile_embed import ProfileEmbed
-from helpers.player_helper import get_player_profile, save_player_profile
+from helpers.player_helper import get_player_profile
 
 
 class Profile(Command):

@@ -2,6 +2,7 @@ import sqlite3
 import time
 
 from collections import deque
+from typing import Optional
 
 transaction_queue = deque()
 spam_list = list()
@@ -14,9 +15,10 @@ connection = sqlite3.connect("primeRPG.db")
 connection.execute("PRAGMA foreign_keys = 1")
 
 
-def queue_transaction(player_id, sql, params):
+def queue_transaction(player_id: Optional[int], sql, params):
     transaction_queue.append({"sql": sql, "params": params})
-    spam_list.append(player_id)
+    if player_id:
+        spam_list.append(player_id)
 
 
 def process_queue():

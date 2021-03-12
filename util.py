@@ -102,10 +102,24 @@ def get_random_from_weighted_table(w_table):
 
 
 def xp_at_level(level: int) -> int:
+    """This method calculates the amount of xp required to go from the previous level to this level
+
+    :param level: The level to calculate for
+    :return: The amount of xp
+    """
+    if level <= 0:
+        return 0
     return base_xp_per_level + increased_xp_per_level * (level - 1)
 
 
 def req_xp_for_level(level: int) -> int:
+    """This method calculates the total xp required to attain the given level.
+
+    :param level: The level to calculate for
+    :return: The amount of xp
+    """
+    if level <= 0:
+        return 0
     return int(level * 0.5 * (xp_at_level(1) + xp_at_level(level)))
 
 
@@ -139,7 +153,7 @@ hp_loss_per_tier = 2
 
 
 def calculate_max_hp(vitality: int) -> float:
-    if vitality == 0:
+    if vitality <= 0:
         return base_hp_per_level / 2
     if vitality < 50:
         tier = math.floor(vitality / 10)

@@ -58,7 +58,7 @@ def insert_player_data(player_core: PlayerCore):
     queue_transaction(player_core.unique_id, stmt, stmt_args)
 
 
-def update_player_data(player_core: PlayerCore):
+def update_player_data(player_core: PlayerCore, quiet=False):
     stmt = update_players_query
     stmt_args = (
         player_core.name,
@@ -68,7 +68,7 @@ def update_player_data(player_core: PlayerCore):
         player_core.hp_regen,
         player_core.unique_id,
     )
-    queue_transaction(player_core.unique_id, stmt, stmt_args)
+    queue_transaction(player_core.unique_id if not quiet else None, stmt, stmt_args)
 
 
 def init_player(db_row):
