@@ -6,9 +6,10 @@ from data.entity_base import EntityBase
 from data.fight_log.fight_log import FightLog
 from data.fight_log.turn_action import TurnAction
 from embeds.base_embed import BaseEmbed
-from embeds.common_embed import add_short_stat_field
+from embeds.common_embed import add_short_stat_field, add_detailed_stat_field
 from embeds.simple_embed import SimpleEmbed
-from emojis import info_emoji
+from emojis import info_emoji, heal_emoji
+from helpers.player_helper import heal_player_profile
 
 
 class ReconResultsEmbed(BaseEmbed):
@@ -24,7 +25,7 @@ class ReconResultsEmbed(BaseEmbed):
         self.enemy_profile = enemy_profile
         self.fight_log = fight_log
 
-    def generate_embed(self) -> Embed:
+    def generate_embed(self, recently_healed=False) -> Embed:
         embed = Embed()
         embed.set_thumbnail(url=self.enemy_profile.get_icon_url())
         winner = (
@@ -40,15 +41,21 @@ class ReconResultsEmbed(BaseEmbed):
         embed.add_field(
             name="Summary", value="{} defeated {}".format(winner, loser), inline=False
         )
-        add_short_stat_field(
-            embed, self.fighter_profile.name, self.fighter_profile, True
+        add_detailed_stat_field(
+            embed,
+            self.fighter_profile.name,
+            self.fighter_profile,
+            True,
+            recently_healed,
         )
-        add_short_stat_field(embed, self.enemy_profile.name, self.enemy_profile, True)
+        add_detailed_stat_field(
+            embed, self.enemy_profile.name, self.enemy_profile, True
+        )
         embed.add_field(name="Rewards", value="Gold: 5", inline=False)
         return embed
 
     def get_reaction_emojis(self) -> List[str]:
-        return [info_emoji]
+        return [info_emoji, heal_emoji]
 
     async def handle_fail_to_react(self):
         pass
@@ -56,6 +63,9 @@ class ReconResultsEmbed(BaseEmbed):
     async def handle_reaction(self, reaction):
         if str(reaction) == info_emoji:
             await self.print_log()
+        elif str(reaction) == heal_emoji:
+            heal_player_profile(self.fighter_profile)
+            await self.update_embed_content()
         else:
             await self.embed_message.channel.send("Failed to handle reaction")
 

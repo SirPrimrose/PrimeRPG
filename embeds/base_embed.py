@@ -35,6 +35,7 @@ class BaseEmbed:
             self.embed_message.add_reaction(emoji)
             for emoji in self.get_reaction_emojis()
         ]
+        await self.embed_message.clear_reactions()
         await asyncio.gather(
             *reaction_list,
             self.listen_for_reaction(),

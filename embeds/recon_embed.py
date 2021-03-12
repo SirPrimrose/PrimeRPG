@@ -85,9 +85,9 @@ class ReconEmbed(BaseEmbed):
         embed = ReconResultsEmbed(
             self.fighter_profile, self.enemy_profile, fight_log, self.author
         )
-        em = embed.generate_embed()
+        generated_embed = embed.generate_embed()
         if self.fighter_profile.is_dead():
             heal_player_profile(self.fighter_profile)
         save_player_profile(self.fighter_profile)
-        msg = await self.embed_message.channel.send(embed=em)
-        await embed.connect_reaction_listener(msg)
+        await self.embed_message.edit(embed=generated_embed)
+        await embed.connect_reaction_listener(self.embed_message)
