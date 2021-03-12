@@ -1,13 +1,13 @@
-import asyncio
+from typing import List
 
-from discord import Embed, Message, User
+from discord import Embed, User
 
-from consts import game_client
 from data.entity_base import EntityBase
 from data.fight_log.fight_log import FightLog
 from data.fight_log.turn_action import TurnAction
 from embeds.base_embed import BaseEmbed
-from embeds.common_embed import add_short_stat_field, get_reaction_check
+from embeds.common_embed import add_short_stat_field
+from embeds.simple_embed import SimpleEmbed
 from emojis import info_emoji
 
 
@@ -47,24 +47,11 @@ class ReconResultsEmbed(BaseEmbed):
         embed.add_field(name="Rewards", value="Gold: 5", inline=False)
         return embed
 
-    async def connect_reaction_listener(self, embed_message: Message) -> None:
-        self.embed_message = embed_message
-        await asyncio.gather(
-            self.embed_message.add_reaction(info_emoji),
-            self.listen_for_reaction(),
-        )
+    def get_reaction_emojis(self) -> List[str]:
+        return [info_emoji]
 
-    async def listen_for_reaction(self):
-        try:
-            reaction, user = await game_client.wait_for(
-                "reaction_add",
-                timeout=60.0,
-                check=get_reaction_check(self.embed_message, self.author, [info_emoji]),
-            )
-        except asyncio.TimeoutError:
-            pass
-        else:
-            await self.handle_reaction(reaction)
+    async def handle_fail_to_react(self):
+        pass
 
     async def handle_reaction(self, reaction):
         if str(reaction) == info_emoji:
@@ -75,11 +62,13 @@ class ReconResultsEmbed(BaseEmbed):
     async def print_log(self):
         response = ""
         current_turn = ""
+        page_num = 1
 
         async def check_add_turn_to_response():
-            nonlocal response, current_turn
+            nonlocal response, current_turn, page_num
             if len(response) + len(current_turn) >= 2000:
-                await self.embed_message.channel.send(response)
+                await self.send_fight_log_page(page_num, response)
+                page_num += 1
                 response = ""
             response += current_turn
             current_turn = ""
@@ -91,4 +80,9 @@ class ReconResultsEmbed(BaseEmbed):
             current_turn += "{}".format(log.get_message())
         await check_add_turn_to_response()
 
-        await self.embed_message.channel.send(response)
+        await self.send_fight_log_page(page_num, response, page_num != 1)
+
+    async def send_fight_log_page(self, page_num, content, show_page_num=True):
+        title = "Fight Log Page {}".format(page_num) if show_page_num else "Fight Log"
+        embed = SimpleEmbed(self.author, title, content)
+        await self.embed_message.channel.send(embed=embed.generate_embed())

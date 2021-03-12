@@ -1,6 +1,7 @@
 from math import floor
+from typing import List
 
-from discord import User, Embed, Message
+from discord import User, Embed
 
 from data.player_profile import PlayerProfile
 from embeds.base_embed import BaseEmbed
@@ -47,5 +48,11 @@ class SkillsEmbed(BaseEmbed):
         )
         return embed
 
-    async def connect_reaction_listener(self, embed_message: Message) -> None:
+    def get_reaction_emojis(self) -> List[str]:
+        pass
+
+    async def handle_fail_to_react(self):
+        pass
+
+    async def handle_reaction(self, reaction):
         pass

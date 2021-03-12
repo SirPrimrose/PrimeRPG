@@ -1,12 +1,11 @@
-from discord import Embed, Message, User
+from typing import List
+
+from discord import Embed, User
 
 from embeds.base_embed import BaseEmbed
 
 
 class BestiaryEmbed(BaseEmbed):
-    async def connect_reaction_listener(self, embed_message: Message) -> None:
-        pass
-
     def __init__(self, author: User):
         super().__init__(author)
 
@@ -22,3 +21,12 @@ class BestiaryEmbed(BaseEmbed):
         )
         embed.set_thumbnail(url="https://i.imgur.com/RskTsQK.png")
         return embed
+
+    def get_reaction_emojis(self) -> List[str]:
+        pass
+
+    async def handle_fail_to_react(self):
+        pass
+
+    async def handle_reaction(self, reaction):
+        pass

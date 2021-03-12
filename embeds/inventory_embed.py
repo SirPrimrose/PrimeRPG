@@ -1,4 +1,6 @@
-from discord import User, Embed, Message
+from typing import List
+
+from discord import User, Embed
 
 from embeds.base_embed import BaseEmbed
 from persistence.inventory_persistence import get_all_inventory_items
@@ -27,5 +29,11 @@ class InventoryEmbed(BaseEmbed):
         )
         return embed
 
-    async def connect_reaction_listener(self, embed_message: Message) -> None:
+    def get_reaction_emojis(self) -> List[str]:
+        pass
+
+    async def handle_fail_to_react(self):
+        pass
+
+    async def handle_reaction(self, reaction):
         pass
