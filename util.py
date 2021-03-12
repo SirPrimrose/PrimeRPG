@@ -132,3 +132,20 @@ def equation_roots(a, b, c):
     val2 = (-b - sqrt_val) / (2 * a)
 
     return max(val1, val2)
+
+
+base_hp_per_level = 20
+hp_loss_per_tier = 2
+
+
+def calculate_max_hp(vitality: int) -> float:
+    if vitality == 0:
+        return base_hp_per_level / 2
+    if vitality < 50:
+        tier = math.floor(vitality / 10)
+        var_health = (vitality - 10 * tier) * (
+            base_hp_per_level - hp_loss_per_tier * tier
+        ) + sum([10 * (base_hp_per_level - hp_loss_per_tier * t) for t in range(tier)])
+    else:
+        var_health = (vitality - 50) * (base_hp_per_level - hp_loss_per_tier * 5) + 800
+    return float(var_health)

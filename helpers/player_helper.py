@@ -1,5 +1,6 @@
 import consts
 from data.mob_profile import MobProfile
+from data.player_core import PlayerCore, idle_state
 from data.player_profile import PlayerProfile
 from data.player_skill import PlayerSkill
 from persistence.mob_equipment_persistence import get_all_mob_equipment
@@ -20,10 +21,12 @@ from persistence.player_skill_persistence import (
     update_player_skill,
 )
 from persistence.skill_categories_persistence import get_all_skill_categories
-from util import req_xp_for_level
+from util import req_xp_for_level, calculate_max_hp
 
-player_starting_stat = {
-    consts.vitality_skill_id: req_xp_for_level(10),
+starting_vitality_level = 3
+
+player_starting_skill_xp = {
+    consts.vitality_skill_id: req_xp_for_level(starting_vitality_level),
     consts.strength_skill_id: 0,
     consts.dexterity_skill_id: 0,
     consts.defense_skill_id: 0,
@@ -34,13 +37,23 @@ player_starting_stat = {
     consts.luck_skill_id: 0,
 }
 
+player_starting_hp_regen = 0.2
+
 
 def create_new_player_data(player_id, player_name, avatar_url):
-    insert_player_data(player_id, player_name, avatar_url)
+    core = PlayerCore(
+        player_id,
+        player_name,
+        avatar_url,
+        idle_state,
+        calculate_max_hp(starting_vitality_level),
+        player_starting_hp_regen,
+    )
+    insert_player_data(core)
     for skill in get_all_skill_categories():
         insert_player_skill(
             PlayerSkill(
-                player_id, skill.unique_id, player_starting_stat[skill.unique_id]
+                player_id, skill.unique_id, player_starting_skill_xp[skill.unique_id]
             )
         )
 
@@ -53,6 +66,7 @@ def get_player_profile(player_id) -> PlayerProfile:
 
 
 def save_player_profile(player_profile: PlayerProfile):
+    player_profile.core.current_hp = player_profile.current_hp
     update_player_data(player_profile.core)
     for skill in player_profile.skills:
         update_player_skill(skill)

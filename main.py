@@ -1,21 +1,22 @@
 import asyncio
 import os
 import sys
-import time
 from traceback import print_exc
 
 import command_handler
 from consts import game_client, command_prefix
+from helpers.regen_helper import regen_tick
 from persistence import persistence
 
 # System Env Vars
 __DEBUG__ = bool(os.getenv("__DEBUG__"))
 
 # Main File Vars
-from persistence.skill_categories_persistence import get_skill_category
-from util import load_util_data, get_skill_category_name
+from util import load_util_data
 
 ready = False
+db_save_tick_rate = 1  # seconds
+regen_tick_rate = 60  # seconds
 
 # Quick Config Options
 start_app = True  # Start the bot application and connect to Discord. Disable to test without a connection.
@@ -31,7 +32,14 @@ async def save_to_db():
     await game_client.wait_until_ready()
     while True:
         persistence.save_queue()
-        await asyncio.sleep(1)
+        await asyncio.sleep(db_save_tick_rate)
+
+
+async def regen_player_hp():
+    await game_client.wait_until_ready()
+    while True:
+        regen_tick()
+        await asyncio.sleep(regen_tick_rate)
 
 
 @game_client.event
@@ -74,6 +82,7 @@ if start_app:
         )
     else:
         game_client.loop.create_task(save_to_db())
+        game_client.loop.create_task(regen_player_hp())
         game_client.run(token)
 else:
     print("Running in non-connected mode. Will not login to Discord.")

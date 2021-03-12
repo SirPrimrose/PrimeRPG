@@ -1,11 +1,15 @@
+from typing import List
+
 from commands.cm_add import Add
 from commands.cm_collect import Collect
 from commands.cm_data import Data
 from commands.cm_dice import Dice
 from commands.cm_embed import EmbedCommand
 from commands.cm_fish import Fish
+from commands.cm_heal import Heal
 from commands.cm_hello import Hello
 from commands.cm_help import Help
+from commands.cm_profile import Profile
 from commands.cm_recon import Recon
 from commands.cm_skills import Skills
 from commands.cm_start import Start
@@ -30,13 +34,15 @@ def load_commands():
     register(Recon())
     register(EmbedCommand())
     register(Skills())
+    register(Heal())
+    register(Profile())
 
 
 def register(command):
     command_registry.append(command)
 
 
-async def handle_command(msg, split_content):
+async def handle_command(msg, split_content: List[str]):
     print("Command Content: %s" % split_content)
     if len(split_content) < 1:
         return
@@ -45,7 +51,7 @@ async def handle_command(msg, split_content):
         return
     # TODO Instead of going through all command_registry, only allow some commands based on user's profile
     for command in command_registry:
-        if split_content[0].lower().startswith(tuple(command.get_prefixes())):
+        if split_content[0].lower() in tuple(command.get_prefixes()):
             await command.run_command(msg, split_content[1:])
             return
     await msg.channel.send("Unknown command, try `.help` to see a list of all commands")

@@ -3,10 +3,8 @@ from typing import List
 import discord
 
 from commands.command import Command
-from embeds.inventory_embed import InventoryEmbed
-from embeds.profile_embed import ProfileEmbed
 from embeds.bestiary_embed import BestiaryEmbed
-from helpers.player_helper import get_player_profile
+from embeds.inventory_embed import InventoryEmbed
 
 
 async def inventory_embed(msg):
@@ -16,14 +14,7 @@ async def inventory_embed(msg):
 
 
 async def bestiary_embed(msg):
-    embed = BestiaryEmbed().generate_embed()
-    await msg.channel.send(embed=embed)
-
-
-async def test_profile_embed(msg):
-    player_id = msg.author.id
-    player_profile = get_player_profile(player_id)
-    embed = ProfileEmbed(player_profile, msg.author).generate_embed()
+    embed = BestiaryEmbed(msg.author).generate_embed()
     await msg.channel.send(embed=embed)
 
 

@@ -4,7 +4,6 @@ from discord import Embed, Message, User
 
 from consts import speed_skill_id, game_client
 from data.entity_base import EntityBase
-from data.player_profile import PlayerProfile
 from embeds.base_embed import BaseEmbed
 from embeds.common_embed import add_detailed_stat_field, get_reaction_check
 from embeds.recon_results_embed import ReconResultsEmbed

@@ -3,4 +3,4 @@ backpack_url = (
     ".png "
 )
 profile_url = "https://image.flaticon.com/icons/png/128/3075/3075884.png"
-skills_url = "https://www.clipartmax.com/png/middle/143-1438502_bar-graph-comments-bar-graph-icon-png.png"
+skills_url = "https://i.imgur.com/tGhW8y0.png"

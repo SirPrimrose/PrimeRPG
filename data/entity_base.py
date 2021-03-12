@@ -17,6 +17,7 @@ from consts import (
 from data.entity_equipment import EntityEquipment
 from data.entity_skill import EntitySkill
 from persistence.equipment_stat_persistence import get_equipment_stat
+from util import calculate_max_hp
 
 
 class EntityBase:
@@ -52,18 +53,7 @@ class EntityBase:
 
     def get_max_hp(self) -> float:
         vitality = self.get_skill_level(vitality_skill_id)
-        if vitality < 10:
-            return vitality * 50
-        elif vitality < 20:
-            return (vitality - 10) * 40 + 500
-        elif vitality < 30:
-            return (vitality - 20) * 30 + 500 + 400
-        elif vitality < 40:
-            return (vitality - 30) * 25 + 500 + 400 + 300
-        elif vitality < 50:
-            return (vitality - 40) * 20 + 500 + 400 + 300 + 250
-        else:
-            return (vitality - 50) * 15 + 500 + 400 + 300 + 250 + 200
+        return calculate_max_hp(vitality)
 
     def get_combat_level(self):
         phys_atk = self.get_skill_level(strength_skill_id) + self.get_skill_level(
@@ -86,24 +76,24 @@ class EntityBase:
         return self.icon_url
 
     def get_attack_power(self):
-        attack_power = 10
+        attack_power = 10.0
         for e in self.equipment:
-            # TODO Preload this data so it isn't fetched from the database
+            # TODO Preload this data so it isn't fetched from the database every attack
             attack_power_stat = get_equipment_stat(e.item_id, attack_stat_id)
             if attack_power_stat:
                 attack_power += self.apply_scaling(attack_power_stat)
 
-        return attack_power
+        return floor(attack_power)
 
     def get_armor_power(self):
-        armor_power = 10
+        armor_power = 10.0
         for e in self.equipment:
-            # TODO Preload this data so it isn't fetched from the database
+            # TODO Preload this data so it isn't fetched from the database every attack
             armor_power_stat = get_equipment_stat(e.item_id, armor_stat_id)
             if armor_power_stat:
                 armor_power += self.apply_scaling(armor_power_stat)
 
-        return armor_power
+        return floor(armor_power)
 
     def apply_scaling(self, stat):
         base_value = stat.value

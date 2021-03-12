@@ -1,4 +1,6 @@
-from data.player_core import PlayerCore, idle_state, default_start_hp
+from typing import List
+
+from data.player_core import PlayerCore
 from persistence.connection_handler import connection, queue_transaction
 
 players_table = "players"
@@ -8,14 +10,16 @@ create_players_query = (
     "unique_id integer PRIMARY KEY, "
     "name text NOT NULL, "
     "avatar_url text NOT NULL, "
-    "state text DEFAULT {1}, "
-    "current_hp real DEFAULT {2})".format(players_table, idle_state, default_start_hp)
+    "state text NOT NULL, "
+    "current_hp real NOT NULL, "
+    "hp_regen real NOT NULL)".format(players_table)
 )
 insert_players_query = (
-    "INSERT INTO %s (unique_id, name, avatar_url) VALUES (?, ?, ?)" % players_table
+    "INSERT INTO %s (unique_id, name, avatar_url, state, current_hp, hp_regen) VALUES (?, ?, ?, ?, ?, ?)"
+    % players_table
 )
 update_players_query = (
-    "UPDATE %s SET unique_id = ?, name = ?, avatar_url = ?, state = ?, current_hp = ? WHERE unique_id = ?"
+    "UPDATE %s SET name = ?, avatar_url = ?, state = ?, current_hp = ?, hp_regen = ? WHERE unique_id = ?"
     % players_table
 )
 
@@ -31,21 +35,46 @@ def get_player(unique_id: int) -> PlayerCore:
     return init_player(result)
 
 
-def insert_player_data(unique_id: int, name: str, avatar_url: str):
+def get_all_players() -> List[PlayerCore]:
+    cursor_obj = connection.cursor()
+
+    statement = "SELECT * FROM %s" % players_table
+    cursor_obj.execute(statement)
+    result = cursor_obj.fetchall()
+
+    return [init_player(r) for r in result]
+
+
+def insert_player_data(player_core: PlayerCore):
     stmt = insert_players_query
-    stmt_args = (unique_id, name, avatar_url)
-    queue_transaction(unique_id, stmt, stmt_args)
+    stmt_args = (
+        player_core.unique_id,
+        player_core.name,
+        player_core.avatar_url,
+        player_core.state,
+        player_core.current_hp,
+        player_core.hp_regen,
+    )
+    queue_transaction(player_core.unique_id, stmt, stmt_args)
 
 
 def update_player_data(player_core: PlayerCore):
-    d = vars(player_core)
     stmt = update_players_query
-    stmt_args = tuple(d.values()) + (player_core.unique_id,)
+    stmt_args = (
+        player_core.name,
+        player_core.avatar_url,
+        player_core.state,
+        player_core.current_hp,
+        player_core.hp_regen,
+        player_core.unique_id,
+    )
     queue_transaction(player_core.unique_id, stmt, stmt_args)
 
 
 def init_player(db_row):
     if db_row:
-        return PlayerCore(db_row[0], db_row[1], db_row[2], db_row[3], db_row[4])
+        return PlayerCore(
+            db_row[0], db_row[1], db_row[2], db_row[3], db_row[4], db_row[5]
+        )
     else:
         return None

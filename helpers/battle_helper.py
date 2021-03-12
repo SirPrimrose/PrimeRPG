@@ -8,7 +8,6 @@ from data.fight_log.effort_action import EffortAction
 from data.fight_log.fight_log import FightLog, Effort
 from data.fight_log.message_action import MessageAction
 from data.fight_log.turn_action import TurnAction
-from data.player_profile import PlayerProfile
 from data.weighted_value import WeightedValue
 from util import get_random_from_weighted_table
 
@@ -18,6 +17,9 @@ crit_cap = 0.4  # percent
 dodge_spd_divider = 5
 dodge_lck_divider = 25
 dodge_cap = 0.1  # percent
+double_attack_per_speed_level = 0.05
+min_effort_chance = 0.02
+max_effort_chance = 0.5
 
 
 def get_damage(attack, armor):
@@ -116,7 +118,7 @@ def process_attack(
     if is_player:
         def_cb = defender.get_combat_level()
         atk_cb = attacker.get_combat_level()
-        if random.random() < get_effort_chance(def_cb, atk_cb, damage):
+        if random.random() < get_effort_chance(atk_cb, def_cb, damage):
             weighted_skills = [
                 WeightedValue(defender.get_skill_level(skill_id) + 1, skill_id)
                 for skill_id in skill_ids
@@ -131,15 +133,20 @@ def process_attack(
     return response
 
 
-def get_effort_chance(attacker_cb, defender_cb, damage: int):
-    diff = defender_cb - attacker_cb
+def get_effort_chance(attacker_cb: int, defender_cb: int, damage: int):
+    diff = (defender_cb - attacker_cb) + 5
     if diff <= 0:
-        return 0.01
-    return max(
-        math.pow((diff * 5) / math.sqrt(attacker_cb), 0.7)
-        * math.pow(damage, 0.333)
-        / 100,
-        0.01,
+        return min_effort_chance
+    if attacker_cb <= 0:
+        return max_effort_chance
+    return min(
+        max(
+            math.pow((diff * 5) / math.sqrt(attacker_cb), 0.7)
+            * math.pow(damage, 0.333)
+            / 100,
+            min_effort_chance,
+        ),
+        max_effort_chance,
     )
 
 
@@ -154,10 +161,9 @@ def get_crit_chance(luck):
 def get_double_attack_chance(attacker, defender):
     attacker_speed = attacker.get_skill_level(speed_skill_id)
     defender_speed = defender.get_skill_level(speed_skill_id)
-    return (attacker_speed - defender_speed) * 0.1
+    return (attacker_speed - defender_speed) * double_attack_per_speed_level
 
 
-# Dependent on both attacker's speed, defender's speed, and defender's luck
 def get_dodge_chance(atk_spd, def_spd, def_lck):
     return (
         math.tanh(max(def_spd - atk_spd, 0) / dodge_spd_divider) * dodge_cap
