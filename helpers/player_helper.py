@@ -91,7 +91,7 @@ def apply_player_death_penalty(player_profile: PlayerProfile) -> None:
     :param player_profile: The profile to alter
     """
     for skill in player_profile.skills:
-        if skill.get_level() <= level_min_for_loss:
+        if skill.get_level() < level_min_for_loss:
             continue
         level_loss = min(skill.progress_to_next_level(), level_loss_on_death)
         prev_level_loss = level_loss_on_death - level_loss
