@@ -21,6 +21,10 @@ from persistence.item_categories_persistence import (
     create_item_categories_query,
 )
 from persistence.items_persistence import create_items_query, populate_items_table
+from persistence.mob_drop_persistence import (
+    populate_mob_drops_table,
+    create_mob_drops_query,
+)
 from persistence.mob_equipment_persistence import (
     populate_mob_equipment_table,
     create_mob_equipment_query,
@@ -62,6 +66,7 @@ def create_tables():
     cursor_obj.execute(create_mobs_query)
     cursor_obj.execute(create_mob_skills_query)
     cursor_obj.execute(create_mob_equipment_query)
+    cursor_obj.execute(create_mob_drops_query)
 
     # Mutable tables
     cursor_obj.execute(create_players_query)
@@ -81,5 +86,6 @@ def create_tables():
     populate_mobs_table()
     populate_mob_skills_table()
     populate_mob_equipment_table()
+    populate_mob_drops_table()
 
     connection.commit()
