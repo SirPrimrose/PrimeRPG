@@ -17,9 +17,15 @@ class MobProfile(EntityBase):
     ):
         super().__init__(name, icon_url, skills, equipment)
         self.core = core
-        self.current_hp = self.get_max_hp()
+        self._current_hp = self.get_max_hp()
 
     def __repr__(self):
         response = super.__repr__(self)
         response += "\nCore: \n%s" % self.core
         return response
+
+    def get_current_hp(self) -> float:
+        return self._current_hp
+
+    def set_current_hp(self, new_hp: float) -> None:
+        self._current_hp = new_hp

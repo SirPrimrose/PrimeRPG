@@ -11,9 +11,9 @@ def add_detailed_stat_field(
 ):
     # TODO Find a better way to do things like "recently_healed" instead of passing in more arguments
     stats_value = "HP: {}/{}\nCombat Level: {}\nAttack: {}\nArmor: {}".format(
-        profile.current_hp
+        profile.get_current_hp()
         if not recently_healed
-        else "**{}**".format(profile.current_hp),
+        else "**{}**".format(profile.get_current_hp()),
         profile.get_max_hp(),
         profile.get_combat_level(),
         profile.get_attack_power(),
@@ -28,7 +28,7 @@ def add_detailed_stat_field(
 
 def add_short_stat_field(embed: Embed, field_title, profile: EntityBase, inline=False):
     stats_value = "HP: {}/{}".format(
-        profile.current_hp,
+        profile.get_current_hp(),
         profile.get_max_hp(),
     )
     embed.add_field(
@@ -40,7 +40,6 @@ def add_short_stat_field(embed: Embed, field_title, profile: EntityBase, inline=
 
 def heal_player(player_profile: PlayerProfile):
     heal_player_profile(player_profile)
-    player_profile.core.current_hp = player_profile.current_hp
     update_player_data(player_profile.core)
 
 

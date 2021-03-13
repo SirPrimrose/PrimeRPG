@@ -117,15 +117,15 @@ def process_attack(
         else:
             damage = get_damage(modified_attack, defender.get_armor_power())
 
-    defender.current_hp -= damage
+    defender.change_current_hp(-damage)
     response += "{0} dealt {1:.2f} damage to {2}. {2} has {3:.2f} hp remaining.".format(
-        attacker.name, damage, defender.name, defender.current_hp
+        attacker.name, damage, defender.name, defender.get_current_hp()
     )
     log.add_action(
         DamageAction(
             attacker.name,
             defender.name,
-            defender.current_hp,
+            defender.get_current_hp(),
             damage,
             is_player,
         )

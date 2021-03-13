@@ -1,3 +1,4 @@
+from abc import abstractmethod
 from math import floor
 from typing import List
 
@@ -27,19 +28,29 @@ class EntityBase:
         icon_url: str,
         skills: List[EntitySkill],
         equipment: List[EntityEquipment],
-        current_hp: float = None,
     ):
         self.name = name
         self.icon_url = icon_url
         self.skills = skills
         self.equipment = equipment
-        self.current_hp = current_hp
 
     def __repr__(self):
-        response = "Current HP: %s" % self.current_hp
+        response = "Current HP: %s" % self.get_current_hp()
         response += "\nName: %s" % self.name
         response += "\nSkills: %s" % self.skills
         return response
+
+    @abstractmethod
+    def get_current_hp(self) -> float:
+        pass
+
+    @abstractmethod
+    def set_current_hp(self, new_hp: float) -> None:
+        pass
+
+    def change_current_hp(self, hp_delta: float):
+        new_hp = min(max(self.get_current_hp() + hp_delta, 0), self.get_max_hp())
+        self.set_current_hp(new_hp)
 
     def get_skill_level(self, skill_id) -> int:
         try:
@@ -49,7 +60,7 @@ class EntityBase:
         return 0 if not result else result.get_level()
 
     def is_dead(self):
-        return self.current_hp <= 0
+        return self.get_current_hp() <= 0
 
     def get_max_hp(self) -> float:
         vitality = self.get_skill_level(vitality_skill_id)
@@ -81,7 +92,7 @@ class EntityBase:
             # TODO Preload this data so it isn't fetched from the database every attack
             attack_power_stat = get_equipment_stat(e.item_id, attack_stat_id)
             if attack_power_stat:
-                attack_power += self.apply_scaling(attack_power_stat)
+                attack_power += self._apply_scaling(attack_power_stat)
 
         return floor(attack_power)
 
@@ -91,11 +102,11 @@ class EntityBase:
             # TODO Preload this data so it isn't fetched from the database every attack
             armor_power_stat = get_equipment_stat(e.item_id, armor_stat_id)
             if armor_power_stat:
-                armor_power += self.apply_scaling(armor_power_stat)
+                armor_power += self._apply_scaling(armor_power_stat)
 
         return floor(armor_power)
 
-    def apply_scaling(self, stat):
+    def _apply_scaling(self, stat):
         base_value = stat.value
         scaling_values = []
         for skill in self.skills:
@@ -105,7 +116,7 @@ class EntityBase:
 
         return base_value + sum(scaling_values)
 
-    def give_skill_effort(self, skill_id, value):
+    def give_skill_effort(self, skill_id: int, value: int):
         if value < 0:
             return
         try:

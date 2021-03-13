@@ -69,7 +69,6 @@ def get_player_profile(player_id) -> PlayerProfile:
 
 
 def save_player_profile(player_profile: PlayerProfile) -> None:
-    player_profile.core.current_hp = player_profile.current_hp
     update_player_data(player_profile.core)
     for skill in player_profile.skills:
         update_player_skill(skill)
@@ -79,11 +78,9 @@ def save_player_profile(player_profile: PlayerProfile) -> None:
 
 def heal_player_profile(player_profile: PlayerProfile, hp_to_heal: int = None) -> None:
     if hp_to_heal is None:
-        player_profile.current_hp = player_profile.get_max_hp()
+        player_profile.set_current_hp(player_profile.get_max_hp())
     else:
-        player_profile.current_hp = min(
-            player_profile.get_max_hp(), player_profile.current_hp + hp_to_heal
-        )
+        player_profile.change_current_hp(hp_to_heal)
 
 
 def apply_player_death_penalty(player_profile: PlayerProfile) -> None:
