@@ -9,7 +9,10 @@ from data.player_profile import PlayerProfile
 from embeds.base_embed import BaseEmbed
 from embeds.common_embed import add_detailed_stat_field, heal_player
 from embeds.simple_embed import SimpleEmbed
-from emojis import info_emoji, heal_emoji
+from emojis import info_emoji, heal_emoji, skill_emojis
+from persistence.items_persistence import get_item
+from text_consts import no_space, half_space
+from util import get_key_for_value
 
 
 class ReconResultsEmbed(BaseEmbed):
@@ -26,8 +29,6 @@ class ReconResultsEmbed(BaseEmbed):
         self.fight_log = fight_log
 
     def generate_embed(self, recently_healed=False) -> Embed:
-        embed = Embed()
-        embed.set_thumbnail(url=self.enemy_profile.get_icon_url())
         winner = (
             self.enemy_profile.name
             if self.fighter_profile.is_dead()
@@ -38,9 +39,10 @@ class ReconResultsEmbed(BaseEmbed):
             if self.fighter_profile.is_dead()
             else self.enemy_profile.name
         )
-        embed.add_field(
-            name="Summary", value="{} defeated {}".format(winner, loser), inline=False
+        embed = Embed(
+            title="Recon Results", description="{} defeated {}".format(winner, loser)
         )
+        embed.set_thumbnail(url=self.enemy_profile.get_icon_url())
         add_detailed_stat_field(
             embed,
             self.fighter_profile.name,
@@ -51,7 +53,32 @@ class ReconResultsEmbed(BaseEmbed):
         add_detailed_stat_field(
             embed, self.enemy_profile.name, self.enemy_profile, True
         )
-        embed.add_field(name="Rewards", value="Gold: 5", inline=False)
+
+        # Calculate item drop and effort text fields
+        item_drops_text = ""
+        for reward in self.fight_log.get_rewards():
+            item_name = get_item(reward.item_id).name
+            item_drops_text += "\n{}: {}".format(item_name, reward.quantity)
+        effort_text = ""
+        for effort in self.fight_log.efforts:
+            skill_emoji = get_key_for_value(skill_emojis, effort.skill_id)
+            effort_text += "\n{}{}{}".format(skill_emoji, half_space, effort.value)
+
+        # Spacer field so inlines do not overlap
+        if item_drops_text or effort_text:
+            embed.add_field(name=no_space, value=no_space, inline=False)
+        if item_drops_text:
+            embed.add_field(
+                name="Drops",
+                value=item_drops_text if item_drops_text else no_space,
+                inline=True,
+            )
+        if effort_text:
+            embed.add_field(
+                name="Efforts",
+                value=effort_text if effort_text else no_space,
+                inline=True,
+            )
         return embed
 
     def get_reaction_emojis(self) -> List[str]:

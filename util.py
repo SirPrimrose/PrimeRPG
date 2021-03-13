@@ -173,3 +173,11 @@ def roll_gaussian_dist(mean: float, std_dev: float) -> float:
     drop_max = mean + 3 * std_dev
     drop_amount = min(max(normal(mean, std_dev), drop_min), drop_max)
     return drop_amount
+
+
+def get_key_for_value(dictionary: dict, value):
+    keys = list(dictionary.keys())
+    vals = list(dictionary.values())
+
+    position = vals.index(value)
+    return keys[position]

@@ -26,11 +26,11 @@ class ReconEmbed(BaseEmbed):
         # TODO Add random events into the recon action
         # TODO Randomly select an enemy to fight based on player area
         embed = Embed(
+            title="Recon",
             description="{} did some recon and found a {}".format(
                 self.fighter_profile.name, self.enemy_profile.name
             ),
         )
-        embed.set_author(name="Recon", icon_url=self.fighter_profile.get_icon_url())
         embed.set_thumbnail(url=self.enemy_profile.get_icon_url())
         add_detailed_stat_field(
             embed,

@@ -20,6 +20,10 @@ class FightLog:
         self.actions.append(action)
 
     def add_effort(self, effort: Effort):
+        for e in self.efforts:
+            if e.skill_id == effort.skill_id:
+                e.value += effort.value
+                return
         self.efforts.append(effort)
 
     def add_rewards(self, rewards: List[ItemAmount]):

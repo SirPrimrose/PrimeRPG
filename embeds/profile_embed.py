@@ -10,7 +10,7 @@ from embeds.common_embed import (
     heal_player,
 )
 from emojis import skill_emojis, heal_emoji
-from text_consts import large_space, small_space
+from text_consts import large_space, half_space
 from urls import profile_url
 
 skills_per_line = 3
@@ -46,7 +46,7 @@ class ProfileEmbed(BaseEmbed):
                 skill_emoji,
                 pretty_format_skill_level(skill.get_level()),
                 large_space,
-                small_space,
+                half_space,
             )
             skills_on_line += 1
 
