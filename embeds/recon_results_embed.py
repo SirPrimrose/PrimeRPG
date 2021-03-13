@@ -5,17 +5,17 @@ from discord import Embed, User
 from data.entity_base import EntityBase
 from data.fight_log.fight_log import FightLog
 from data.fight_log.turn_action import TurnAction
+from data.player_profile import PlayerProfile
 from embeds.base_embed import BaseEmbed
-from embeds.common_embed import add_short_stat_field, add_detailed_stat_field
+from embeds.common_embed import add_detailed_stat_field, heal_player
 from embeds.simple_embed import SimpleEmbed
 from emojis import info_emoji, heal_emoji
-from helpers.player_helper import heal_player_profile
 
 
 class ReconResultsEmbed(BaseEmbed):
     def __init__(
         self,
-        fighter_profile: EntityBase,
+        fighter_profile: PlayerProfile,
         enemy_profile: EntityBase,
         fight_log: FightLog,
         author: User,
@@ -64,7 +64,7 @@ class ReconResultsEmbed(BaseEmbed):
         if str(reaction) == info_emoji:
             await self.print_log()
         elif str(reaction) == heal_emoji:
-            heal_player_profile(self.fighter_profile)
+            heal_player(self.fighter_profile)
             await self.update_embed_content()
         else:
             await self.embed_message.channel.send("Failed to handle reaction")

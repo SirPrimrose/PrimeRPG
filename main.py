@@ -39,6 +39,7 @@ async def regen_player_hp():
     await game_client.wait_until_ready()
     while True:
         await asyncio.sleep(regen_tick_rate)
+        # TODO Move regen tick into save_to_db so it always is first to queue and can be overwritten
         regen_tick()
 
 

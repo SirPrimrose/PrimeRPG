@@ -7,8 +7,10 @@ from util import calculate_max_hp
 def regen_tick():
     for p in get_all_players():
         vitality = get_player_skill(p.unique_id, consts.vitality_skill_id).get_level()
-        p.current_hp = min(
+        new_hp = min(
             p.current_hp + p.hp_regen,
             calculate_max_hp(vitality),
         )
-        update_player_data(p, True)
+        if p.current_hp != new_hp:
+            p.current_hp = new_hp
+            update_player_data(p, True)

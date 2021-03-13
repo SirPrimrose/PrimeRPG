@@ -7,9 +7,9 @@ from embeds.base_embed import BaseEmbed
 from embeds.common_embed import (
     add_detailed_stat_field,
     pretty_format_skill_level,
+    heal_player,
 )
 from emojis import skill_emojis, heal_emoji
-from helpers.player_helper import heal_player_profile
 from text_consts import large_space, small_space
 from urls import profile_url
 
@@ -61,7 +61,7 @@ class ProfileEmbed(BaseEmbed):
 
     async def handle_reaction(self, reaction):
         if str(reaction) == heal_emoji:
-            heal_player_profile(self.player_profile)
+            heal_player(self.player_profile)
             await self.update_embed_content()
         else:
             await self.embed_message.channel.send("Failed to handle reaction")

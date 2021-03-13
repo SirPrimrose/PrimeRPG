@@ -4,8 +4,9 @@ from discord import Embed, User
 
 from consts import speed_skill_id
 from data.entity_base import EntityBase
+from data.player_profile import PlayerProfile
 from embeds.base_embed import BaseEmbed
-from embeds.common_embed import add_detailed_stat_field
+from embeds.common_embed import add_detailed_stat_field, heal_player
 from embeds.recon_results_embed import ReconResultsEmbed
 from emojis import fight_emoji, heal_emoji, run_emoji
 from helpers.battle_helper import get_flee_chance, sim_fight
@@ -15,7 +16,7 @@ from util import get_current_in_game_time, get_current_in_game_weather
 
 class ReconEmbed(BaseEmbed):
     def __init__(
-        self, fighter_profile: EntityBase, enemy_profile: EntityBase, author: User
+        self, fighter_profile: PlayerProfile, enemy_profile: EntityBase, author: User
     ):
         super().__init__(author)
         self.fighter_profile = fighter_profile
@@ -73,7 +74,7 @@ class ReconEmbed(BaseEmbed):
         if str(reaction) == fight_emoji:
             await self.start_fight()
         elif str(reaction) == heal_emoji:
-            heal_player_profile(self.fighter_profile)
+            heal_player(self.fighter_profile)
             await self.update_embed_content()
         elif str(reaction) == run_emoji:
             await self.embed_message.channel.send("Attempt to run")
