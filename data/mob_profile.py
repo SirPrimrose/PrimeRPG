@@ -4,6 +4,7 @@ from data.entity_base import EntityBase
 from data.entity_equipment import EntityEquipment
 from data.entity_skill import EntitySkill
 from data.mob_core import MobCore
+from persistence.dto.mob_drop import MobDrop
 
 
 class MobProfile(EntityBase):
@@ -14,9 +15,11 @@ class MobProfile(EntityBase):
         icon_url: str,
         skills: List[EntitySkill],
         equipment: List[EntityEquipment],
+        drops: List[MobDrop],
     ):
         super().__init__(name, icon_url, skills, equipment)
         self.core = core
+        self.drops = drops
         self._current_hp = self.get_max_hp()
 
     def __repr__(self):

@@ -78,6 +78,6 @@ def get_all_mob_drops(mob_id: int) -> List[MobDrop]:
 
 def init_mob_drop(db_row):
     if db_row:
-        return MobDrop(db_row[0], db_row[1], db_row[2])
+        return MobDrop(db_row[0], db_row[1], db_row[2], db_row[3], db_row[4])
     else:
         return None

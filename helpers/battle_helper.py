@@ -8,8 +8,12 @@ from data.fight_log.effort_action import EffortAction
 from data.fight_log.fight_log import FightLog, Effort
 from data.fight_log.message_action import MessageAction
 from data.fight_log.turn_action import TurnAction
+from data.mob_profile import MobProfile
+from data.player_profile import PlayerProfile
 from data.weighted_value import WeightedValue
-from helpers.player_helper import apply_player_death_penalty
+from helpers.item_helper import give_player_item
+from helpers.mob_helper import get_mob_kill_rewards
+from helpers.player_helper import apply_death_penalty
 from util import get_random_from_weighted_table
 
 attack_variance = 0.3
@@ -23,6 +27,8 @@ min_effort_chance = 0.02
 max_effort_chance = 0.5
 
 
+# TODO Refactor all methods specific to the recon fight into a ReconFight object, leave all damage and
+# TODO stat calculations here in battle helper
 def get_damage(attack, armor):
     if attack > armor:
         damage = (
@@ -42,8 +48,28 @@ def credit_effort(attacker: EntityBase, log: FightLog):
         attacker.give_skill_effort(effort.skill_id, effort.value)
 
 
+def player_lose(attacker: PlayerProfile, defender: MobProfile, log: FightLog):
+    log.add_action(MessageAction("{} won!".format(defender.name)))
+    log.add_action(
+        MessageAction(
+            "{} died and lost 50% of each skill level (above level 5)".format(
+                attacker.name
+            )
+        )
+    )
+    apply_death_penalty(attacker)
+
+
+def player_win(attacker: PlayerProfile, defender: MobProfile, log: FightLog):
+    log.add_action(MessageAction("{} won!".format(attacker.name)))
+    credit_effort(attacker, log)
+    log.add_rewards(get_mob_kill_rewards(defender))
+    for reward in log.get_rewards():
+        give_player_item(attacker.core.unique_id, reward)
+
+
 def sim_fight(attacker: EntityBase, defender: EntityBase) -> FightLog:
-    """Simulates a fight between two StatEntity objects
+    """Simulates a fight between two EntityBase objects
 
     :param attacker:
     :param defender:
@@ -54,19 +80,10 @@ def sim_fight(attacker: EntityBase, defender: EntityBase) -> FightLog:
     while turn < 100:
         log.add_action(TurnAction(turn))
         if attacker.is_dead():
-            log.add_action(MessageAction("{} won!".format(defender.name)))
-            log.add_action(
-                MessageAction(
-                    "{} died and lost 50% of each skill level (above level 5)".format(
-                        attacker.name
-                    )
-                )
-            )
-            apply_player_death_penalty(attacker)
+            player_lose(attacker, defender, log)
             return log
         if defender.is_dead():
-            log.add_action(MessageAction("{} won!".format(attacker.name)))
-            credit_effort(attacker, log)
+            player_win(attacker, defender, log)
             return log
         if defender.get_skill_level(speed_skill_id) <= attacker.get_skill_level(
             speed_skill_id

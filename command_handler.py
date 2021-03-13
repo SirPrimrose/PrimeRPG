@@ -9,6 +9,7 @@ from commands.cm_fish import Fish
 from commands.cm_heal import Heal
 from commands.cm_hello import Hello
 from commands.cm_help import Help
+from commands.cm_inventory import Inventory
 from commands.cm_profile import Profile
 from commands.cm_recon import Recon
 from commands.cm_skills import Skills
@@ -36,6 +37,7 @@ def load_commands():
     register(Skills())
     register(Heal())
     register(Profile())
+    register(Inventory())
 
 
 def register(command):

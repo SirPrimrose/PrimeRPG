@@ -4,6 +4,8 @@ import random
 from math import sin, pi
 from typing import List
 
+from numpy.random import normal
+
 from consts import (
     day_night_cycles_per_day,
     raining_weather,
@@ -13,9 +15,14 @@ from consts import (
 from data.skill_category import SkillCategory
 from persistence.skill_categories_persistence import get_all_skill_categories
 
+# Util constants
 does_not_exist_string = "DNE"
 base_xp_per_level = 100
 increased_xp_per_level = 40
+base_hp_per_level = 20
+hp_loss_per_tier = 2
+
+# Preloaded data
 skill_categories: List[SkillCategory] = []
 
 
@@ -148,10 +155,6 @@ def equation_roots(a, b, c):
     return max(val1, val2)
 
 
-base_hp_per_level = 20
-hp_loss_per_tier = 2
-
-
 def calculate_max_hp(vitality: int) -> float:
     if vitality <= 0:
         return base_hp_per_level / 2
@@ -163,3 +166,10 @@ def calculate_max_hp(vitality: int) -> float:
     else:
         var_health = (vitality - 50) * (base_hp_per_level - hp_loss_per_tier * 5) + 800
     return float(var_health)
+
+
+def roll_gaussian_dist(mean: float, std_dev: float) -> float:
+    drop_min = max(mean - 3 * std_dev, 0)
+    drop_max = mean + 3 * std_dev
+    drop_amount = min(max(normal(mean, std_dev), drop_min), drop_max)
+    return drop_amount

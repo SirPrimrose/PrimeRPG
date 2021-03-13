@@ -1,11 +1,8 @@
 import consts
-from data.mob_profile import MobProfile
+from data.entity_base import EntityBase
 from data.player_core import PlayerCore, idle_state
 from data.player_profile import PlayerProfile
 from data.player_skill import PlayerSkill
-from persistence.mob_equipment_persistence import get_all_mob_equipment
-from persistence.mob_persistence import get_mob
-from persistence.mob_skill_persistence import get_all_mob_skills
 from persistence.player_equipment_persistence import (
     get_all_player_equipment,
     update_player_equipment,
@@ -83,7 +80,7 @@ def heal_player_profile(player_profile: PlayerProfile, hp_to_heal: int = None) -
         player_profile.change_current_hp(hp_to_heal)
 
 
-def apply_player_death_penalty(player_profile: PlayerProfile) -> None:
+def apply_death_penalty(player_profile: EntityBase) -> None:
     """Applies a penalty for a player's death.
 
     - Reduces skill xp (50% per skill) for skills above level 5
@@ -106,10 +103,3 @@ def apply_player_death_penalty(player_profile: PlayerProfile) -> None:
         if skill.skill_id == consts.vitality_skill_id:
             if skill.get_level() < starting_vitality_level:
                 skill.set_level(starting_vitality_level)
-
-
-def get_mob_profile(mob_id) -> MobProfile:
-    core = get_mob(mob_id)
-    skills = get_all_mob_skills(mob_id)
-    equipment = get_all_mob_equipment(mob_id)
-    return MobProfile(core, core.name, core.icon_url, skills, equipment)

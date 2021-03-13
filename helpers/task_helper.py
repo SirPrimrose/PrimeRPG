@@ -3,6 +3,7 @@ import datetime
 import discord
 
 from consts import fishing_task, mining_task
+from data.item_amount import ItemAmount
 from data.player_core import gathering_state, idle_state
 from helpers import item_helper
 from persistence.player_persistence import update_player_data, get_player
@@ -47,6 +48,7 @@ async def stop_task(msg, player_id):
         )
 
 
+# TODO Only return the rewards here, show rewards somewhere else
 async def get_task_rewards(msg: discord.Message, player_id: int, task: Task):
     start_time = date_from_str(task.time_started)
     end_time = datetime.datetime.utcnow()
@@ -60,7 +62,7 @@ async def get_task_rewards(msg: discord.Message, player_id: int, task: Task):
 
     items = count_items(rewards)
     for item_id, amount in items.items():
-        item_helper.give_player_item(player_id, item_id, amount)
+        item_helper.give_player_item(player_id, ItemAmount(item_id, amount))
 
     response = "Finished {}. You spent {:.2f} secs collecting.".format(
         task.task, time_passed.total_seconds()

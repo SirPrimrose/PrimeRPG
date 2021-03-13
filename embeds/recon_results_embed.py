@@ -76,7 +76,7 @@ class ReconResultsEmbed(BaseEmbed):
 
         async def check_add_turn_to_response():
             nonlocal response, current_turn, page_num
-            if len(response) + len(current_turn) >= 2000:
+            if len(response) + len(current_turn) >= 2048:
                 await self.send_fight_log_page(page_num, response)
                 page_num += 1
                 response = ""

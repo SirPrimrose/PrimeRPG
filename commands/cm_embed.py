@@ -4,13 +4,6 @@ import discord
 
 from commands.command import Command
 from embeds.bestiary_embed import BestiaryEmbed
-from embeds.inventory_embed import InventoryEmbed
-
-
-async def inventory_embed(msg):
-    player_id = msg.author.id
-    embed = InventoryEmbed(player_id, msg.author).generate_embed()
-    await msg.channel.send(embed=embed)
 
 
 async def bestiary_embed(msg):

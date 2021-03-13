@@ -4,7 +4,8 @@ import discord
 
 from commands.command import Command
 from embeds.recon_embed import ReconEmbed
-from helpers.player_helper import get_player_profile, get_mob_profile
+from helpers.mob_helper import get_mob_profile
+from helpers.player_helper import get_player_profile
 
 
 class Recon(Command):
