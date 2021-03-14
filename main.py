@@ -35,10 +35,14 @@ async def game_tick():
     while True:
         await asyncio.sleep(game_tick_rate)
         tick += 1
-        if tick % save_tick_rate == 0:
-            persistence.save_queue()
-        if tick % regen_tick_rate == 0:
-            regen_tick()
+        try:
+            if tick % save_tick_rate == 0:
+                persistence.save_queue()
+            if tick % regen_tick_rate == 0:
+                regen_tick()
+        except Exception:
+            print_exc()
+            print("Encountered error: {0}".format(sys.exc_info()[1]))
 
 
 @game_client.event
@@ -63,9 +67,8 @@ async def on_message(msg):
                 msg, msg.content[len(command_prefix) :].split()
             )
     except Exception:
-        if __DEBUG__:
-            print_exc()
-            await msg.channel.send("Encountered error: {0}".format(sys.exc_info()[1]))
+        print_exc()
+        await msg.channel.send("Encountered error: {0}".format(sys.exc_info()[1]))
 
 
 app_setup()

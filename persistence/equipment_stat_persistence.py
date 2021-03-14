@@ -2,12 +2,12 @@ import json
 from typing import List
 
 from consts import data_folder
-from persistence.dto.equipment_stat import EquipmentStat
 from persistence.common_persistence import (
     convert_dict_keys_to_id,
     insert_dictionary,
 )
 from persistence.connection_handler import connection
+from persistence.dto.equipment_stat import EquipmentStat
 from persistence.equipment_stat_categories_persistence import (
     get_all_equipment_stat_categories,
 )

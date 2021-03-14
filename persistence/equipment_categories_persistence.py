@@ -2,9 +2,9 @@ import json
 from typing import List
 
 from consts import data_folder
-from persistence.dto.equipment_category import EquipmentCategory
 from persistence.common_persistence import insert_dictionary
 from persistence.connection_handler import connection
+from persistence.dto.equipment_category import EquipmentCategory
 
 equipment_categories_table = "equipment_categories"
 

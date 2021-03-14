@@ -26,7 +26,9 @@ insert_player_equipment_query = (
     "INSERT INTO %s (player_id, equipment_slot_id, item_id) VALUES (?, ?, ?)"
     % player_equipment_table
 )
-delete_player_equipment_query = "DELETE from %s WHERE player_id = ?"
+delete_player_equipment_query = (
+    "DELETE from %s WHERE player_id = ?" % player_equipment_table
+)
 
 
 def get_player_equipment(player_id: int, equipment_slot_id: int) -> PlayerEquipment:

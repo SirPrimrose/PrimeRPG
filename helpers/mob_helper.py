@@ -1,6 +1,5 @@
 import random
-
-from typing import Dict, List
+from typing import List
 
 from data.item_amount import ItemAmount
 from data.mob_profile import MobProfile
@@ -8,7 +7,7 @@ from persistence.mob_drop_persistence import get_all_mob_drops
 from persistence.mob_equipment_persistence import get_all_mob_equipment
 from persistence.mob_persistence import get_mob
 from persistence.mob_skill_persistence import get_all_mob_skills
-from util import roll_gaussian_dist
+from util import roll_gaussian_dist_for_drop
 
 
 def get_mob_profile(mob_id) -> MobProfile:
@@ -29,6 +28,6 @@ def get_mob_kill_rewards(mob_profile: MobProfile) -> List[ItemAmount]:
     rewards: List[ItemAmount] = []
     for drop in mob_profile.drops:
         if random.random() < drop.drop_rate:
-            drop_amount = int(roll_gaussian_dist(drop.mean, drop.std_dev))
+            drop_amount = int(roll_gaussian_dist_for_drop(drop.mean, drop.std_dev))
             rewards.append(ItemAmount(drop.item_id, drop_amount))
     return rewards

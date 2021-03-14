@@ -1,9 +1,9 @@
 import json
 
 from consts import data_folder
-from persistence.dto.item_category import ItemCategory
 from persistence.common_persistence import insert_dictionary
 from persistence.connection_handler import connection
+from persistence.dto.item_category import ItemCategory
 
 item_categories_table = "item_categories"
 

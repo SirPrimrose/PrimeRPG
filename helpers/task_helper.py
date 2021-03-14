@@ -4,15 +4,15 @@ import discord
 
 from consts import fishing_task, mining_task
 from data.item_amount import ItemAmount
-from persistence.dto.player_core import gathering_state, idle_state
 from helpers import item_helper
+from persistence.dto.player_core import gathering_state, idle_state
+from persistence.dto.player_task import PlayerTask
 from persistence.player_persistence import update_player_data, get_player
 from persistence.task_persistence import (
-    insert_player_task_data,
-    delete_player_task_data,
-    get_player_task_data,
+    insert_player_task,
+    get_player_task,
+    delete_player_task,
 )
-from task import Task
 from tasks.fishing_task import get_fishing_task_rewards
 from util import safe_send
 
@@ -22,8 +22,8 @@ async def start_task(msg, player_id, task):
     if player_data.state == idle_state:
         player_data.state = gathering_state
         update_player_data(player_data)
-        insert_player_task_data(
-            player_id, task, str_from_date(datetime.datetime.utcnow())
+        insert_player_task(
+            PlayerTask(player_id, task, str_from_date(datetime.datetime.utcnow()))
         )
         await msg.channel.send("Started {0}.".format(task))
     else:
@@ -35,13 +35,12 @@ async def stop_task(msg, player_id):
     if player_data.state == gathering_state:
         # Get task data
         player_data.state = idle_state
-        task_data = get_player_task_data(player_id)
-        task = Task(task_data[1], task_data[2])
+        task = get_player_task(player_id)
 
         update_player_data(player_data)
-        delete_player_task_data(player_id, task.task)
+        delete_player_task(player_id, task.task)
 
-        await get_task_rewards(msg, player_id, task)
+        await get_task_rewards(msg, task)
     else:
         await msg.channel.send(
             "You are not gathering anything.".format(player_data.state)
@@ -49,7 +48,7 @@ async def stop_task(msg, player_id):
 
 
 # TODO Only return the rewards here, show rewards somewhere else
-async def get_task_rewards(msg: discord.Message, player_id: int, task: Task):
+async def get_task_rewards(msg: discord.Message, task: PlayerTask):
     start_time = date_from_str(task.time_started)
     end_time = datetime.datetime.utcnow()
     time_passed = min(end_time - start_time, datetime.timedelta(hours=1))
@@ -62,7 +61,7 @@ async def get_task_rewards(msg: discord.Message, player_id: int, task: Task):
 
     items = count_items(rewards)
     for item_id, amount in items.items():
-        item_helper.give_player_item(player_id, ItemAmount(item_id, amount))
+        item_helper.give_player_item(task.player_id, ItemAmount(item_id, amount))
 
     response = "Finished {}. You spent {:.2f} secs collecting.".format(
         task.task, time_passed.total_seconds()

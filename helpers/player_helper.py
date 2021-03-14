@@ -1,38 +1,44 @@
 import consts
 from data.entity_base import EntityBase
-from persistence.dto.player_core import PlayerCore, idle_state
 from data.player_profile import PlayerProfile
+from persistence.dto.player_core import PlayerCore, idle_state
+from persistence.dto.player_equipment import PlayerEquipment
 from persistence.dto.player_skill import PlayerSkill
+from persistence.inventory_persistence import delete_inventory_items
 from persistence.player_equipment_persistence import (
     get_all_player_equipment,
     update_player_equipment,
+    insert_player_equipment,
+    delete_player_equipment,
 )
 from persistence.player_persistence import (
     insert_player_data,
     get_player,
     update_player_data,
+    delete_player_data,
 )
 from persistence.player_skill_persistence import (
     get_all_player_skills,
     insert_player_skill,
     update_player_skill,
+    delete_player_skills,
 )
 from persistence.skill_categories_persistence import get_all_skill_categories
+from persistence.task_persistence import delete_player_tasks
 from util import req_xp_for_level, calculate_max_hp, xp_at_level
 
 starting_vitality_level = 5
 
 player_starting_skill_xp = {
     consts.vitality_skill_id: req_xp_for_level(starting_vitality_level),
-    consts.strength_skill_id: 0,
-    consts.dexterity_skill_id: 0,
-    consts.defense_skill_id: 0,
-    consts.intellect_skill_id: 0,
-    consts.faith_skill_id: 0,
-    consts.resistance_skill_id: 0,
-    consts.speed_skill_id: 0,
-    consts.luck_skill_id: 0,
 }
+
+weapon_slot_id = 1
+head_slot_id = 2
+
+toy_sword_id = 202
+toy_helmet_id = 301
+player_starting_equipment = {weapon_slot_id: toy_sword_id, head_slot_id: toy_helmet_id}
 
 player_starting_hp_regen = 0.2
 
@@ -51,11 +57,12 @@ def create_new_player_data(player_id, player_name, avatar_url):
     )
     insert_player_data(core)
     for skill in get_all_skill_categories():
-        insert_player_skill(
-            PlayerSkill(
-                player_id, skill.unique_id, player_starting_skill_xp[skill.unique_id]
-            )
-        )
+        xp = 0
+        if skill.unique_id in player_starting_skill_xp:
+            xp = player_starting_skill_xp[skill.unique_id]
+        insert_player_skill(PlayerSkill(player_id, skill.unique_id, xp))
+    for slot_id, equip_id in player_starting_equipment.items():
+        insert_player_equipment(PlayerEquipment(player_id, slot_id, equip_id))
 
 
 def get_player_profile(player_id) -> PlayerProfile:
@@ -71,6 +78,14 @@ def save_player_profile(player_profile: PlayerProfile) -> None:
         update_player_skill(skill)
     for equipment in player_profile.equipment:
         update_player_equipment(equipment)
+
+
+def delete_player_profile(player_id: int) -> None:
+    delete_player_skills(player_id)
+    delete_player_equipment(player_id)
+    delete_inventory_items(player_id)
+    delete_player_tasks(player_id)
+    delete_player_data(player_id)
 
 
 def heal_player_profile(player_profile: PlayerProfile, hp_to_heal: int = None) -> None:

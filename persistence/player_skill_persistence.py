@@ -26,7 +26,7 @@ insert_player_skills_query = (
     "INSERT INTO %s (player_id, skill_id, total_xp) VALUES (?, ?, ?)"
     % player_skills_table
 )
-delete_player_skills_query = "DELETE from %s WHERE player_id = ?"
+delete_player_skills_query = "DELETE from %s WHERE player_id = ?" % player_skills_table
 
 
 def get_player_skill(player_id: int, skill_id: int) -> PlayerSkill:

@@ -1,9 +1,9 @@
 import json
 
 from consts import data_folder
-from persistence.dto.mob_core import MobCore
 from persistence.common_persistence import insert_dictionary
 from persistence.connection_handler import connection
+from persistence.dto.mob_core import MobCore
 
 mobs_table = "mobs"
 
@@ -25,6 +25,7 @@ def populate_mobs_table():
         if not get_mob(mob["unique_id"]):
             del mob["skills"]
             del mob["equipment"]
+            del mob["drops"]
             insert_dictionary(mobs_table, mob)
 
 

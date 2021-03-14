@@ -2,12 +2,12 @@ import json
 from typing import List
 
 from consts import data_folder
-from persistence.dto.mob_equipment import MobEquipment
 from persistence.common_persistence import (
     insert_dictionary,
     convert_dict_keys_to_id,
 )
 from persistence.connection_handler import connection, queue_transaction
+from persistence.dto.mob_equipment import MobEquipment
 from persistence.equipment_categories_persistence import get_all_equipment_categories
 from persistence.items_persistence import get_all_items
 
@@ -33,7 +33,7 @@ insert_mob_equipment_query = (
     "INSERT INTO %s (mob_id, equipment_slot_id, item_id) VALUES (?, ?, ?)"
     % mob_equipment_table
 )
-delete_mob_equipment_query = "DELETE from %s WHERE mob_id = ?"
+delete_mob_equipment_query = "DELETE from %s WHERE mob_id = ?" % mob_equipment_table
 
 
 def populate_mob_equipment_table():

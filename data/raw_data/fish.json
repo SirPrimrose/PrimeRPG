@@ -1,7 +1,7 @@
 [
   {
     "unique_id": 1,
-    "item_id": 1,
+    "item_id": 101,
     "name": "Minnow",
     "start_time": "00:00:00",
     "end_time": "24:00:00",
@@ -10,7 +10,7 @@
   },
   {
     "unique_id": 2,
-    "item_id": 2,
+    "item_id": 102,
     "name": "Carp",
     "start_time": "00:00:00",
     "end_time": "24:00:00",
@@ -19,7 +19,7 @@
   },
   {
     "unique_id": 3,
-    "item_id": 3,
+    "item_id": 103,
     "name": "Catfish",
     "start_time": "00:00:00",
     "end_time": "24:00:00",

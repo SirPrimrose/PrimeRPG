@@ -2,12 +2,12 @@ import json
 from typing import List
 
 from consts import data_folder
-from persistence.dto.mob_skill import MobSkill
 from persistence.common_persistence import (
     insert_dictionary,
     convert_dict_keys_to_id,
 )
 from persistence.connection_handler import connection, queue_transaction
+from persistence.dto.mob_skill import MobSkill
 from persistence.skill_categories_persistence import get_all_skill_categories
 from util import req_xp_for_level
 
@@ -30,7 +30,7 @@ update_mob_skills_query = (
 insert_mob_skills_query = (
     "INSERT INTO %s (mob_id, skill_id, total_xp) VALUES (?, ?, ?)" % mob_skills_table
 )
-delete_mob_skills_query = "DELETE from %s WHERE mob_id = ?"
+delete_mob_skills_query = "DELETE from %s WHERE mob_id = ?" % mob_skills_table
 
 
 def populate_mob_skills_table():

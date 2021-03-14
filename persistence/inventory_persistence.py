@@ -1,5 +1,7 @@
-from persistence.dto.player_inventory_item import PlayerInventoryItem
+from typing import List
+
 from persistence.connection_handler import connection, queue_transaction
+from persistence.dto.player_inventory_item import PlayerInventoryItem
 
 inventory_table = "inventory"
 
@@ -21,10 +23,10 @@ update_inventory_query = (
 insert_inventory_query = (
     "INSERT INTO %s (player_id, item_id, quantity) VALUES (?, ?, ?)" % inventory_table
 )
-delete_inventory_query = "DELETE from %s WHERE player_id = ?"
+delete_inventory_query = "DELETE from %s WHERE player_id = ?" % inventory_table
 
 
-def get_inventory_item(player_id: int, item_id: int):
+def get_inventory_item(player_id: int, item_id: int) -> PlayerInventoryItem:
     cursor_obj = connection.cursor()
 
     stmt_args = (
@@ -38,7 +40,7 @@ def get_inventory_item(player_id: int, item_id: int):
     return init_inventory_item(result)
 
 
-def get_all_inventory_items(player_id: int):
+def get_all_inventory_items(player_id: int) -> List[PlayerInventoryItem]:
     cursor_obj = connection.cursor()
 
     stmt_args = (player_id,)
@@ -51,19 +53,19 @@ def get_all_inventory_items(player_id: int):
     return items
 
 
-def insert_inventory_item(item: PlayerInventoryItem):
+def insert_inventory_item(item: PlayerInventoryItem) -> None:
     stmt = insert_inventory_query
     stmt_args = (item.player_id, item.item_id, item.quantity)
     queue_transaction(item.player_id, stmt, stmt_args)
 
 
-def update_inventory_item(item: PlayerInventoryItem):
+def update_inventory_item(item: PlayerInventoryItem) -> None:
     stmt = update_inventory_query
     stmt_args = (item.quantity, item.player_id, item.item_id)
     queue_transaction(item.player_id, stmt, stmt_args)
 
 
-def delete_inventory_item(player_id: int):
+def delete_inventory_items(player_id: int) -> None:
     stmt = delete_inventory_query
     stmt_args = (player_id,)
     queue_transaction(player_id, stmt, stmt_args)

@@ -12,6 +12,7 @@ from commands.cm_help import Help
 from commands.cm_inventory import Inventory
 from commands.cm_profile import Profile
 from commands.cm_recon import Recon
+from commands.cm_scrub import Scrub
 from commands.cm_skills import Skills
 from commands.cm_start import Start
 from commands.cm_time import Time
@@ -38,6 +39,7 @@ def load_commands():
     register(Heal())
     register(Profile())
     register(Inventory())
+    register(Scrub())
 
 
 def register(command):

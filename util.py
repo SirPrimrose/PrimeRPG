@@ -168,11 +168,10 @@ def calculate_max_hp(vitality: int) -> float:
     return float(var_health)
 
 
-def roll_gaussian_dist(mean: float, std_dev: float) -> float:
-    drop_min = max(mean - 3 * std_dev, 0)
+def roll_gaussian_dist_for_drop(mean: float, std_dev: float) -> float:
+    drop_min = max(mean - 3 * std_dev, 1)
     drop_max = mean + 3 * std_dev
-    drop_amount = min(max(normal(mean, std_dev), drop_min), drop_max)
-    return drop_amount
+    return min(max(normal(mean, std_dev), drop_min), drop_max)
 
 
 def get_key_for_value(dictionary: dict, value):

@@ -1,7 +1,7 @@
 from typing import List
 
-from persistence.dto.player_core import PlayerCore
 from persistence.connection_handler import connection, queue_transaction
+from persistence.dto.player_core import PlayerCore
 
 players_table = "players"
 
@@ -22,6 +22,7 @@ update_players_query = (
     "UPDATE %s SET name = ?, avatar_url = ?, state = ?, current_hp = ?, hp_regen = ? WHERE unique_id = ?"
     % players_table
 )
+delete_players_query = "DELETE from %s WHERE unique_id = ?" % players_table
 
 
 def get_player(unique_id: int) -> PlayerCore:
@@ -69,6 +70,12 @@ def update_player_data(player_core: PlayerCore, quiet=False):
         player_core.unique_id,
     )
     queue_transaction(player_core.unique_id if not quiet else None, stmt, stmt_args)
+
+
+def delete_player_data(player_id: int):
+    stmt = delete_players_query
+    stmt_args = (player_id,)
+    queue_transaction(player_id, stmt, stmt_args)
 
 
 def init_player(db_row):
