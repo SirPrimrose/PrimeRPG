@@ -1,8 +1,8 @@
 import consts
 from data.entity_base import EntityBase
-from data.player_core import PlayerCore, idle_state
+from persistence.dto.player_core import PlayerCore, idle_state
 from data.player_profile import PlayerProfile
-from data.player_skill import PlayerSkill
+from persistence.dto.player_skill import PlayerSkill
 from persistence.player_equipment_persistence import (
     get_all_player_equipment,
     update_player_equipment,

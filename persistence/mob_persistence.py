@@ -1,7 +1,7 @@
 import json
 
 from consts import data_folder
-from data.mob_core import MobCore
+from persistence.dto.mob_core import MobCore
 from persistence.common_persistence import insert_dictionary
 from persistence.connection_handler import connection
 

@@ -2,7 +2,7 @@ import json
 from typing import List
 
 from consts import data_folder
-from data.skill_category import SkillCategory
+from persistence.dto.skill_category import SkillCategory
 from persistence.common_persistence import insert_dictionary
 from persistence.connection_handler import connection
 

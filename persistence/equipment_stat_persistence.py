@@ -2,7 +2,7 @@ import json
 from typing import List
 
 from consts import data_folder
-from data.equipment_stat import EquipmentStat
+from persistence.dto.equipment_stat import EquipmentStat
 from persistence.common_persistence import (
     convert_dict_keys_to_id,
     insert_dictionary,

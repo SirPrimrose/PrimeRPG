@@ -1,5 +1,5 @@
 from data.item_amount import ItemAmount
-from data.player_inventory_item import PlayerInventoryItem
+from persistence.dto.player_inventory_item import PlayerInventoryItem
 from persistence.inventory_persistence import (
     update_inventory_item,
     insert_inventory_item,

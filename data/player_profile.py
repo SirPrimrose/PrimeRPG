@@ -1,9 +1,9 @@
 from typing import List
 
 from data.entity_base import EntityBase
-from data.player_core import PlayerCore
-from data.player_equipment import PlayerEquipment
-from data.player_skill import PlayerSkill
+from persistence.dto.player_core import PlayerCore
+from persistence.dto.player_equipment import PlayerEquipment
+from persistence.dto.player_skill import PlayerSkill
 
 
 class PlayerProfile(EntityBase):

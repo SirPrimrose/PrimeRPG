@@ -2,16 +2,13 @@ import json
 from typing import List
 
 from consts import data_folder
-from data.mob_skill import MobSkill
 from persistence.common_persistence import (
     insert_dictionary,
     convert_dict_keys_to_id,
 )
-from persistence.connection_handler import connection, queue_transaction
+from persistence.connection_handler import connection
 from persistence.dto.mob_drop import MobDrop
 from persistence.items_persistence import get_all_items
-from persistence.skill_categories_persistence import get_all_skill_categories
-from util import req_xp_for_level
 
 mob_drops_table = "mob_drops"
 

@@ -2,7 +2,7 @@ import json
 from typing import List
 
 from consts import data_folder
-from data.equipment_category import EquipmentCategory
+from persistence.dto.equipment_category import EquipmentCategory
 from persistence.common_persistence import insert_dictionary
 from persistence.connection_handler import connection
 

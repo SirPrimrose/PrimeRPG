@@ -4,7 +4,7 @@ import discord
 
 from consts import fishing_task, mining_task
 from data.item_amount import ItemAmount
-from data.player_core import gathering_state, idle_state
+from persistence.dto.player_core import gathering_state, idle_state
 from helpers import item_helper
 from persistence.player_persistence import update_player_data, get_player
 from persistence.task_persistence import (

@@ -1,4 +1,4 @@
-from data.player_inventory_item import PlayerInventoryItem
+from persistence.dto.player_inventory_item import PlayerInventoryItem
 from persistence.connection_handler import connection, queue_transaction
 
 inventory_table = "inventory"

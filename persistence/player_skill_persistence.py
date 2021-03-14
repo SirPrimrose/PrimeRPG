@@ -1,8 +1,7 @@
 from typing import List
 
-from data.entity_skill import EntitySkill
-from data.player_skill import PlayerSkill
 from persistence.connection_handler import connection, queue_transaction
+from persistence.dto.player_skill import PlayerSkill
 
 player_skills_table = "player_skills"
 
@@ -57,16 +56,16 @@ def get_all_player_skills(player_id: int) -> List[PlayerSkill]:
     return items
 
 
-def insert_player_skill(skill: EntitySkill):
+def insert_player_skill(skill: PlayerSkill):
     stmt = insert_player_skills_query
-    stmt_args = (skill.entity_id, skill.skill_id, skill.get_total_xp())
-    queue_transaction(skill.entity_id, stmt, stmt_args)
+    stmt_args = (skill.get_player_id(), skill.skill_id, skill.get_total_xp())
+    queue_transaction(skill.get_player_id(), stmt, stmt_args)
 
 
-def update_player_skill(skill: EntitySkill):
+def update_player_skill(skill: PlayerSkill):
     stmt = update_player_skills_query
-    stmt_args = (skill.get_total_xp(), skill.entity_id, skill.skill_id)
-    queue_transaction(skill.entity_id, stmt, stmt_args)
+    stmt_args = (skill.get_total_xp(), skill.get_player_id(), skill.skill_id)
+    queue_transaction(skill.get_player_id(), stmt, stmt_args)
 
 
 def delete_player_skills(player_id: int):

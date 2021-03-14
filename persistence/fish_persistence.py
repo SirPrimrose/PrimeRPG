@@ -1,7 +1,7 @@
 import json
 
 from consts import data_folder
-from data.fish import Fish
+from persistence.dto.fish import Fish
 from persistence.common_persistence import insert_dictionary
 from persistence.connection_handler import connection
 

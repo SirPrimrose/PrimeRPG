@@ -3,7 +3,7 @@ from typing import List
 from data.entity_base import EntityBase
 from data.entity_equipment import EntityEquipment
 from data.entity_skill import EntitySkill
-from data.mob_core import MobCore
+from persistence.dto.mob_core import MobCore
 from persistence.dto.mob_drop import MobDrop
 
 

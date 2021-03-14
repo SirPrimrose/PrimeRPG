@@ -2,7 +2,7 @@ import json
 from typing import List
 
 from consts import data_folder
-from data.item import Item
+from persistence.dto.item import Item
 from persistence.common_persistence import insert_dictionary
 from persistence.connection_handler import connection
 

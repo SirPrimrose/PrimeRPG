@@ -3,7 +3,7 @@ import random
 
 import util
 from consts import base_fish_frequency
-from data.fish import Fish
+from persistence.dto.fish import Fish
 from persistence.fish_persistence import get_fish
 
 

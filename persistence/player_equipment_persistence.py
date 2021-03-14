@@ -1,8 +1,7 @@
 from typing import List
 
-from data.entity_equipment import EntityEquipment
-from data.player_equipment import PlayerEquipment
 from persistence.connection_handler import connection, queue_transaction
+from persistence.dto.player_equipment import PlayerEquipment
 
 player_equipment_table = "player_equipment"
 
@@ -57,24 +56,24 @@ def get_all_player_equipment(player_id: int) -> List[PlayerEquipment]:
     return items
 
 
-def insert_player_equipment(equipment: EntityEquipment):
+def insert_player_equipment(equipment: PlayerEquipment):
     stmt = insert_player_equipment_query
     stmt_args = (
-        equipment.entity_id,
+        equipment.get_player_id(),
         equipment.equipment_slot_id,
         equipment.item_id,
     )
-    queue_transaction(equipment.entity_id, stmt, stmt_args)
+    queue_transaction(equipment.get_player_id(), stmt, stmt_args)
 
 
-def update_player_equipment(equipment: EntityEquipment):
+def update_player_equipment(equipment: PlayerEquipment):
     stmt = update_player_equipment_query
     stmt_args = (
         equipment.item_id,
-        equipment.entity_id,
+        equipment.get_player_id(),
         equipment.equipment_slot_id,
     )
-    queue_transaction(equipment.entity_id, stmt, stmt_args)
+    queue_transaction(equipment.get_player_id(), stmt, stmt_args)
 
 
 def delete_player_equipment(player_id: int):

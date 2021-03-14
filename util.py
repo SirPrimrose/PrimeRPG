@@ -12,7 +12,7 @@ from consts import (
     clear_weather,
     weather_frequency,
 )
-from data.skill_category import SkillCategory
+from persistence.dto.skill_category import SkillCategory
 from persistence.skill_categories_persistence import get_all_skill_categories
 
 # Util constants

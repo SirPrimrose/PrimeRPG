@@ -1,6 +1,6 @@
 from typing import List
 
-from data.player_core import PlayerCore
+from persistence.dto.player_core import PlayerCore
 from persistence.connection_handler import connection, queue_transaction
 
 players_table = "players"
