@@ -1,3 +1,4 @@
+from copy import copy
 from typing import List
 
 from data.fight_log.action_base import ActionBase
@@ -24,7 +25,7 @@ class FightLog:
             if e.skill_id == effort.skill_id:
                 e.value += effort.value
                 return
-        self.efforts.append(effort)
+        self.efforts.append(copy(effort))
 
     def add_rewards(self, rewards: List[ItemAmount]):
         self._rewards.extend(rewards)
