@@ -105,18 +105,16 @@ def save_player_profile(player_profile: PlayerProfile) -> None:
             update_player_skill(skill)
         else:
             insert_player_skill(skill)
-    for equipment in player_profile.equipment:
-        if get_player_equipment(
-            equipment.get_player_id(), equipment.equipment_category_id
-        ):
-            update_player_equipment(equipment)
-        else:
-            insert_player_equipment(equipment)
     for inv_item in player_profile.get_inventory():
         if get_inventory_item(inv_item.player_id, inv_item.item_id):
             update_inventory_item(inv_item)
         else:
             insert_inventory_item(inv_item)
+
+    # Blow away previous equipment in case player unequipped something
+    delete_player_equipment(player_profile.core.unique_id)
+    for equipment in player_profile.equipment:
+        insert_player_equipment(equipment)
 
 
 def delete_player_profile(player_id: int) -> None:

@@ -6,9 +6,13 @@ from persistence.dto.player_equipment import PlayerEquipment
 from persistence.items_persistence import get_item
 
 
-def unequip_player_item(player_profile: PlayerProfile, equipment: EntityEquipment):
-    player_profile.equipment.remove(equipment)
-    give_player_item(player_profile, ItemAmount(equipment.item_id, 1))
+def unequip_player_item(player_profile: PlayerProfile, item_id: int):
+    item = get_item(item_id)
+    cat_id = item.equipment_category_id
+    equipment = player_profile.get_equipment(cat_id)
+    if equipment:
+        player_profile.equipment.remove(equipment)
+        give_player_item(player_profile, ItemAmount(equipment.item_id, 1))
 
 
 def equip_player_item(player_profile: PlayerProfile, item_id: int) -> [None, str]:
@@ -21,13 +25,13 @@ def equip_player_item(player_profile: PlayerProfile, item_id: int) -> [None, str
 
     # Check if player has enough of item
     inv_item = player_profile.get_inventory_item(item_id)
-    if inv_item.quantity < 1:
+    if not inv_item or inv_item.quantity < 1:
         return "Not enough of item"
 
     # Check if player already has item equipped in slot
     equipment = player_profile.get_equipment(cat_id)
     if equipment:
-        unequip_player_item(player_profile, equipment)
+        unequip_player_item(player_profile, item_id)
 
     give_player_item(player_profile, ItemAmount(item_id, -1))
     player_profile.equipment.append(

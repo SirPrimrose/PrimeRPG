@@ -12,7 +12,9 @@ from consts import (
     clear_weather,
     weather_frequency,
 )
+from persistence.dto.item import Item
 from persistence.dto.skill_category import SkillCategory
+from persistence.items_persistence import get_all_items
 from persistence.skill_categories_persistence import get_all_skill_categories
 
 # Util constants
@@ -24,11 +26,13 @@ hp_loss_per_tier = 2
 
 # Preloaded data
 skill_categories: List[SkillCategory] = []
+items: List[Item] = []
 
 
 def load_util_data() -> None:
-    global skill_categories
+    global skill_categories, items
     skill_categories = get_all_skill_categories()
+    items = get_all_items()
 
 
 def get_skill_category_name(skill_id: int) -> str:
@@ -55,6 +59,32 @@ def get_skill_category_short_name(skill_id: int) -> str:
         return next(
             filter(lambda skill: skill.unique_id == skill_id, skill_categories)
         ).short_name
+    except StopIteration:
+        return does_not_exist_string
+
+
+def get_item_id(item_name: str) -> [None, int]:
+    """Gets the item name without hitting the database
+
+    :param item_name: Unique id of the item, case insensitive
+    :return: The name of the skill category, or "DNE" if it does not exist
+    """
+    try:
+        return next(
+            filter(lambda item: item.name.lower() == item_name.lower(), items)
+        ).unique_id
+    except StopIteration:
+        return None
+
+
+def get_item_name(item_id: int) -> str:
+    """Gets the item name without hitting the database
+
+    :param item_id: Unique id of the item
+    :return: The name of the skill category, or "DNE" if it does not exist
+    """
+    try:
+        return next(filter(lambda item: item.unique_id == item_id, items)).name
     except StopIteration:
         return does_not_exist_string
 

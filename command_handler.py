@@ -5,6 +5,7 @@ from commands.cm_collect import Collect
 from commands.cm_data import Data
 from commands.cm_dice import Dice
 from commands.cm_embed import EmbedCommand
+from commands.cm_equip import Equip
 from commands.cm_fish import Fish
 from commands.cm_heal import Heal
 from commands.cm_hello import Hello
@@ -16,6 +17,7 @@ from commands.cm_scrub import Scrub
 from commands.cm_skills import Skills
 from commands.cm_start import Start
 from commands.cm_time import Time
+from commands.cm_unequip import Unequip
 from commands.cm_weather import Weather
 from persistence.connection_handler import spam_list
 
@@ -40,6 +42,8 @@ def load_commands():
     register(Profile())
     register(Inventory())
     register(Scrub())
+    register(Equip())
+    register(Unequip())
 
 
 def register(command):
