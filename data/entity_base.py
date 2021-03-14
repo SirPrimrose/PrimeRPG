@@ -17,8 +17,7 @@ from consts import (
 )
 from data.entity_equipment import EntityEquipment
 from data.entity_skill import EntitySkill
-from persistence.equipment_stat_persistence import get_equipment_stat
-from util import calculate_max_hp
+from util import calculate_max_hp, get_equipment_stat
 
 
 class EntityBase:
@@ -89,7 +88,6 @@ class EntityBase:
     def get_attack_power(self):
         attack_power = 5.0
         for e in self.equipment:
-            # TODO Preload this data so it isn't fetched from the database every attack
             attack_power_stat = get_equipment_stat(e.item_id, attack_stat_id)
             if attack_power_stat:
                 attack_power += self._apply_scaling(attack_power_stat)
@@ -99,7 +97,6 @@ class EntityBase:
     def get_armor_power(self):
         armor_power = 5.0
         for e in self.equipment:
-            # TODO Preload this data so it isn't fetched from the database every attack
             armor_power_stat = get_equipment_stat(e.item_id, armor_stat_id)
             if armor_power_stat:
                 armor_power += self._apply_scaling(armor_power_stat)

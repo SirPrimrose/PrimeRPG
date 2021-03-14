@@ -111,7 +111,7 @@ def save_player_profile(player_profile: PlayerProfile) -> None:
         else:
             insert_inventory_item(inv_item)
 
-    # Blow away previous equipment in case player unequipped something
+    # TODO Instead of refreshing the entire equip list, only delete/insert differences
     delete_player_equipment(player_profile.core.unique_id)
     for equipment in player_profile.equipment:
         insert_player_equipment(equipment)

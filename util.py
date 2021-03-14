@@ -2,7 +2,7 @@ import datetime
 import math
 import random
 from math import sin, pi
-from typing import List, TypeVar, Dict
+from typing import List, TypeVar, Dict, Optional
 
 from numpy.random import normal
 
@@ -12,9 +12,14 @@ from consts import (
     clear_weather,
     weather_frequency,
 )
+from persistence.dto.equipment_stat import EquipmentStat
 from persistence.dto.item import Item
 from persistence.dto.item_category import ItemCategory
 from persistence.dto.skill_category import SkillCategory
+from persistence.equipment_stat_persistence import (
+    get_equipment_stats,
+    get_all_equipment_stats,
+)
 from persistence.item_categories_persistence import get_all_item_categories
 from persistence.items_persistence import get_all_items
 from persistence.skill_categories_persistence import get_all_skill_categories
@@ -29,16 +34,19 @@ hp_loss_per_tier = 2
 # Preloaded data
 skill_categories: List[SkillCategory] = []
 item_categories: List[ItemCategory] = []
+equipment_stats: List[EquipmentStat] = []
 items: List[Item] = []
 
 
 def load_util_data() -> None:
-    global skill_categories, item_categories, items
+    global skill_categories, item_categories, equipment_stats, items
     skill_categories = get_all_skill_categories()
     item_categories = get_all_item_categories()
+    equipment_stats = get_all_equipment_stats()
     items = get_all_items()
 
 
+# Skill Category data helpers
 def get_skill_category_name(skill_id: int) -> str:
     """Gets the skill category name without hitting the database
 
@@ -67,6 +75,7 @@ def get_skill_category_short_name(skill_id: int) -> str:
         return does_not_exist_string
 
 
+# Item Category data helpers
 def get_item_category_name(item_cat_id: int) -> str:
     """Gets the item category name without hitting the database
 
@@ -81,10 +90,33 @@ def get_item_category_name(item_cat_id: int) -> str:
         return does_not_exist_string
 
 
+# Equipment Stat data helpers
+def get_equipment_stat(
+    item_id: int, equipment_stat_category_id: int
+) -> Optional[EquipmentStat]:
+    """Gets the equipment stat without hitting the database
+
+    :param item_id: Item id of the stat
+    :param equipment_stat_category_id: Category id of the stat
+    :return: The name of the skill category, or "DNE" if it does not exist
+    """
+    try:
+        return next(
+            filter(
+                lambda eq_stat: eq_stat.item_id == item_id
+                and eq_stat.equipment_stat_category_id == equipment_stat_category_id,
+                equipment_stats,
+            )
+        )
+    except StopIteration:
+        return None
+
+
+# Item data helpers
 def get_item_id(item_name: str) -> [None, int]:
     """Gets the item name without hitting the database
 
-    :param item_name: Unique id of the item, case insensitive
+    :param item_name: Name of the item, case insensitive
     :return: The name of the skill category, or "DNE" if it does not exist
     """
     try:

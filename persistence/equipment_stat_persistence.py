@@ -22,6 +22,7 @@ select_equipment_stat_query = (
 select_equipment_stats_query = (
     "SELECT * FROM %s WHERE item_id = ?" % equipment_stats_table
 )
+select_all_equipment_stats_query = "SELECT * FROM %s" % equipment_stats_table
 create_equipment_stats_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
     "item_id integer NOT NULL, "
@@ -81,6 +82,16 @@ def get_equipment_stats(item_id: int) -> List[EquipmentStat]:
     stmt_args = (item_id,)
     statement = select_equipment_stats_query
     cursor_obj.execute(statement, stmt_args)
+    result = cursor_obj.fetchall()
+
+    return [init_equipment_stat(r) for r in result]
+
+
+def get_all_equipment_stats() -> List[EquipmentStat]:
+    cursor_obj = connection.cursor()
+
+    statement = select_all_equipment_stats_query
+    cursor_obj.execute(statement)
     result = cursor_obj.fetchall()
 
     return [init_equipment_stat(r) for r in result]
