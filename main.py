@@ -15,8 +15,9 @@ __DEBUG__ = bool(os.getenv("__DEBUG__"))
 from util import load_util_data
 
 ready = False
-db_save_tick_rate = 1  # seconds
-regen_tick_rate = 60  # seconds
+game_tick_rate = 0.5  # seconds
+save_tick_rate = 1  # ticks
+regen_tick_rate = 120  # ticks
 
 # Quick Config Options
 start_app = True  # Start the bot application and connect to Discord. Disable to test without a connection.
@@ -28,19 +29,16 @@ def app_setup():
     print("PrimeRPG setup complete")
 
 
-async def save_to_db():
+async def game_tick():
     await game_client.wait_until_ready()
+    tick = 0
     while True:
-        await asyncio.sleep(db_save_tick_rate)
-        persistence.save_queue()
-
-
-async def regen_player_hp():
-    await game_client.wait_until_ready()
-    while True:
-        await asyncio.sleep(regen_tick_rate)
-        # TODO Move regen tick into save_to_db so it always is first to queue and can be overwritten
-        regen_tick()
+        await asyncio.sleep(game_tick_rate)
+        tick += 1
+        if tick % save_tick_rate == 0:
+            persistence.save_queue()
+        if tick % regen_tick_rate == 0:
+            regen_tick()
 
 
 @game_client.event
@@ -82,8 +80,7 @@ if start_app:
             "https://discord.com/developers/applications/816353796278976512/bot"
         )
     else:
-        game_client.loop.create_task(save_to_db())
-        game_client.loop.create_task(regen_player_hp())
+        game_client.loop.create_task(game_tick())
         game_client.run(token)
 else:
     print("Running in non-connected mode. Will not login to Discord.")
