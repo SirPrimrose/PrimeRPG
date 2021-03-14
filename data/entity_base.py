@@ -124,3 +124,15 @@ class EntityBase:
             result.modify_xp(value)
         except StopIteration:
             pass
+
+    def get_equipment(self, equipment_category_id) -> EntityEquipment:
+        try:
+            result = next(
+                filter(
+                    lambda equip: equip.equipment_category_id == equipment_category_id,
+                    self.equipment,
+                )
+            )
+        except StopIteration:
+            result = None
+        return result

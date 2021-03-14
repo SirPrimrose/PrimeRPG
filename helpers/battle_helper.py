@@ -65,7 +65,7 @@ def player_win(attacker: PlayerProfile, defender: MobProfile, log: FightLog):
     credit_effort(attacker, log)
     log.add_rewards(get_mob_kill_rewards(defender))
     for reward in log.get_rewards():
-        give_player_item(attacker.core.unique_id, reward)
+        give_player_item(attacker, reward)
 
 
 def sim_fight(attacker: EntityBase, defender: EntityBase) -> FightLog:

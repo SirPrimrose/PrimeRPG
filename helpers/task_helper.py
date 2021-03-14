@@ -60,6 +60,7 @@ async def get_task_rewards(msg: discord.Message, task: PlayerTask):
         print("Mining")
 
     items = count_items(rewards)
+    # TODO Full rewrite of function, use player profile instead of id then save profile
     for item_id, amount in items.items():
         item_helper.give_player_item(task.player_id, ItemAmount(item_id, amount))
 
