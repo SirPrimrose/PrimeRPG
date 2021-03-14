@@ -1,4 +1,5 @@
 import json
+from typing import List
 
 from consts import data_folder
 from persistence.common_persistence import insert_dictionary
@@ -10,6 +11,7 @@ item_categories_table = "item_categories"
 select_item_categories_query = (
     "SELECT * FROM %s WHERE unique_id = ?" % item_categories_table
 )
+select_all_item_categories_query = "SELECT * FROM %s" % item_categories_table
 create_item_categories_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
     "unique_id integer PRIMARY KEY NOT NULL, "
@@ -35,6 +37,16 @@ def get_item_category(unique_id: int):
     result = cursor_obj.fetchone()
 
     return init_item_category(result)
+
+
+def get_all_item_categories() -> List[ItemCategory]:
+    cursor_obj = connection.cursor()
+
+    statement = select_all_item_categories_query
+    cursor_obj.execute(statement)
+    result = cursor_obj.fetchall()
+
+    return [init_item_category(r) for r in result]
 
 
 def init_item_category(db_row):

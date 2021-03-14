@@ -1,16 +1,22 @@
-from typing import List
+from collections import OrderedDict
+from typing import List, OrderedDict as OrderedDictType
 
 from discord import User, Embed
 
 from embeds.base_embed import BaseEmbed
-from persistence.items_persistence import get_item
+from persistence.dto.player_inventory_item import PlayerInventoryItem
 from urls import backpack_url
+from util import get_item_category, get_item_category_name, get_item_name
 
 
 class InventoryEmbed(BaseEmbed):
-    def __init__(self, items, author: User):
+    def __init__(
+        self,
+        items: List[PlayerInventoryItem],
+        author: User,
+    ):
         super().__init__(author)
-        self.items = items
+        self.categorized_items = self._organize_categories(items)
 
     def generate_embed(self) -> Embed:
         embed = Embed()
@@ -19,15 +25,18 @@ class InventoryEmbed(BaseEmbed):
             icon_url=self.author.avatar_url,
         )
         embed.set_thumbnail(url=backpack_url)
-        value = ""
-        for item in self.items:
-            i = get_item(item.item_id)
-            value += "{}: {}\n".format(i.name, item.quantity)
-        embed.add_field(
-            name="Items",
-            value=value if value else "Nothing",
-            inline=False,
-        )
+        for cat_id, cat_item_list in self.categorized_items.items():
+            cat_text = ""
+            for item in cat_item_list:
+                item_name = get_item_name(item.item_id)
+                if item.quantity > 0:
+                    cat_text += "{}: {}\n".format(item_name, item.quantity)
+            if cat_text:
+                embed.add_field(
+                    name=get_item_category_name(cat_id),
+                    value=cat_text,
+                    inline=True,
+                )
         return embed
 
     def get_reaction_emojis(self) -> List[str]:
@@ -38,3 +47,15 @@ class InventoryEmbed(BaseEmbed):
 
     async def handle_reaction(self, reaction):
         pass
+
+    def _organize_categories(
+        self, items: List[PlayerInventoryItem]
+    ) -> OrderedDictType[int, List[PlayerInventoryItem]]:
+        cat_items = {}
+        for item in items:
+            cat = get_item_category(item.item_id)
+            if cat in cat_items:
+                cat_items[cat].append(item)
+            else:
+                cat_items[cat] = [item]
+        return OrderedDict(sorted(cat_items.items()))

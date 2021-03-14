@@ -7,7 +7,7 @@ from data.fight_log.fight_log import FightLog
 from data.fight_log.turn_action import TurnAction
 from data.player_profile import PlayerProfile
 from embeds.base_embed import BaseEmbed
-from embeds.common_embed import add_detailed_stat_field, heal_player
+from embeds.common_embed import add_detailed_stat_field, heal_player, add_spacer_field
 from embeds.simple_embed import SimpleEmbed
 from emojis import info_emoji, heal_emoji, skill_emojis
 from persistence.items_persistence import get_item
@@ -66,7 +66,7 @@ class ReconResultsEmbed(BaseEmbed):
 
         # Spacer field so inlines do not overlap
         if item_drops_text or effort_text:
-            embed.add_field(name=no_space, value=no_space, inline=False)
+            add_spacer_field(embed)
         if item_drops_text:
             embed.add_field(
                 name="Drops",

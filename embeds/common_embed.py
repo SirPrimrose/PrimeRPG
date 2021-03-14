@@ -4,6 +4,7 @@ from data.entity_base import EntityBase
 from data.player_profile import PlayerProfile
 from helpers.player_helper import heal_player_profile
 from persistence.player_persistence import update_player_data
+from text_consts import no_space
 
 
 def add_detailed_stat_field(
@@ -36,6 +37,10 @@ def add_short_stat_field(embed: Embed, field_title, profile: EntityBase, inline=
         value=stats_value,
         inline=inline,
     )
+
+
+def add_spacer_field(embed: Embed):
+    embed.add_field(name=no_space, value=no_space, inline=False)
 
 
 def heal_player(player_profile: PlayerProfile):

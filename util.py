@@ -13,7 +13,9 @@ from consts import (
     weather_frequency,
 )
 from persistence.dto.item import Item
+from persistence.dto.item_category import ItemCategory
 from persistence.dto.skill_category import SkillCategory
+from persistence.item_categories_persistence import get_all_item_categories
 from persistence.items_persistence import get_all_items
 from persistence.skill_categories_persistence import get_all_skill_categories
 
@@ -26,12 +28,14 @@ hp_loss_per_tier = 2
 
 # Preloaded data
 skill_categories: List[SkillCategory] = []
+item_categories: List[ItemCategory] = []
 items: List[Item] = []
 
 
 def load_util_data() -> None:
-    global skill_categories, items
+    global skill_categories, item_categories, items
     skill_categories = get_all_skill_categories()
+    item_categories = get_all_item_categories()
     items = get_all_items()
 
 
@@ -43,7 +47,7 @@ def get_skill_category_name(skill_id: int) -> str:
     """
     try:
         return next(
-            filter(lambda skill: skill.unique_id == skill_id, skill_categories)
+            filter(lambda skill_cat: skill_cat.unique_id == skill_id, skill_categories)
         ).name
     except StopIteration:
         return does_not_exist_string
@@ -57,8 +61,22 @@ def get_skill_category_short_name(skill_id: int) -> str:
     """
     try:
         return next(
-            filter(lambda skill: skill.unique_id == skill_id, skill_categories)
+            filter(lambda skill_cat: skill_cat.unique_id == skill_id, skill_categories)
         ).short_name
+    except StopIteration:
+        return does_not_exist_string
+
+
+def get_item_category_name(item_cat_id: int) -> str:
+    """Gets the item category name without hitting the database
+
+    :param item_cat_id: Unique id of the item
+    :return: The name of the skill category, or "DNE" if it does not exist
+    """
+    try:
+        return next(
+            filter(lambda item_cat: item_cat.unique_id == item_cat_id, item_categories)
+        ).name
     except StopIteration:
         return does_not_exist_string
 
@@ -87,6 +105,20 @@ def get_item_name(item_id: int) -> str:
         return next(filter(lambda item: item.unique_id == item_id, items)).name
     except StopIteration:
         return does_not_exist_string
+
+
+def get_item_category(item_id: int) -> [None, int]:
+    """Gets the item name without hitting the database
+
+    :param item_id: Unique id of the item
+    :return: The name of the skill category, or "DNE" if it does not exist
+    """
+    try:
+        return next(
+            filter(lambda item: item.unique_id == item_id, items)
+        ).item_category_id
+    except StopIteration:
+        return None
 
 
 def get_current_in_game_time() -> str:
