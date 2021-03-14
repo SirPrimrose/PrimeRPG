@@ -2,7 +2,7 @@ import datetime
 import math
 import random
 from math import sin, pi
-from typing import List
+from typing import List, TypeVar, Dict
 
 from numpy.random import normal
 
@@ -174,7 +174,11 @@ def roll_gaussian_dist_for_drop(mean: float, std_dev: float) -> float:
     return min(max(normal(mean, std_dev), drop_min), drop_max)
 
 
-def get_key_for_value(dictionary: dict, value):
+T = TypeVar("T")
+U = TypeVar("U")
+
+
+def get_key_for_value(dictionary: Dict[T, U], value: U) -> T:
     keys = list(dictionary.keys())
     vals = list(dictionary.values())
 
