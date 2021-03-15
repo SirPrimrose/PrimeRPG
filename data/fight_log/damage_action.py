@@ -1,5 +1,11 @@
 from data.fight_log.action_base import ActionBase
-from emojis import player_heart, enemy_heart, attack_emoji, damage_emoji
+from emojis import (
+    player_heart_id,
+    enemy_heart_id,
+    emoji_from_id,
+    damage_emoji_id,
+    attack_emoji_id,
+)
 
 
 class DamageAction(ActionBase):
@@ -19,13 +25,13 @@ class DamageAction(ActionBase):
         self.player_attacking = player_attacking
 
     def get_message(self):
-        heart = enemy_heart if self.player_attacking else player_heart
+        heart = enemy_heart_id if self.player_attacking else player_heart_id
         return "{0} {1} {2} (**{3}** {4}) for **{5}**{6}".format(
             self.attacker_name,
-            attack_emoji,
+            emoji_from_id(attack_emoji_id),
             self.defender_name,
             self.defender_hp,
-            heart,
+            emoji_from_id(heart),
             self.damage,
-            damage_emoji,
+            emoji_from_id(damage_emoji_id),
         )

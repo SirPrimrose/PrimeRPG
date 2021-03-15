@@ -7,6 +7,7 @@ from embeds.base_embed import BaseEmbed
 from emojis import (
     skill_emojis,
     grade_emojis,
+    emoji_from_id,
 )
 from helpers.stat_helper import get_scaled_stat_value_for_item
 from persistence.equipment_stat_persistence import get_equipment_stats
@@ -56,7 +57,9 @@ class EquipmentEmbed(BaseEmbed):
                     scale_line = "{}".format(spaced_vert_line)
                     for skill_id, scaling in stat.scales_with.items():
                         skill_emoji = get_key_for_value(skill_emojis, skill_id)
-                        skill_line += "{}{}".format(skill_emoji, spaced_vert_line)
+                        skill_line += "{}{}".format(
+                            emoji_from_id(skill_emoji), spaced_vert_line
+                        )
                         scale_line += "{}{}".format(
                             get_scaling_grade(scaling), spaced_vert_line
                         )
@@ -71,13 +74,13 @@ class EquipmentEmbed(BaseEmbed):
         print(len(embed))
         return embed
 
-    def get_reaction_emojis(self) -> List[str]:
+    def get_reaction_emojis(self) -> List[int]:
         pass
 
     async def handle_fail_to_react(self):
         pass
 
-    async def handle_reaction(self, reaction):
+    async def handle_reaction(self, reaction_id: int):
         pass
 
 

@@ -9,7 +9,7 @@ from embeds.common_embed import (
     pretty_format_skill_level,
     heal_player,
 )
-from emojis import skill_emojis, heal_emoji
+from emojis import skill_emojis, heal_emoji_id, emoji_from_id
 from text_consts import large_space, half_space
 from urls import profile_url
 
@@ -43,7 +43,7 @@ class ProfileEmbed(BaseEmbed):
                 None,
             )
             value += "{2}{0}{3}{1}{2}|".format(
-                skill_emoji,
+                emoji_from_id(skill_emoji),
                 pretty_format_skill_level(skill.get_level()),
                 large_space,
                 half_space,
@@ -53,13 +53,13 @@ class ProfileEmbed(BaseEmbed):
         embed.add_field(name="Skills", value=value, inline=False)
         return embed
 
-    def get_reaction_emojis(self) -> List[str]:
-        return [heal_emoji]
+    def get_reaction_emojis(self) -> List[int]:
+        return [heal_emoji_id]
 
     async def handle_fail_to_react(self):
         pass
 
-    async def handle_reaction(self, reaction):
+    async def handle_reaction(self, reaction_id: int):
         if str(reaction) == heal_emoji:
             heal_player(self.player_profile)
             await self.update_embed_content()

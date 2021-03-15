@@ -5,6 +5,7 @@ from typing import List
 from discord import Embed, User, Message
 
 from consts import game_client
+from emojis import extract_id_from_emoji, emoji_from_id
 
 
 class BaseEmbed:
@@ -18,7 +19,7 @@ class BaseEmbed:
         pass
 
     @abstractmethod
-    def get_reaction_emojis(self) -> List[str]:
+    def get_reaction_emojis(self) -> List[int]:
         pass
 
     @abstractmethod
@@ -26,13 +27,13 @@ class BaseEmbed:
         pass
 
     @abstractmethod
-    async def handle_reaction(self, reaction):
+    async def handle_reaction(self, reaction_id: int):
         pass
 
     async def connect_reaction_listener(self, embed_message: Message) -> None:
         self.embed_message = embed_message
         reaction_list = [
-            self.embed_message.add_reaction(emoji)
+            self.embed_message.add_reaction(emoji_from_id(emoji))
             for emoji in self.get_reaction_emojis()
         ]
         await self.embed_message.clear_reactions()
@@ -49,9 +50,9 @@ class BaseEmbed:
                 check=self.get_reaction_check(),
             )
         except asyncio.TimeoutError:
-            pass
+            await self.handle_fail_to_react()
         else:
-            await self.handle_reaction(reaction)
+            await self.handle_reaction(extract_id_from_emoji(str(reaction)))
 
     async def update_embed_content(self, relisten_for_reaction=True):
         new_embed = self.generate_embed(True)
@@ -70,7 +71,8 @@ class BaseEmbed:
             return (
                 user == self.author
                 and reaction.message == self.embed_message
-                and str(reaction.emoji) in self.get_reaction_emojis()
+                and extract_id_from_emoji(str(reaction.emoji))
+                in self.get_reaction_emojis()
             )
 
         return __reaction_check

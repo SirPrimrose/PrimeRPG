@@ -9,7 +9,7 @@ from data.player_profile import PlayerProfile
 from embeds.base_embed import BaseEmbed
 from embeds.common_embed import add_detailed_stat_field, heal_player, add_spacer_field
 from embeds.simple_embed import SimpleEmbed
-from emojis import info_emoji, heal_emoji, skill_emojis
+from emojis import skill_emojis, info_emoji_id, heal_emoji_id, emoji_from_id
 from persistence.items_persistence import get_item
 from text_consts import no_space, half_space
 from util import get_key_for_value
@@ -62,7 +62,9 @@ class ReconResultsEmbed(BaseEmbed):
         effort_text = ""
         for effort in self.fight_log.efforts:
             skill_emoji = get_key_for_value(skill_emojis, effort.skill_id)
-            effort_text += "\n{}{}{}".format(skill_emoji, half_space, effort.value)
+            effort_text += "\n{}{}{}".format(
+                emoji_from_id(skill_emoji), half_space, effort.value
+            )
 
         # Spacer field so inlines do not overlap
         if item_drops_text or effort_text:
@@ -81,16 +83,16 @@ class ReconResultsEmbed(BaseEmbed):
             )
         return embed
 
-    def get_reaction_emojis(self) -> List[str]:
-        return [info_emoji, heal_emoji]
+    def get_reaction_emojis(self) -> List[int]:
+        return [info_emoji_id, heal_emoji_id]
 
     async def handle_fail_to_react(self):
         pass
 
-    async def handle_reaction(self, reaction):
-        if str(reaction) == info_emoji:
+    async def handle_reaction(self, reaction_id: int):
+        if reaction_id == info_emoji_id:
             await self.print_log()
-        elif str(reaction) == heal_emoji:
+        elif reaction_id == heal_emoji_id:
             heal_player(self.fighter_profile)
             await self.update_embed_content()
         else:

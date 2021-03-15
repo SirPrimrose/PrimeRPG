@@ -39,13 +39,13 @@ class InventoryEmbed(BaseEmbed):
                 )
         return embed
 
-    def get_reaction_emojis(self) -> List[str]:
+    def get_reaction_emojis(self) -> List[int]:
         pass
 
     async def handle_fail_to_react(self):
         pass
 
-    async def handle_reaction(self, reaction):
+    async def handle_reaction(self, reaction_id: int):
         pass
 
     def _organize_categories(

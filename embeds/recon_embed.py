@@ -8,7 +8,12 @@ from data.player_profile import PlayerProfile
 from embeds.base_embed import BaseEmbed
 from embeds.common_embed import add_detailed_stat_field, heal_player
 from embeds.recon_results_embed import ReconResultsEmbed
-from emojis import fight_emoji, heal_emoji, run_emoji
+from emojis import (
+    fight_emoji_id,
+    heal_emoji_id,
+    run_emoji_id,
+    emoji_from_id,
+)
 from helpers.battle_helper import get_flee_chance, sim_fight
 from helpers.player_helper import save_player_profile, heal_player_profile
 from util import get_current_in_game_time, get_current_in_game_weather
@@ -46,9 +51,9 @@ class ReconEmbed(BaseEmbed):
         enemy_speed = self.enemy_profile.get_skill_level(speed_skill_id)
         flee_chance = get_flee_chance(fighter_speed, enemy_speed)
         action_text = "{} Fight\n{} Heal\n{} Run Away ({:.1f}%)".format(
-            fight_emoji,
-            heal_emoji,
-            run_emoji,
+            emoji_from_id(fight_emoji_id),
+            emoji_from_id(heal_emoji_id),
+            emoji_from_id(run_emoji_id),
             flee_chance * 100,
         )
         embed.add_field(name="Actions", value=action_text, inline=False)
@@ -59,24 +64,24 @@ class ReconEmbed(BaseEmbed):
         )
         return embed
 
-    def get_reaction_emojis(self) -> List[str]:
+    def get_reaction_emojis(self) -> List[int]:
         return [
-            fight_emoji,
-            heal_emoji,
-            run_emoji,
+            fight_emoji_id,
+            heal_emoji_id,
+            run_emoji_id,
         ]
 
     async def handle_fail_to_react(self):
         await self.embed_message.channel.send("Failed to respond. Fighting...")
         await self.start_fight()
 
-    async def handle_reaction(self, reaction):
-        if str(reaction) == fight_emoji:
+    async def handle_reaction(self, reaction_id: int):
+        if reaction_id == fight_emoji_id:
             await self.start_fight()
-        elif str(reaction) == heal_emoji:
+        elif reaction_id == heal_emoji_id:
             heal_player(self.fighter_profile)
             await self.update_embed_content()
-        elif str(reaction) == run_emoji:
+        elif reaction_id == run_emoji_id:
             await self.embed_message.channel.send("Attempt to run")
         else:
             await self.embed_message.channel.send("Failed to handle reaction")

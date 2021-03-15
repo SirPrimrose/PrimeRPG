@@ -6,7 +6,7 @@ from discord import User, Embed
 from data.player_profile import PlayerProfile
 from embeds.base_embed import BaseEmbed
 from embeds.common_embed import pretty_format_skill_level
-from emojis import skill_emojis
+from emojis import skill_emojis, emoji_from_id
 from text_consts import light_bar, full_bar, no_space
 from urls import skills_url
 from util import get_skill_category_short_name
@@ -36,7 +36,7 @@ class SkillsEmbed(BaseEmbed):
             light_bars = progress_bar_length - full_bars
             progress_text = full_bars * full_bar + light_bars * light_bar
             value += "{} `{}`{}`{}`\n".format(
-                skill_emoji,
+                emoji_from_id(skill_emoji),
                 pretty_format_skill_level(skill.get_level()),
                 progress_text,
                 get_skill_category_short_name(skill_id),
@@ -48,11 +48,11 @@ class SkillsEmbed(BaseEmbed):
         )
         return embed
 
-    def get_reaction_emojis(self) -> List[str]:
+    def get_reaction_emojis(self) -> List[int]:
         pass
 
     async def handle_fail_to_react(self):
         pass
 
-    async def handle_reaction(self, reaction):
+    async def handle_reaction(self, reaction_id: int):
         pass

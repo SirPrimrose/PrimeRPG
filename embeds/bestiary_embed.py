@@ -22,11 +22,11 @@ class BestiaryEmbed(BaseEmbed):
         embed.set_thumbnail(url="https://i.imgur.com/RskTsQK.png")
         return embed
 
-    def get_reaction_emojis(self) -> List[str]:
+    def get_reaction_emojis(self) -> List[int]:
         pass
 
     async def handle_fail_to_react(self):
         pass
 
-    async def handle_reaction(self, reaction):
+    async def handle_reaction(self, reaction_id: int):
         pass

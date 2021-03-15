@@ -99,7 +99,7 @@ def get_player_profile(player_id) -> PlayerProfile:
 def save_player_profile(player_profile: PlayerProfile) -> None:
     update_player_data(player_profile.core)
     for skill in player_profile.skills:
-        if get_player_skill(skill.get_player_id(), skill.skill_id):
+        if get_player_skill(skill.entity_id, skill.skill_id):
             update_player_skill(skill)
         else:
             insert_player_skill(skill)
