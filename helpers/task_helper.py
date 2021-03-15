@@ -14,6 +14,7 @@ from persistence.task_persistence import (
     delete_player_task,
 )
 from tasks.fishing_task import get_fishing_task_rewards
+from util import time_since
 
 
 async def handle_start_task(msg, player_id, task):
@@ -29,39 +30,36 @@ async def handle_start_task(msg, player_id, task):
         await msg.channel.send("You are busy {0}.".format(player_data.state))
 
 
-def handle_stop_task(
-    msg, profile: PlayerProfile, task: PlayerTask
-) -> (List[ItemAmount], datetime.timedelta):
+def handle_stop_task(profile: PlayerProfile, task: PlayerTask) -> List[ItemAmount]:
     if profile.core.state == gathering_state:
         if task:
             profile.core.state = idle_state
             delete_player_task(profile.core.unique_id, task.task)
 
-            rewards, time_passed = get_task_rewards(task)
+            rewards = get_task_rewards(task)
 
             for item in rewards:
                 item_helper.give_player_item(profile, item)
             save_player_profile(profile)
 
-            return rewards, time_passed
+            return rewards
         else:
             profile.core.state = idle_state
             save_player_profile(profile)
-            return None, None
+            return []
 
 
-def get_task_rewards(task: PlayerTask) -> (List[ItemAmount], datetime.timedelta):
+def get_task_rewards(task: PlayerTask) -> List[ItemAmount]:
     start_time = date_from_str(task.time_started)
-    end_time = datetime.datetime.utcnow()
-    time_passed = min(end_time - start_time, datetime.timedelta(hours=1))
+    reward_time = min(time_since(task.time_started), datetime.timedelta(hours=1))
 
     rewards = []
     if task.task == fishing_task:
-        rewards = get_fishing_task_rewards(start_time, time_passed)
+        rewards = get_fishing_task_rewards(start_time, reward_time)
     elif task.task == mining_task:
         print("Mining")
 
-    return count_items(rewards), time_passed
+    return count_items(rewards)
 
 
 def count_items(rewards) -> List[ItemAmount]:

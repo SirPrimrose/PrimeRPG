@@ -12,12 +12,12 @@ from consts import (
     clear_weather,
     weather_frequency,
 )
+from helpers.task_helper import date_from_str
 from persistence.dto.equipment_stat import EquipmentStat
 from persistence.dto.item import Item
 from persistence.dto.item_category import ItemCategory
 from persistence.dto.skill_category import SkillCategory
 from persistence.equipment_stat_persistence import (
-    get_equipment_stats,
     get_all_equipment_stats,
 )
 from persistence.item_categories_persistence import get_all_item_categories
@@ -278,3 +278,9 @@ def get_key_for_value(dictionary: Dict[T, U], value: U) -> T:
 
     position = vals.index(value)
     return keys[position]
+
+
+def time_since(start_time: str) -> datetime.timedelta:
+    start_time = date_from_str(start_time)
+    end_time = datetime.datetime.utcnow()
+    return end_time - start_time
