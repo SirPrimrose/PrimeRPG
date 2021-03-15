@@ -2,12 +2,12 @@ import json
 from typing import List
 
 from consts import data_folder
+from data.entity_equipment import EntityEquipment
 from persistence.common_persistence import (
     insert_dictionary,
     convert_dict_keys_to_id,
 )
 from persistence.connection_handler import connection, queue_transaction
-from persistence.dto.mob_equipment import MobEquipment
 from persistence.equipment_categories_persistence import get_all_equipment_categories
 from persistence.items_persistence import get_all_items
 
@@ -56,7 +56,7 @@ def populate_mob_equipment_table():
                 insert_dictionary(mob_equipment_table, mob_equipment)
 
 
-def get_mob_equipment(mob_id: int, equipment_category_id: int) -> MobEquipment:
+def get_mob_equipment(mob_id: int, equipment_category_id: int) -> EntityEquipment:
     cursor_obj = connection.cursor()
 
     stmt_args = (
@@ -70,7 +70,7 @@ def get_mob_equipment(mob_id: int, equipment_category_id: int) -> MobEquipment:
     return init_mob_equipment(result)
 
 
-def get_all_mob_equipment(mob_id: int) -> List[MobEquipment]:
+def get_all_mob_equipment(mob_id: int) -> List[EntityEquipment]:
     cursor_obj = connection.cursor()
 
     stmt_args = (mob_id,)
@@ -83,24 +83,24 @@ def get_all_mob_equipment(mob_id: int) -> List[MobEquipment]:
     return items
 
 
-def insert_mob_equipment(equipment: MobEquipment):
+def insert_mob_equipment(equipment: EntityEquipment):
     stmt = insert_mob_equipment_query
     stmt_args = (
-        equipment.get_mob_id(),
+        equipment.entity_id,
         equipment.equipment_category_id,
         equipment.item_id,
     )
-    queue_transaction(equipment.get_mob_id(), stmt, stmt_args)
+    queue_transaction(equipment.entity_id, stmt, stmt_args)
 
 
-def update_mob_equipment(equipment: MobEquipment):
+def update_mob_equipment(equipment: EntityEquipment):
     stmt = update_mob_equipment_query
     stmt_args = (
         equipment.item_id,
-        equipment.get_mob_id(),
+        equipment.entity_id,
         equipment.equipment_category_id,
     )
-    queue_transaction(equipment.get_mob_id(), stmt, stmt_args)
+    queue_transaction(equipment.entity_id, stmt, stmt_args)
 
 
 def delete_mob_equipment(mob_id: int):
@@ -111,6 +111,6 @@ def delete_mob_equipment(mob_id: int):
 
 def init_mob_equipment(db_row):
     if db_row:
-        return MobEquipment(db_row[0], db_row[1], db_row[2])
+        return EntityEquipment(db_row[0], db_row[1], db_row[2])
     else:
         return None

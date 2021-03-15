@@ -1,7 +1,7 @@
 from typing import List
 
+from data.entity_equipment import EntityEquipment
 from persistence.connection_handler import connection, queue_transaction
-from persistence.dto.player_equipment import PlayerEquipment
 
 player_equipment_table = "player_equipment"
 
@@ -31,7 +31,7 @@ delete_player_equipment_query = (
 )
 
 
-def get_player_equipment(player_id: int, equipment_category_id: int) -> PlayerEquipment:
+def get_player_equipment(player_id: int, equipment_category_id: int) -> EntityEquipment:
     cursor_obj = connection.cursor()
 
     stmt_args = (
@@ -45,7 +45,7 @@ def get_player_equipment(player_id: int, equipment_category_id: int) -> PlayerEq
     return init_player_equipment(result)
 
 
-def get_all_player_equipment(player_id: int) -> List[PlayerEquipment]:
+def get_all_player_equipment(player_id: int) -> List[EntityEquipment]:
     cursor_obj = connection.cursor()
 
     stmt_args = (player_id,)
@@ -56,24 +56,24 @@ def get_all_player_equipment(player_id: int) -> List[PlayerEquipment]:
     return [init_player_equipment(x) for x in result]
 
 
-def insert_player_equipment(equipment: PlayerEquipment):
+def insert_player_equipment(equipment: EntityEquipment):
     stmt = insert_player_equipment_query
     stmt_args = (
-        equipment.get_player_id(),
+        equipment.entity_id,
         equipment.equipment_category_id,
         equipment.item_id,
     )
-    queue_transaction(equipment.get_player_id(), stmt, stmt_args)
+    queue_transaction(equipment.entity_id, stmt, stmt_args)
 
 
-def update_player_equipment(equipment: PlayerEquipment):
+def update_player_equipment(equipment: EntityEquipment):
     stmt = update_player_equipment_query
     stmt_args = (
         equipment.item_id,
-        equipment.get_player_id(),
+        equipment.entity_id,
         equipment.equipment_category_id,
     )
-    queue_transaction(equipment.get_player_id(), stmt, stmt_args)
+    queue_transaction(equipment.entity_id, stmt, stmt_args)
 
 
 def delete_player_equipment(player_id: int):
@@ -84,6 +84,6 @@ def delete_player_equipment(player_id: int):
 
 def init_player_equipment(db_row):
     if db_row:
-        return PlayerEquipment(db_row[0], db_row[1], db_row[2])
+        return EntityEquipment(db_row[0], db_row[1], db_row[2])
     else:
         return None

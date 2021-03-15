@@ -1,7 +1,7 @@
 from typing import List
 
+from data.entity_skill import EntitySkill
 from persistence.connection_handler import connection, queue_transaction
-from persistence.dto.player_skill import PlayerSkill
 
 player_skills_table = "player_skills"
 
@@ -29,7 +29,7 @@ insert_player_skills_query = (
 delete_player_skills_query = "DELETE from %s WHERE player_id = ?" % player_skills_table
 
 
-def get_player_skill(player_id: int, skill_id: int) -> PlayerSkill:
+def get_player_skill(player_id: int, skill_id: int) -> EntitySkill:
     cursor_obj = connection.cursor()
 
     stmt_args = (
@@ -43,7 +43,7 @@ def get_player_skill(player_id: int, skill_id: int) -> PlayerSkill:
     return init_player_skill(result)
 
 
-def get_all_player_skills(player_id: int) -> List[PlayerSkill]:
+def get_all_player_skills(player_id: int) -> List[EntitySkill]:
     cursor_obj = connection.cursor()
 
     stmt_args = (player_id,)
@@ -56,16 +56,16 @@ def get_all_player_skills(player_id: int) -> List[PlayerSkill]:
     return items
 
 
-def insert_player_skill(skill: PlayerSkill):
+def insert_player_skill(skill: EntitySkill):
     stmt = insert_player_skills_query
-    stmt_args = (skill.get_player_id(), skill.skill_id, skill.get_total_xp())
-    queue_transaction(skill.get_player_id(), stmt, stmt_args)
+    stmt_args = (skill.entity_id, skill.skill_id, skill.get_total_xp())
+    queue_transaction(skill.entity_id, stmt, stmt_args)
 
 
-def update_player_skill(skill: PlayerSkill):
+def update_player_skill(skill: EntitySkill):
     stmt = update_player_skills_query
-    stmt_args = (skill.get_total_xp(), skill.get_player_id(), skill.skill_id)
-    queue_transaction(skill.get_player_id(), stmt, stmt_args)
+    stmt_args = (skill.get_total_xp(), skill.entity_id, skill.skill_id)
+    queue_transaction(skill.entity_id, stmt, stmt_args)
 
 
 def delete_player_skills(player_id: int):
@@ -76,6 +76,6 @@ def delete_player_skills(player_id: int):
 
 def init_player_skill(db_row):
     if db_row:
-        return PlayerSkill(db_row[0], db_row[1], db_row[2])
+        return EntitySkill(db_row[0], db_row[1], db_row[2])
     else:
         return None

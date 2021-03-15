@@ -2,12 +2,12 @@ import json
 from typing import List
 
 from consts import data_folder
+from data.entity_skill import EntitySkill
 from persistence.common_persistence import (
     insert_dictionary,
     convert_dict_keys_to_id,
 )
 from persistence.connection_handler import connection, queue_transaction
-from persistence.dto.mob_skill import MobSkill
 from persistence.skill_categories_persistence import get_all_skill_categories
 from util import req_xp_for_level
 
@@ -50,7 +50,7 @@ def populate_mob_skills_table():
                 insert_dictionary(mob_skills_table, mob_skill)
 
 
-def get_mob_skill(mob_id: int, skill_id: int) -> MobSkill:
+def get_mob_skill(mob_id: int, skill_id: int) -> EntitySkill:
     cursor_obj = connection.cursor()
 
     stmt_args = (
@@ -64,7 +64,7 @@ def get_mob_skill(mob_id: int, skill_id: int) -> MobSkill:
     return init_mob_skill(result)
 
 
-def get_all_mob_skills(mob_id: int) -> List[MobSkill]:
+def get_all_mob_skills(mob_id: int) -> List[EntitySkill]:
     cursor_obj = connection.cursor()
 
     stmt_args = (mob_id,)
@@ -77,16 +77,16 @@ def get_all_mob_skills(mob_id: int) -> List[MobSkill]:
     return items
 
 
-def insert_mob_skill(skill: MobSkill):
+def insert_mob_skill(skill: EntitySkill):
     stmt = insert_mob_skills_query
-    stmt_args = (skill.get_mob_id(), skill.skill_id, skill.get_total_xp())
-    queue_transaction(skill.get_mob_id(), stmt, stmt_args)
+    stmt_args = (skill.entity_id, skill.skill_id, skill.get_total_xp())
+    queue_transaction(skill.entity_id, stmt, stmt_args)
 
 
-def update_mob_skill(skill: MobSkill):
+def update_mob_skill(skill: EntitySkill):
     stmt = update_mob_skills_query
-    stmt_args = (skill.get_total_xp(), skill.get_mob_id(), skill.skill_id)
-    queue_transaction(skill.get_mob_id(), stmt, stmt_args)
+    stmt_args = (skill.get_total_xp(), skill.entity_id, skill.skill_id)
+    queue_transaction(skill.entity_id, stmt, stmt_args)
 
 
 def delete_mob_skills(mob_id: int):
@@ -97,6 +97,6 @@ def delete_mob_skills(mob_id: int):
 
 def init_mob_skill(db_row):
     if db_row:
-        return MobSkill(db_row[0], db_row[1], db_row[2])
+        return EntitySkill(db_row[0], db_row[1], db_row[2])
     else:
         return None

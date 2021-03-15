@@ -1,7 +1,7 @@
+from data.entity_equipment import EntityEquipment
 from data.item_amount import ItemAmount
 from data.player_profile import PlayerProfile
 from helpers.item_helper import give_player_item
-from persistence.dto.player_equipment import PlayerEquipment
 from persistence.items_persistence import get_item
 
 
@@ -39,5 +39,5 @@ def equip_player_item(player_profile: PlayerProfile, item_id: int) -> [None, str
 
     give_player_item(player_profile, ItemAmount(item_id, -1))
     player_profile.equipment.append(
-        PlayerEquipment(player_profile.core.unique_id, cat_id, item_id)
+        EntityEquipment(player_profile.core.unique_id, cat_id, item_id)
     )

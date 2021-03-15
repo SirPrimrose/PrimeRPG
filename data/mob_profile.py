@@ -5,8 +5,6 @@ from data.entity_equipment import EntityEquipment
 from data.entity_skill import EntitySkill
 from persistence.dto.mob_core import MobCore
 from persistence.dto.mob_drop import MobDrop
-from persistence.dto.mob_equipment import MobEquipment
-from persistence.dto.mob_skill import MobSkill
 
 
 class MobProfile(EntityBase):

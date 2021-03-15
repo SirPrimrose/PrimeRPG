@@ -1,18 +1,18 @@
 from typing import List
 
 from data.entity_base import EntityBase
+from data.entity_equipment import EntityEquipment
+from data.entity_skill import EntitySkill
 from persistence.dto.player_core import PlayerCore
-from persistence.dto.player_equipment import PlayerEquipment
 from persistence.dto.player_inventory_item import PlayerInventoryItem
-from persistence.dto.player_skill import PlayerSkill
 
 
 class PlayerProfile(EntityBase):
     def __init__(
         self,
         core: PlayerCore,
-        skills: List[PlayerSkill],
-        equipment: List[PlayerEquipment],
+        skills: List[EntitySkill],
+        equipment: List[EntityEquipment],
         inventory: List[PlayerInventoryItem],
     ):
         super().__init__(core.name, core.avatar_url, skills, equipment)

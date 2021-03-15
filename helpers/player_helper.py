@@ -1,10 +1,10 @@
 import consts
 from data.entity_base import EntityBase
+from data.entity_skill import EntitySkill
 from data.player_profile import PlayerProfile
 from helpers.equipment_helper import equip_player_item
 from persistence.dto.player_core import PlayerCore, idle_state
 from persistence.dto.player_inventory_item import PlayerInventoryItem
-from persistence.dto.player_skill import PlayerSkill
 from persistence.inventory_persistence import (
     delete_inventory_items,
     get_all_inventory_items,
@@ -14,10 +14,8 @@ from persistence.inventory_persistence import (
 )
 from persistence.player_equipment_persistence import (
     get_all_player_equipment,
-    update_player_equipment,
     delete_player_equipment,
     insert_player_equipment,
-    get_player_equipment,
 )
 from persistence.player_persistence import (
     insert_player_data,
@@ -69,7 +67,7 @@ def create_new_player_data(player_id, player_name, avatar_url) -> None:
         xp = 0
         if skill.unique_id in player_starting_skill_xp:
             xp = player_starting_skill_xp[skill.unique_id]
-        skills.append(PlayerSkill(player_id, skill.unique_id, xp))
+        skills.append(EntitySkill(player_id, skill.unique_id, xp))
     inventory = []
     for item_id, item_amount in player_starting_inventory.items():
         inventory.append(PlayerInventoryItem(player_id, item_id, item_amount))
