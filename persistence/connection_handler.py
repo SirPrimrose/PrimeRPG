@@ -1,11 +1,12 @@
+import logging
 import sqlite3
 import time
 
 from collections import deque
-from typing import Optional
+from typing import Optional, Type, List
 
 transaction_queue = deque()
-spam_list = list()
+spam_list: List[int] = []
 
 # Global Var for database connection
 connection = sqlite3.connect("primeRPG.db")
@@ -13,6 +14,8 @@ connection = sqlite3.connect("primeRPG.db")
 # Therefore, use foreign keys in tables that will be read, but not written to (Equipment Stats, Fish, etc.)
 # https://www.experts-exchange.com/articles/4293/Can-Foreign-key-improve-performance.html
 connection.execute("PRAGMA foreign_keys = 1")
+db_logger = logging.getLogger("db")
+connection.set_trace_callback(db_logger.info)
 
 
 def queue_transaction(player_id: Optional[int], sql, params):

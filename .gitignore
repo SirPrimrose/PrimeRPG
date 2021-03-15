@@ -1,7 +1,10 @@
-# Custom
+# PrimeRPG Custom
+primeRPG.db
+logs/
+
+# PyCharm venv and cache
 __pycache__/
 venv/
-primeRPG.db
 
 # Created by https://www.toptal.com/developers/gitignore/api/pycharm
 # Edit at https://www.toptal.com/developers/gitignore?templates=pycharm

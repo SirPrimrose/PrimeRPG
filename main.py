@@ -6,7 +6,8 @@ from traceback import print_exc
 import command_handler
 from consts import game_client, command_prefix
 from helpers.regen_helper import regen_tick
-from persistence import persistence
+from logging_handler import setup_logging
+from persistence import persistence, connection_handler
 
 # System Env Vars
 __DEBUG__ = bool(os.getenv("__DEBUG__"))
@@ -24,6 +25,7 @@ start_app = True  # Start the bot application and connect to Discord. Disable to
 
 
 def app_setup():
+    setup_logging()
     persistence.setup_db()
     load_util_data()
     print("PrimeRPG setup complete")

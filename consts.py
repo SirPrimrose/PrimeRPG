@@ -22,6 +22,7 @@ clear_weather = "clear"
 
 # Folders
 data_folder = Path("data/raw_data")
+log_folder = Path("logs")
 
 # Skill ids
 vitality_skill_id = 1
