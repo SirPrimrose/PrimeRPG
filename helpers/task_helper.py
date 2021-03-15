@@ -4,6 +4,7 @@ from typing import List, Dict
 from consts import fishing_task, mining_task
 from data.item_amount import ItemAmount
 from data.player_profile import PlayerProfile
+from date_util import date_from_str, str_from_date
 from helpers import item_helper
 from helpers.player_helper import save_player_profile
 from persistence.dto.player_core import gathering_state, idle_state
@@ -75,11 +76,3 @@ def count_items(rewards) -> List[ItemAmount]:
         else:
             items[r.item_id] = ItemAmount(r.item_id, r.quantity)
     return list(items.values())
-
-
-def str_from_date(date):
-    return date.isoformat()
-
-
-def date_from_str(s):
-    return datetime.datetime.fromisoformat(s)

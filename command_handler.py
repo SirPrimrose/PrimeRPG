@@ -6,6 +6,7 @@ from commands.cm_data import Data
 from commands.cm_dice import Dice
 from commands.cm_embed import EmbedCommand
 from commands.cm_equip import Equip
+from commands.cm_equipment import Equipment
 from commands.cm_fish import Fish
 from commands.cm_heal import Heal
 from commands.cm_hello import Hello
@@ -44,6 +45,7 @@ def load_commands():
     register(Scrub())
     register(Equip())
     register(Unequip())
+    register(Equipment())
 
 
 def register(command):

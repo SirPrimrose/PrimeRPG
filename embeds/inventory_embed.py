@@ -6,7 +6,7 @@ from discord import User, Embed
 from embeds.base_embed import BaseEmbed
 from persistence.dto.player_inventory_item import PlayerInventoryItem
 from urls import backpack_url
-from util import get_item_category, get_item_category_name, get_item_name
+from util import get_item_category_id, get_item_category_name, get_item_name
 
 
 class InventoryEmbed(BaseEmbed):
@@ -53,7 +53,7 @@ class InventoryEmbed(BaseEmbed):
     ) -> OrderedDictType[int, List[PlayerInventoryItem]]:
         cat_items = {}
         for item in items:
-            cat = get_item_category(item.item_id)
+            cat = get_item_category_id(item.item_id)
             if cat in cat_items:
                 cat_items[cat].append(item)
             else:

@@ -4,3 +4,4 @@ backpack_url = (
 )
 profile_url = "https://image.flaticon.com/icons/png/128/3075/3075884.png"
 skills_url = "https://i.imgur.com/tGhW8y0.png"
+equipment_url = "https://art.pixilart.com/361c062a81dcf66.png"

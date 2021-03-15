@@ -17,8 +17,8 @@ def add_detailed_stat_field(
         else "**{}**".format(profile.get_current_hp()),
         profile.get_max_hp(),
         profile.get_combat_level(),
-        profile.get_attack_power(),
-        profile.get_armor_power(),
+        round(profile.get_attack_power(), 1),
+        round(profile.get_armor_power(), 1),
     )
     embed.add_field(
         name=field_title,

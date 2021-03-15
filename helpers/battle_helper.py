@@ -23,7 +23,7 @@ dodge_spd_divider = 5
 dodge_lck_divider = 25
 dodge_cap = 0.1  # percent
 double_attack_per_speed_level = 0.05
-min_effort_chance = 0.02
+min_effort_chance = 0.05
 max_effort_chance = 0.5
 
 

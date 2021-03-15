@@ -17,6 +17,7 @@ from consts import (
 )
 from data.entity_equipment import EntityEquipment
 from data.entity_skill import EntitySkill
+from helpers.stat_helper import get_total_scaled_stat_value
 from util import calculate_max_hp, get_equipment_stat
 
 
@@ -85,33 +86,11 @@ class EntityBase:
     def get_icon_url(self):
         return self.icon_url
 
-    def get_attack_power(self):
-        attack_power = 5.0
-        for e in self.equipment:
-            attack_power_stat = get_equipment_stat(e.item_id, attack_stat_id)
-            if attack_power_stat:
-                attack_power += self._apply_scaling(attack_power_stat)
+    def get_attack_power(self) -> float:
+        return get_total_scaled_stat_value(attack_stat_id, self.skills, self.equipment)
 
-        return floor(attack_power)
-
-    def get_armor_power(self):
-        armor_power = 5.0
-        for e in self.equipment:
-            armor_power_stat = get_equipment_stat(e.item_id, armor_stat_id)
-            if armor_power_stat:
-                armor_power += self._apply_scaling(armor_power_stat)
-
-        return floor(armor_power)
-
-    def _apply_scaling(self, stat):
-        base_value = stat.value
-        scaling_values = []
-        for skill in self.skills:
-            if skill.skill_id in stat.scales_with:
-                scaling = stat.scales_with[skill.skill_id]
-                scaling_values.append(base_value * scaling * (skill.get_level() / 100))
-
-        return base_value + sum(scaling_values)
+    def get_armor_power(self) -> float:
+        return get_total_scaled_stat_value(armor_stat_id, self.skills, self.equipment)
 
     def give_skill_effort(self, skill_id: int, value: int):
         if value < 0:
