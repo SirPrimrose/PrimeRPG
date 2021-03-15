@@ -1,13 +1,17 @@
 import datetime
 import random
+from typing import List
 
 import util
 from consts import base_fish_frequency
+from data.item_amount import ItemAmount
 from persistence.dto.fish import Fish
 from persistence.fish_persistence import get_fish
 
 
-def get_fishing_task_rewards(start_time: datetime, task_time: datetime.timedelta):
+def get_fishing_task_rewards(
+    start_time: datetime, task_time: datetime.timedelta
+) -> List[ItemAmount]:
     start = int(start_time.timestamp())
     total_time = int(task_time.total_seconds())
     rewards = []
@@ -18,11 +22,11 @@ def get_fishing_task_rewards(start_time: datetime, task_time: datetime.timedelta
     ):
         fish = go_fish(i)
         if fish:
-            rewards.append(fish)
+            rewards.append(ItemAmount(fish.item_id, 1))
     return rewards
 
 
-def go_fish(time):
+def go_fish(time) -> Fish:
     if random.random() < 0.2:
         if random.random() < 0.2:
             return Fish(0, 0, "Trash", "", "", "", 0)
@@ -33,6 +37,6 @@ def go_fish(time):
             return get_fish_from_table(ig_time, ig_weather)
 
 
-def get_fish_from_table(ig_time: str, ig_weather: str):
+def get_fish_from_table(ig_time: str, ig_weather: str) -> Fish:
     fish_table = get_fish(ig_time, ig_weather)
     return util.get_random_from_weighted_table(fish_table)

@@ -52,9 +52,7 @@ def get_fish(time: str, weather: str):
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchall()
 
-    fish = [init_fish(x) for x in result]
-
-    return fish
+    return [init_fish(x) for x in result]
 
 
 def init_fish(db_row):

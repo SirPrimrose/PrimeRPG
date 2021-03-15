@@ -4,7 +4,7 @@ import discord
 
 from commands.command import Command
 from consts import fishing_task
-from helpers.task_helper import start_task
+from helpers.task_helper import handle_start_task
 
 
 class Fish(Command):
@@ -19,4 +19,4 @@ class Fish(Command):
 
     async def run_command(self, msg: discord.Message, args: List[str]):
         player_id = msg.author.id
-        await start_task(msg, player_id, fishing_task)
+        await handle_start_task(msg, player_id, fishing_task)
