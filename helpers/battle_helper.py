@@ -158,11 +158,15 @@ def process_attack(
             effort_skill_id: WeightedValue = get_random_from_weighted_table(
                 weighted_skills
             )
-            effort_value = (random.random() + 0.5) * damage
+            effort_value = (random.random() + 0.5) * damage * get_effort_multiplier()
             effort = Effort(effort_skill_id.value, int(effort_value))
             log.add_effort(effort)
             log.add_action(EffortAction(effort))
     return response
+
+
+def get_effort_multiplier():
+    return 5
 
 
 def get_effort_chance(attacker_cb: int, defender_cb: int, damage: int):
