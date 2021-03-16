@@ -148,7 +148,6 @@ def get_key_for_value(dictionary: Dict[T, U], value: U) -> T:
     return keys[position]
 
 
-def time_since(start_time: str) -> datetime.timedelta:
-    start_time = date_from_str(start_time)
+def time_since(start_time: datetime) -> datetime.timedelta:
     end_time = datetime.datetime.utcnow()
     return end_time - start_time

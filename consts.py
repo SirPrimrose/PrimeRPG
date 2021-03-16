@@ -11,10 +11,11 @@ weather_frequency = 6000  # seconds
 base_fish_frequency = 1  # seconds
 
 # Tasks
-fishing_task = "fishing"
-mining_task = "mining"
-woodcutting_task = "woodcutting"
-foraging_task = "foraging"
+fishing_task_id = 1
+mining_task_id = 2
+woodcutting_task_id = 3
+foraging_task_id = 4
+farming_task_id = 5
 
 # Weather
 raining_weather = "raining"

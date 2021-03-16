@@ -41,7 +41,11 @@ from persistence.skill_categories_persistence import (
     create_skill_categories_query,
     populate_skill_categories_table,
 )
-from persistence.task_persistence import create_player_tasks_query
+from persistence.player_task_persistence import create_player_tasks_query
+from persistence.task_category_persistence import (
+    create_task_categories_query,
+    populate_task_categories_table,
+)
 
 
 def setup_db():
@@ -63,6 +67,7 @@ def create_tables():
     cursor_obj.execute(create_skill_categories_query)
     cursor_obj.execute(create_equipment_stat_categories_query)
     cursor_obj.execute(create_equipment_stats_query)
+    cursor_obj.execute(create_task_categories_query)
     cursor_obj.execute(create_mobs_query)
     cursor_obj.execute(create_mob_skills_query)
     cursor_obj.execute(create_mob_equipment_query)
@@ -83,6 +88,7 @@ def create_tables():
     populate_equipment_categories_table()
     populate_equipment_stat_categories_table()
     populate_equipment_stats_table()
+    populate_task_categories_table()
     populate_mobs_table()
     populate_mob_skills_table()
     populate_mob_equipment_table()

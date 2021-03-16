@@ -4,8 +4,8 @@ import discord
 
 from commands.command import Command
 from helpers.player_helper import get_player_profile
-from helpers.task_helper import handle_stop_task
-from persistence.task_persistence import get_player_task
+from helpers.task_helper import handle_collect
+from persistence.player_task_persistence import get_player_task
 from util import time_since
 
 
@@ -21,14 +21,14 @@ class Collect(Command):
 
     async def run_command(self, msg: discord.Message, args: List[str]):
         player_id = msg.author.id
-        task = get_player_task(player_id)
+        task_core = get_player_task(player_id)
         profile = get_player_profile(player_id)
-        rewards = handle_stop_task(profile, task)
+        task_data = handle_collect(profile, task_core)
 
         # TODO Move this response to a Task Rewards embed
         response = "Finished {} task. You spent {:.2f} secs collecting.".format(
-            task.task, time_since(task.time_started).total_seconds()
+            task_core.task_id, time_since(task_data.time_started).total_seconds()
         )
-        if len(rewards) > 0:
-            response += "\n\nYou earned {}".format(rewards)
+        if len(task_data.get_task_rewards()) > 0:
+            response += "\n\nYou earned {}".format(task_data.get_task_rewards())
         await msg.channel.send(response)

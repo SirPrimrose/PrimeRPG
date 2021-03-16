@@ -45,6 +45,10 @@ def process_queue():
 def safe_execute(cursor: sqlite3.Cursor, sql, params):
     try:
         cursor.execute(sql, params)
-    except (sqlite3.ProgrammingError, sqlite3.IntegrityError) as e:
+    except (
+        sqlite3.ProgrammingError,
+        sqlite3.IntegrityError,
+        sqlite3.OperationalError,
+    ) as e:
         print("Exception: {}".format(e))
         print("Error saving\nSQL: {}\nParams: {}".format(sql, params))

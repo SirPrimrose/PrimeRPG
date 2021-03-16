@@ -31,7 +31,7 @@ from persistence.player_skill_persistence import (
     get_player_skill,
 )
 from persistence.skill_categories_persistence import get_all_skill_categories
-from persistence.task_persistence import delete_player_tasks
+from persistence.player_task_persistence import delete_player_tasks
 from util import req_xp_for_level, calculate_max_hp, xp_at_level
 
 starting_vitality_level = 5

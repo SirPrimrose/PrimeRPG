@@ -1,5 +1,19 @@
 [
   {
+    "unique_id": 0,
+    "item_category_id": 0,
+    "equipment_category_id": 0,
+    "name": "Trash",
+    "value": 0
+  },
+  {
+    "unique_id": 1,
+    "item_category_id": 0,
+    "equipment_category_id": 0,
+    "name": "Coin",
+    "value": 0
+  },
+  {
     "unique_id": 101,
     "item_category_id": 1,
     "equipment_category_id": 0,

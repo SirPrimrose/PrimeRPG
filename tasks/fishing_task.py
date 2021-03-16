@@ -1,42 +1,48 @@
 import datetime
 import random
-from typing import List
 
 import util
 from consts import base_fish_frequency
 from data.item_amount import ItemAmount
 from persistence.dto.fish import Fish
+from persistence.dto.player_task_core import PlayerTaskCore
 from persistence.fish_persistence import get_fish
+from tasks.task_base import TaskBase
 
 
-def get_fishing_task_rewards(
-    start_time: datetime, task_time: datetime.timedelta
-) -> List[ItemAmount]:
-    start = int(start_time.timestamp())
-    total_time = int(task_time.total_seconds())
-    rewards = []
-    if total_time < 5:
-        return rewards
-    for i in range(
-        start + base_fish_frequency, start + total_time, base_fish_frequency
-    ):
-        fish = go_fish(i)
-        if fish:
-            rewards.append(ItemAmount(fish.item_id, 1))
-    return rewards
+class FishingTask(TaskBase):
+    def __init__(self, task_core: PlayerTaskCore):
+        super().__init__(task_core)
 
+    def _calculate_task_rewards(self):
+        reward_time = min(
+            util.time_since(self.time_started), datetime.timedelta(hours=1)
+        )
+        start_time_num = int(self.time_started.timestamp())
+        total_time_num = int(reward_time.total_seconds())
 
-def go_fish(time) -> Fish:
-    if random.random() < 0.2:
+        self._rewards = []
+        if total_time_num < 5:
+            return
+        for i in range(
+            start_time_num + base_fish_frequency,
+            start_time_num + total_time_num,
+            base_fish_frequency,
+        ):
+            fish = self.go_fish(i)
+            if fish:
+                self._rewards.append(ItemAmount(fish.item_id, 1))
+
+    def go_fish(self, time: int) -> Fish:
         if random.random() < 0.2:
-            return Fish(0, 0, "Trash", "", "", "", 0)
-        else:
-            t = datetime.datetime.fromtimestamp(time)
-            ig_time = util.get_in_game_time(t)
-            ig_weather = util.get_in_game_weather(t)
-            return get_fish_from_table(ig_time, ig_weather)
+            if random.random() < 0.2:
+                return Fish(0, 0, "Trash", "", "", "", 0)
+            else:
+                t = datetime.datetime.fromtimestamp(time)
+                ig_time = util.get_in_game_time(t)
+                ig_weather = util.get_in_game_weather(t)
+                return self.get_fish_from_table(ig_time, ig_weather)
 
-
-def get_fish_from_table(ig_time: str, ig_weather: str) -> Fish:
-    fish_table = get_fish(ig_time, ig_weather)
-    return util.get_random_from_weighted_table(fish_table)
+    def get_fish_from_table(self, ig_time: str, ig_weather: str) -> Fish:
+        fish_table = get_fish(ig_time, ig_weather)
+        return util.get_random_from_weighted_table(fish_table)
