@@ -5,16 +5,15 @@ from traceback import print_exc
 
 import command_handler
 from consts import game_client, command_prefix
+from data_cache import load_util_data
 from helpers.regen_helper import regen_tick
 from logging_handler import setup_logging
-from persistence import persistence, connection_handler
+from persistence import persistence
 
 # System Env Vars
 __DEBUG__ = bool(os.getenv("__DEBUG__"))
 
 # Main File Vars
-from util import load_util_data
-
 ready = False
 game_tick_rate = 0.5  # seconds
 save_tick_rate = 1  # ticks

@@ -2,8 +2,8 @@ from typing import List
 
 from data.entity_equipment import EntityEquipment
 from data.entity_skill import EntitySkill
+from data_cache import get_equipment_stat
 from persistence.dto.equipment_stat import EquipmentStat
-from util import get_equipment_stat
 
 
 def _apply_scaling(stat: EquipmentStat, skills: List[EntitySkill]) -> float:

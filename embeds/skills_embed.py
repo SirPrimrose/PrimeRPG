@@ -4,12 +4,12 @@ from typing import List
 from discord import User, Embed
 
 from data.player_profile import PlayerProfile
+from data_cache import get_skill_category_short_name
 from embeds.base_embed import BaseEmbed
 from embeds.common_embed import pretty_format_skill_level
 from emojis import skill_emojis, emoji_from_id
 from text_consts import light_bar, full_bar, no_space
 from urls import skills_url
-from util import get_skill_category_short_name
 
 progress_bar_length = 20
 

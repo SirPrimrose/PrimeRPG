@@ -3,6 +3,7 @@ from typing import List
 from discord import User, Embed
 
 from data.player_profile import PlayerProfile
+from data_cache import get_equipment_stat_category_name, get_item_name
 from embeds.base_embed import BaseEmbed
 from emojis import (
     skill_emojis,
@@ -14,8 +15,6 @@ from persistence.equipment_stat_persistence import get_equipment_stats
 from text_consts import spaced_vert_line, horiz_bar
 from urls import equipment_url
 from util import (
-    get_item_name,
-    get_equipment_stat_category_name,
     get_key_for_value,
 )
 

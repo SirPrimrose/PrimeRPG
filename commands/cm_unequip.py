@@ -3,9 +3,9 @@ from typing import List
 import discord
 
 from commands.command import Command
+from data_cache import get_item_id
 from helpers.equipment_helper import unequip_player_item
 from helpers.player_helper import get_player_profile, save_player_profile
-from util import get_item_id
 
 
 class Unequip(Command):

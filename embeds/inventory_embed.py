@@ -3,10 +3,10 @@ from typing import List, OrderedDict as OrderedDictType
 
 from discord import User, Embed
 
+from data_cache import get_item_category_name, get_item_name, get_item_category_id
 from embeds.base_embed import BaseEmbed
 from persistence.dto.player_inventory_item import PlayerInventoryItem
 from urls import backpack_url
-from util import get_item_category_id, get_item_category_name, get_item_name
 
 
 class InventoryEmbed(BaseEmbed):

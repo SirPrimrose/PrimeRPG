@@ -18,7 +18,7 @@ from consts import (
 from data.entity_equipment import EntityEquipment
 from data.entity_skill import EntitySkill
 from helpers.stat_helper import get_total_scaled_stat_value
-from util import calculate_max_hp, get_equipment_stat
+from util import calculate_max_hp
 
 
 class EntityBase:

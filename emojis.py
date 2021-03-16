@@ -1,8 +1,8 @@
-# Emoji Tags
 from typing import Dict
 
 import consts
 
+# Emoji Tags
 vitality_emoji_id = 821118647766482955
 strength_emoji_id = 821118786446950420
 dexterity_emoji_id = 821118535001440258
