@@ -3,12 +3,12 @@ import os
 import sys
 from traceback import print_exc
 
-import command_handler
-from consts import game_client, command_prefix
-from data_cache import load_util_data
-from helpers.regen_helper import regen_tick
-from logging_handler import setup_logging
-from persistence import persistence
+from primerpg import command_handler
+from primerpg.consts import game_client, command_prefix
+from primerpg.data_cache import load_util_data
+from primerpg.helpers.regen_helper import regen_tick
+from primerpg.logging_handler import setup_logging
+from primerpg.persistence import persistence_main
 
 # System Env Vars
 __DEBUG__ = bool(os.getenv("__DEBUG__"))
@@ -25,7 +25,7 @@ start_app = True  # Start the bot application and connect to Discord. Disable to
 
 def app_setup():
     setup_logging()
-    persistence.setup_db()
+    persistence_main.setup_db()
     load_util_data()
     print("PrimeRPG setup complete")
 
@@ -38,7 +38,7 @@ async def game_tick():
         tick += 1
         try:
             if tick % save_tick_rate == 0:
-                persistence.save_queue()
+                persistence_main.save_queue()
             if tick % regen_tick_rate == 0:
                 regen_tick()
         except Exception:
@@ -64,9 +64,7 @@ async def on_message(msg):
             if not ready:
                 await msg.channel.send("Bot is still loading...")
                 return
-            await command_handler.handle_command(
-                msg, msg.content[len(command_prefix) :].split()
-            )
+            await command_handler.handle_command(msg, msg.content[len(command_prefix) :].split())
     except Exception:
         print_exc()
         await msg.channel.send("Encountered error: {0}".format(sys.exc_info()[1]))
