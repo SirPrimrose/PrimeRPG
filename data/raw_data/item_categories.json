@@ -1,5 +1,9 @@
 [
   {
+    "unique_id": 0,
+    "name": "Hidden"
+  },
+  {
     "unique_id": 1,
     "name": "Items"
   },

@@ -26,6 +26,9 @@ class InventoryEmbed(BaseEmbed):
         )
         embed.set_thumbnail(url=backpack_url)
         for cat_id, cat_item_list in self.categorized_items.items():
+            # Skip the "Hidden" category of items
+            if cat_id == 0:
+                continue
             cat_text = ""
             for item in cat_item_list:
                 item_name = get_item_name(item.item_id)
