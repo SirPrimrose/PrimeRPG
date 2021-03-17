@@ -2,6 +2,10 @@ from persistence.connection_handler import (
     connection,
     process_queue,
 )
+from persistence.damage_type_persistence import (
+    populate_damage_types_table,
+    create_damage_types_query,
+)
 from persistence.equipment_categories_persistence import (
     create_equipment_categories_query,
     populate_equipment_categories_table,
@@ -20,6 +24,10 @@ from persistence.item_categories_persistence import (
     populate_item_categories_table,
     create_item_categories_query,
 )
+from persistence.item_moveset_persistence import (
+    populate_item_movesets_table,
+    create_item_movesets_query,
+)
 from persistence.items_persistence import create_items_query, populate_items_table
 from persistence.mob_drop_persistence import (
     populate_mob_drops_table,
@@ -33,6 +41,11 @@ from persistence.mob_persistence import create_mobs_query, populate_mobs_table
 from persistence.mob_skill_persistence import (
     populate_mob_skills_table,
     create_mob_skills_query,
+)
+from persistence.move_persistence import create_moves_query, populate_moves_table
+from persistence.moveset_persistence import (
+    create_movesets_query,
+    populate_movesets_table,
 )
 from persistence.player_equipment_persistence import create_player_equipment_query
 from persistence.player_persistence import create_players_query
@@ -72,6 +85,10 @@ def create_tables():
     cursor_obj.execute(create_mob_skills_query)
     cursor_obj.execute(create_mob_equipment_query)
     cursor_obj.execute(create_mob_drops_query)
+    cursor_obj.execute(create_damage_types_query)
+    cursor_obj.execute(create_moves_query)
+    cursor_obj.execute(create_movesets_query)
+    cursor_obj.execute(create_item_movesets_query)
 
     # Mutable tables
     cursor_obj.execute(create_players_query)
@@ -93,5 +110,9 @@ def create_tables():
     populate_mob_skills_table()
     populate_mob_equipment_table()
     populate_mob_drops_table()
+    populate_damage_types_table()
+    populate_moves_table()
+    populate_movesets_table()
+    populate_item_movesets_table()
 
     connection.commit()

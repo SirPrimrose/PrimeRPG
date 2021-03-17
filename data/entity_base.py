@@ -12,8 +12,10 @@ from consts import (
     speed_skill_id,
     luck_skill_id,
     defense_skill_id,
-    attack_stat_id,
-    armor_stat_id,
+    physical_attack_stat_id,
+    magical_armor_stat_id,
+    magical_attack_stat_id,
+    physical_armor_stat_id,
 )
 from data.entity_equipment import EntityEquipment
 from data.entity_skill import EntitySkill
@@ -86,11 +88,25 @@ class EntityBase:
     def get_icon_url(self):
         return self.icon_url
 
-    def get_attack_power(self) -> float:
-        return get_total_scaled_stat_value(attack_stat_id, self.skills, self.equipment)
+    def get_phys_atk_power(self) -> float:
+        return get_total_scaled_stat_value(
+            physical_attack_stat_id, self.skills, self.equipment
+        )
 
-    def get_armor_power(self) -> float:
-        return get_total_scaled_stat_value(armor_stat_id, self.skills, self.equipment)
+    def get_phys_arm_power(self) -> float:
+        return get_total_scaled_stat_value(
+            physical_armor_stat_id, self.skills, self.equipment
+        )
+
+    def get_mag_atk_power(self) -> float:
+        return get_total_scaled_stat_value(
+            magical_attack_stat_id, self.skills, self.equipment
+        )
+
+    def get_mag_arm_power(self) -> float:
+        return get_total_scaled_stat_value(
+            magical_armor_stat_id, self.skills, self.equipment
+        )
 
     def give_skill_effort(self, skill_id: int, value: int):
         if value < 0:

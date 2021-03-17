@@ -9,7 +9,7 @@ fish_table = "fish"
 
 create_fish_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
-    "unique_id integer PRIMARY KEY NOT NULL, "
+    "unique_id integer PRIMARY KEY, "
     "item_id integer NOT NULL, "
     "name text NOT NULL, "
     "start_time text NOT NULL, "

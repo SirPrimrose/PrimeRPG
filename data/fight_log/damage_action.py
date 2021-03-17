@@ -15,7 +15,7 @@ class DamageAction(ActionBase):
         defender_name: str,
         defender_hp: float,
         damage: int,
-        player_attacking,
+        player_attacking: bool,
     ):
         super().__init__()
         self.attacker_name = attacker_name

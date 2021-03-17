@@ -42,7 +42,6 @@ def convert_dict_keys_to_id(
 ):
     """
     Takes a dictionary and replaces the dictionary keys with ids.
-    This process is based on id-name association provided in the list_with_names property
 
     :param elem_list: Each element of the list will be searched to replace the key values of the convert dictionary.
     :param convert_dict: Dictionary of which to convert key values
@@ -64,3 +63,48 @@ def convert_dict_keys_to_id(
             )
             new_dict[getattr(matching_obj, id_prop)] = value
     return new_dict
+
+
+def convert_list_values_to_id(
+    elem_list: List,
+    convert_list: List,
+    name_prop="name",
+    id_prop="unique_id",
+):
+    """
+    Takes a list and replaces the list items with ids.
+
+    :param elem_list: Each element of the list will be searched to replace the key values of the convert dictionary.
+    :param convert_list: List of which to convert key values
+    :param name_prop: The name of the property to access a name in an element in elem_list
+    :param id_prop: The name of the property to access an id in an element in elem_list
+    :return: A new list with the list items replaced by ids
+    """
+    new_list = []
+    for item in convert_list:
+        matching_obj = next(
+            filter(lambda obj: getattr(obj, name_prop) == item, elem_list), None
+        )
+        new_list.append(getattr(matching_obj, id_prop))
+    return new_list
+
+
+def convert_name_to_id(
+    elem_list: List,
+    convert_value,
+    name_prop="name",
+    id_prop="unique_id",
+):
+    """
+    Takes a value and replaces the value with the matching id from the list.
+
+    :param elem_list: Each element of the list will be searched to replace the key values of the convert dictionary.
+    :param convert_value: Value for which to convert to an id
+    :param name_prop: The name of the property to access a name in an element in elem_list
+    :param id_prop: The name of the property to access an id in an element in elem_list
+    :return: A new list with the list items replaced by ids
+    """
+    matching_obj = next(
+        filter(lambda obj: getattr(obj, name_prop) == convert_value, elem_list), None
+    )
+    return getattr(matching_obj, id_prop)

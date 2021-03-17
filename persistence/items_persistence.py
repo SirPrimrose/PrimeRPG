@@ -12,7 +12,7 @@ select_items_query = "SELECT * FROM %s WHERE unique_id = ?" % items_table
 select_all_items_query = "SELECT * FROM %s" % items_table
 create_items_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
-    "unique_id integer PRIMARY KEY NOT NULL, "
+    "unique_id integer PRIMARY KEY, "
     "item_category_id integer NOT NULL, "
     "equipment_category_id integer NOT NULL, "
     "name text NOT NULL, "
@@ -28,6 +28,8 @@ def populate_items_table():
         if not get_item(item["unique_id"]):
             if "stats" in item:
                 del item["stats"]
+            if "moveset_ids" in item:
+                del item["moveset_ids"]
             insert_dictionary(items_table, item)
 
 

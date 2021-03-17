@@ -88,31 +88,29 @@ def sim_fight(attacker: EntityBase, defender: EntityBase) -> FightLog:
         if defender.get_skill_level(speed_skill_id) <= attacker.get_skill_level(
             speed_skill_id
         ):
-            process_turn(attacker, defender, log, True)
-            process_turn(defender, attacker, log, False)
+            process_turn(attacker, defender, log)
+            process_turn(defender, attacker, log)
         else:
-            process_turn(defender, attacker, log, False)
-            process_turn(attacker, defender, log, True)
+            process_turn(defender, attacker, log)
+            process_turn(attacker, defender, log)
         turn += 1
     return log
 
 
-def process_turn(
-    attacker: EntityBase, defender: EntityBase, log: FightLog, is_player: bool
-):
+def process_turn(attacker: EntityBase, defender: EntityBase, log: FightLog):
     if attacker.is_dead():
         return
     else:
-        process_attack(attacker, defender, log, is_player)
+        process_attack(attacker, defender, log)
         if random.random() < get_double_attack_chance(attacker, defender):
             log.add_action(MessageAction("Double attack for {}!".format(attacker.name)))
-            process_attack(attacker, defender, log, is_player)
+            process_attack(attacker, defender, log)
 
 
-def process_attack(
-    attacker: EntityBase, defender: EntityBase, log: FightLog, is_player: bool
-):
-    modified_attack = get_variance() * attacker.get_attack_power()
+def process_attack(attacker: EntityBase, defender: EntityBase, log: FightLog):
+    var = get_variance()
+    mod_phys_attack = var * attacker.get_phys_atk_power()
+    mod_mag_attack = var * attacker.get_mag_atk_power()
 
     attacker_luck = attacker.get_skill_level(luck_skill_id)
     defender_luck = attacker.get_skill_level(luck_skill_id)
@@ -122,35 +120,37 @@ def process_attack(
 
     response = ""
     if crit:
-        damage = get_damage(modified_attack, 0)
-        response += "Crit! "
+        # TODO Add a Crit Action
+        phys_damage = get_damage(mod_phys_attack, 0)
+        mag_damage = get_damage(mod_mag_attack, 0)
     else:
         dodge = random.random() < get_dodge_chance(
             attacker_speed, defender_speed, defender_luck
         )
         if dodge:
-            response += "Dodged! "
-            damage = 0
+            # TODO Add a Dodged Action
+            phys_damage = 0
+            mag_damage = 0
         else:
-            damage = get_damage(modified_attack, defender.get_armor_power())
+            phys_damage = get_damage(mod_phys_attack, defender.get_phys_arm_power())
+            mag_damage = get_damage(mod_mag_attack, defender.get_phys_arm_power())
 
-    defender.change_current_hp(-damage)
-    response += "{0} dealt {1:.2f} damage to {2}. {2} has {3:.2f} hp remaining.".format(
-        attacker.name, damage, defender.name, defender.get_current_hp()
-    )
+    total_damage = phys_damage + mag_damage
+    defender.change_current_hp(-total_damage)
+    is_player = isinstance(attacker, PlayerProfile)
     log.add_action(
         DamageAction(
             attacker.name,
             defender.name,
             defender.get_current_hp(),
-            damage,
+            total_damage,
             is_player,
         )
     )
     if is_player:
         def_cb = defender.get_combat_level()
         atk_cb = attacker.get_combat_level()
-        if random.random() < get_effort_chance(atk_cb, def_cb, damage):
+        if random.random() < get_effort_chance(atk_cb, def_cb, total_damage):
             weighted_skills = [
                 WeightedValue(defender.get_skill_level(skill_id) + 1, skill_id)
                 for skill_id in skill_ids
@@ -158,7 +158,9 @@ def process_attack(
             effort_skill_id: WeightedValue = get_random_from_weighted_table(
                 weighted_skills
             )
-            effort_value = (random.random() + 0.5) * damage * get_effort_multiplier()
+            effort_value = (
+                (random.random() + 0.5) * total_damage * get_effort_multiplier()
+            )
             effort = Effort(effort_skill_id.value, int(effort_value))
             log.add_effort(effort)
             log.add_action(EffortAction(effort))

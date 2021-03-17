@@ -42,7 +42,7 @@
     "value": 10,
     "stats": [
       {
-        "Attack Power": {
+        "Physical Attack": {
           "value": 3,
           "scales_with": {
             "Strength": 5
@@ -59,7 +59,7 @@
     "value": 10,
     "stats": [
       {
-        "Attack Power": {
+        "Physical Attack": {
           "value": 3,
           "scales_with": {
             "Strength": 3,
@@ -67,7 +67,8 @@
           }
         }
       }
-    ]
+    ],
+    "moveset_ids": [1]
   },
   {
     "unique_id": 203,
@@ -77,7 +78,7 @@
     "value": 10,
     "stats": [
       {
-        "Attack Power": {
+        "Physical Attack": {
           "value": 3,
           "scales_with": {
             "Dexterity": 5
@@ -94,7 +95,7 @@
     "value": 100,
     "stats": [
       {
-        "Attack Power": {
+        "Physical Attack": {
           "value": 5,
           "scales_with": {
             "Strength": 10
@@ -111,7 +112,7 @@
     "value": 100,
     "stats": [
       {
-        "Attack Power": {
+        "Physical Attack": {
           "value": 5,
           "scales_with": {
             "Strength": 6,
@@ -119,7 +120,8 @@
           }
         }
       }
-    ]
+    ],
+    "moveset_ids": [1]
   },
   {
     "unique_id": 206,
@@ -129,7 +131,7 @@
     "value": 100,
     "stats": [
       {
-        "Attack Power": {
+        "Physical Attack": {
           "value": 5,
           "scales_with": {
             "Dexterity": 10
@@ -146,7 +148,7 @@
     "value": 10,
     "stats": [
       {
-        "Armor": {
+        "Physical Armor": {
           "value": 2,
           "scales_with": {
             "Defense": 5
@@ -163,7 +165,7 @@
     "value": 100,
     "stats": [
       {
-        "Armor": {
+        "Physical Armor": {
           "value": 4,
           "scales_with": {
             "Defense": 10
@@ -180,7 +182,7 @@
     "value": 10,
     "stats": [
       {
-        "Attack Power": {
+        "Physical Attack": {
           "value": 6,
           "scales_with": {
             "Strength": 4,

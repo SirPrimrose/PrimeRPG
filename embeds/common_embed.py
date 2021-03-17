@@ -1,3 +1,5 @@
+from math import floor
+
 from discord import Embed
 
 from data.entity_base import EntityBase
@@ -11,14 +13,16 @@ def add_detailed_stat_field(
     embed: Embed, field_title, profile: EntityBase, inline=False, recently_healed=False
 ):
     # TODO Find a better way to do things like "recently_healed" instead of passing in more arguments
-    stats_value = "HP: {}/{}\nCombat Level: {}\nAttack: {}\nArmor: {}".format(
+    stats_value = "HP: {}/{}\nCombat Level: {}\nPhysical Attack: {}\nPhysical Armor: {}\nMagic Attack: {}\nMagic Armor: {}".format(
         profile.get_current_hp()
         if not recently_healed
         else "**{}**".format(profile.get_current_hp()),
         profile.get_max_hp(),
         profile.get_combat_level(),
-        round(profile.get_attack_power(), 1),
-        round(profile.get_armor_power(), 1),
+        floor(profile.get_phys_atk_power()),
+        floor(profile.get_phys_arm_power()),
+        floor(profile.get_mag_atk_power()),
+        floor(profile.get_mag_arm_power()),
     )
     embed.add_field(
         name=field_title,

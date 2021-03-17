@@ -22,7 +22,7 @@ raining_weather = "raining"
 clear_weather = "clear"
 
 # Folders
-data_folder = Path("data/raw_data")
+data_folder = Path("persistence/raw_data")
 log_folder = Path("logs")
 
 # Skill ids
@@ -49,5 +49,7 @@ skill_ids = [
 ]
 
 # Equipment Stat ids
-attack_stat_id = 1
-armor_stat_id = 2
+physical_attack_stat_id = 1
+physical_armor_stat_id = 2
+magical_attack_stat_id = 3
+magical_armor_stat_id = 4

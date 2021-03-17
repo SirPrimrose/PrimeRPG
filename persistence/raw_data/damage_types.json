@@ -1,0 +1,30 @@
+[
+  {
+    "unique_id": 1,
+    "name": "Slash"
+  },
+  {
+    "unique_id": 2,
+    "name": "Pierce"
+  },
+  {
+    "unique_id": 3,
+    "name": "Blunt"
+  },
+  {
+    "unique_id": 4,
+    "name": "Flame"
+  },
+  {
+    "unique_id": 5,
+    "name": "Poison"
+  },
+  {
+    "unique_id": 6,
+    "name": "Shock"
+  },
+  {
+    "unique_id": 6,
+    "name": "Frost"
+  }
+]
