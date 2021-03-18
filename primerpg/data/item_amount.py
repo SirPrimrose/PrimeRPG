@@ -1,3 +1,8 @@
+#  Copyright (c) 2021
+#  Project: PrimeRPG
+#  Author: Primm
+
+
 class ItemAmount:
     def __init__(self, item_id: int, quantity: int):
         self.item_id = item_id

@@ -1,3 +1,7 @@
+#  Copyright (c) 2021
+#  Project: PrimeRPG
+#  Author: Primm
+
 from primerpg.util import level_from_total_xp, progress_to_next_level, req_xp_for_level
 
 

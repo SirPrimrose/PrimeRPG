@@ -1,3 +1,7 @@
+#  Copyright (c) 2021
+#  Project: PrimeRPG
+#  Author: Primm
+
 import asyncio
 from abc import abstractmethod
 from typing import List

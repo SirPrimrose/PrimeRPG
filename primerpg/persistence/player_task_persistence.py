@@ -1,3 +1,7 @@
+#  Copyright (c) 2021
+#  Project: PrimeRPG
+#  Author: Primm
+
 from primerpg.persistence.connection_handler import connection, queue_transaction
 from primerpg.persistence.dto.player_task_core import PlayerTaskCore
 

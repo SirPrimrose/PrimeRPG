@@ -1,3 +1,8 @@
+#  Copyright (c) 2021
+#  Project: PrimeRPG
+#  Author: Primm
+
+
 class DamageType:
     def __init__(self, unique_id: int, name: str):
         self.unique_id = unique_id

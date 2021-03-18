@@ -1,3 +1,8 @@
+#  Copyright (c) 2021
+#  Project: PrimeRPG
+#  Author: Primm
+
+
 class EntityEquipment:
     def __init__(self, entity_id, equipment_category_id, item_id):
         self.entity_id = entity_id

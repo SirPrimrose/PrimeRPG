@@ -1,3 +1,7 @@
+#  Copyright (c) 2021
+#  Project: PrimeRPG
+#  Author: Primm
+
 from abc import abstractmethod
 from math import floor
 from typing import List

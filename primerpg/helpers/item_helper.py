@@ -1,3 +1,7 @@
+#  Copyright (c) 2021
+#  Project: PrimeRPG
+#  Author: Primm
+
 from primerpg.data.item_amount import ItemAmount
 from primerpg.data.player_profile import PlayerProfile
 from primerpg.persistence.dto.player_inventory_item import PlayerInventoryItem

@@ -1,3 +1,8 @@
+#  Copyright (c) 2021
+#  Project: PrimeRPG
+#  Author: Primm
+
+
 class PlayerTaskCore:
     def __init__(
         self,

@@ -1,3 +1,7 @@
+#  Copyright (c) 2021
+#  Project: PrimeRPG
+#  Author: Primm
+
 from primerpg.data.entity_equipment import EntityEquipment
 from primerpg.data.item_amount import ItemAmount
 from primerpg.data.player_profile import PlayerProfile

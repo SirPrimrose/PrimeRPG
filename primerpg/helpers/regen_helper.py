@@ -1,3 +1,7 @@
+#  Copyright (c) 2021
+#  Project: PrimeRPG
+#  Author: Primm
+
 from primerpg import consts
 from primerpg.persistence.player_persistence import update_player_data, get_all_players
 from primerpg.persistence.player_skill_persistence import get_player_skill

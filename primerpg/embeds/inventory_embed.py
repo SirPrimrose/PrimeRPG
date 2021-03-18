@@ -1,3 +1,7 @@
+#  Copyright (c) 2021
+#  Project: PrimeRPG
+#  Author: Primm
+
 from collections import OrderedDict
 from typing import List, OrderedDict as OrderedDictType
 

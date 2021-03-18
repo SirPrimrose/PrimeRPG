@@ -1,3 +1,8 @@
+#  Copyright (c) 2021
+#  Project: PrimeRPG
+#  Author: Primm
+
+
 class EquipmentCategory:
     def __init__(self, unique_id: int, name: str, max_num: int):
         self.unique_id = unique_id

@@ -1,3 +1,7 @@
+#  Copyright (c) 2021
+#  Project: PrimeRPG
+#  Author: Primm
+
 from typing import List
 
 from primerpg.data.entity_skill import EntitySkill

@@ -1,3 +1,7 @@
+#  Copyright (c) 2021
+#  Project: PrimeRPG
+#  Author: Primm
+
 no_space = "\u200B"
 half_space = "\u2000"
 large_space = "\u2001"

@@ -1,3 +1,7 @@
+#  Copyright (c) 2021
+#  Project: PrimeRPG
+#  Author: Primm
+
 from typing import List
 
 from primerpg.persistence.connection_handler import connection, queue_transaction

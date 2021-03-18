@@ -1,3 +1,8 @@
+#  Copyright (c) 2021
+#  Project: PrimeRPG
+#  Author: Primm
+
+
 class PlayerInventoryItem:
     def __init__(self, player_id: int, item_id: int, quantity: int):
         self.player_id = player_id

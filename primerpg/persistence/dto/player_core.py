@@ -5,6 +5,11 @@ default_start_hp = 100
 player_states = enumerate([idle_state, gathering_state])
 
 
+#  Copyright (c) 2021
+#  Project: PrimeRPG
+#  Author: Primm
+
+
 class PlayerCore:
     def __init__(
         self,

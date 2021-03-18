@@ -1,3 +1,8 @@
+#  Copyright (c) 2021
+#  Project: PrimeRPG
+#  Author: Primm
+
+
 class MobDrop:
     def __init__(self, mob_id: int, item_id: int, drop_rate: float, mean: float, std_dev: float):
         self.mob_id = mob_id
