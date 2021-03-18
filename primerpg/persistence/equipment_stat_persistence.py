@@ -6,7 +6,7 @@ import json
 from typing import List
 
 from primerpg.consts import data_folder
-from primerpg.persistence.common_persistence import convert_dict_keys_to_id, insert_dictionary
+from primerpg.persistence.common_persistence import convert_dict_keys_to_id, insert_dictionary, should_reload_from_file
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.equipment_stat import EquipmentStat
 from primerpg.persistence.equipment_stat_categories_persistence import (
@@ -14,6 +14,7 @@ from primerpg.persistence.equipment_stat_categories_persistence import (
 )
 from primerpg.persistence.skill_category_persistence import get_all_skill_categories
 
+file_name = "items.json"
 equipment_stats_table = "equipment_stats"
 
 select_equipment_stat_query = (
@@ -34,12 +35,15 @@ create_equipment_stats_query = (
 
 
 def populate_equipment_stats_table():
-    with open(data_folder / "items.json") as f:
+    with open(data_folder / file_name) as f:
         data = json.load(f)
+
+    if not should_reload_from_file(data["dependencies"], file_name, equipment_stats_table):
+        return
 
     eqst_categories = get_all_equipment_stat_categories()
     skill_categories = get_all_skill_categories()
-    for item in data:
+    for item in data["data"]:
         if "stats" not in item:
             continue
         stats = item["stats"]

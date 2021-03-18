@@ -49,12 +49,14 @@ class ReconResultsEmbed(BaseEmbed):
         # Calculate item drop and effort text fields
         item_drops_text = ""
         for reward in self.fight_log.get_rewards():
-            item_name = get_item(reward.item_id).name
-            item_drops_text += "\n{}: {}".format(item_name, reward.quantity)
+            if reward.quantity > 0:
+                item_name = get_item(reward.item_id).name
+                item_drops_text += "\n{}: {}".format(item_name, reward.quantity)
         effort_text = ""
         for effort in self.fight_log.efforts:
-            skill_emoji = get_key_for_value(skill_emojis, effort.skill_id)
-            effort_text += "\n{}{}{}".format(emoji_from_id(skill_emoji), half_space, effort.value)
+            if effort.value > 0:
+                skill_emoji = get_key_for_value(skill_emojis, effort.skill_id)
+                effort_text += "\n{}{}{}".format(emoji_from_id(skill_emoji), half_space, effort.value)
 
         # Spacer field so inlines do not overlap
         if item_drops_text or effort_text:
