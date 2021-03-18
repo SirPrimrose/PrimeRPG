@@ -41,6 +41,9 @@ def init_db_logger(logfile: str):
 def clean_log_folder():
     now = time.time()
 
+    if not os.path.exists(log_folder):
+        os.mkdir(log_folder)
+
     for f in os.listdir(log_folder):
         f = log_folder / f
         if os.stat(f).st_mtime < now - days_to_keep_logs * 86400:
