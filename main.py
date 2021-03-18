@@ -13,7 +13,7 @@ from primerpg.data_cache import load_util_data
 from primerpg.helpers.regen_helper import regen_tick
 from primerpg.logging_handler import setup_logging
 from primerpg.persistence import persistence_main
-from settings import env_setup, bot_token
+from settings import env_setup, get_env_var
 
 # System Env Vars
 __DEBUG__ = bool(os.getenv("__DEBUG__"))
@@ -80,8 +80,8 @@ app_setup()
 
 # Start bot client
 if start_app:
+    bot_token = get_env_var("BOT_TOKEN")
     if not bot_token:
-        print(bot_token)
         print(
             "Missing BOT_TOKEN in environment variables. Copy from "
             "https://discord.com/developers/applications/816353796278976512/bot"

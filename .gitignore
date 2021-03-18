@@ -1,6 +1,7 @@
 # PrimeRPG Custom
 primeRPG.db
 logs/
+.env
 
 # PyCharm venv and cache
 __pycache__/
