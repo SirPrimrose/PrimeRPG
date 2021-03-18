@@ -7,11 +7,12 @@ from typing import List
 
 from primerpg.consts import data_folder
 from primerpg.data.entity_skill import EntitySkill
-from primerpg.persistence.common_persistence import convert_dict_keys_to_id, insert_dictionary
+from primerpg.persistence.common_persistence import convert_dict_keys_to_id, insert_dictionary, should_reload_from_file
 from primerpg.persistence.connection_handler import connection, queue_transaction
-from primerpg.persistence.skill_categories_persistence import get_all_skill_categories
+from primerpg.persistence.skill_category_persistence import get_all_skill_categories
 from primerpg.util import req_xp_for_level
 
+file_name = "mobs.json"
 mob_skills_table = "mob_skills"
 
 select_mob_skills_query = "SELECT * FROM %s WHERE mob_id = ? AND skill_id = ?" % mob_skills_table
@@ -29,11 +30,14 @@ delete_mob_skills_query = "DELETE from %s WHERE mob_id = ?" % mob_skills_table
 
 
 def populate_mob_skills_table():
-    with open(data_folder / "mobs.json") as f:
+    with open(data_folder / file_name) as f:
         data = json.load(f)
 
+    if not should_reload_from_file(data["dependencies"], file_name, mob_skills_table):
+        return
+
     skill_categories = get_all_skill_categories()
-    for mob in data:
+    for mob in data["data"]:
         skills = convert_dict_keys_to_id(skill_categories, mob["skills"])
         for skill_id, skill_value in skills.items():
             if not get_mob_skill(mob["unique_id"], skill_id):

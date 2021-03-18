@@ -1,32 +1,35 @@
-[
-  {
-    "unique_id": 0,
-    "name": "Unequippable",
-    "max_num": 0
-  },
-  {
-    "unique_id": 1,
-    "name": "Weapon",
-    "max_num": 1
-  },
-  {
-    "unique_id": 2,
-    "name": "Head",
-    "max_num": 1
-  },
-  {
-    "unique_id": 3,
-    "name": "Chest",
-    "max_num": 1
-  },
-  {
-    "unique_id": 4,
-    "name": "Legs",
-    "max_num": 1
-  },
-  {
-    "unique_id": 5,
-    "name": "Feet",
-    "max_num": 1
-  }
-]
+{
+  "dependencies": [],
+  "data": [
+    {
+      "unique_id": 0,
+      "name": "Unequippable",
+      "max_num": 0
+    },
+    {
+      "unique_id": 1,
+      "name": "Weapon",
+      "max_num": 1
+    },
+    {
+      "unique_id": 2,
+      "name": "Head",
+      "max_num": 1
+    },
+    {
+      "unique_id": 3,
+      "name": "Chest",
+      "max_num": 1
+    },
+    {
+      "unique_id": 4,
+      "name": "Legs",
+      "max_num": 1
+    },
+    {
+      "unique_id": 5,
+      "name": "Feet",
+      "max_num": 1
+    }
+  ]
+}

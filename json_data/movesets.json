@@ -1,6 +1,12 @@
-[
-  {
-    "unique_id": 1,
-    "moves": ["Slash", "Stab"]
-  }
-]
+{
+  "dependencies": ["moves.json"],
+  "data": [
+    {
+      "unique_id": 1,
+      "moves": [
+        "Slash",
+        "Stab"
+      ]
+    }
+  ]
+}

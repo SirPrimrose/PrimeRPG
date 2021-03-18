@@ -6,7 +6,11 @@ import json
 from typing import List
 
 from primerpg.consts import data_folder
-from primerpg.persistence.common_persistence import convert_name_to_id, insert_dictionary
+from primerpg.persistence.common_persistence import (
+    convert_name_to_id,
+    insert_dictionary,
+    should_reload_from_file,
+)
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.damage_type_persistence import get_all_damage_types
 from primerpg.persistence.dto.move import Move
@@ -14,6 +18,7 @@ from primerpg.persistence.equipment_stat_categories_persistence import (
     get_all_equipment_stat_categories,
 )
 
+file_name = "moves.json"
 moves_table = "moves"
 
 select_move_query = "SELECT * FROM %s WHERE unique_id = ?" % moves_table
@@ -32,12 +37,15 @@ create_moves_query = (
 
 
 def populate_moves_table():
-    with open(data_folder / "moves.json") as f:
+    with open(data_folder / file_name) as f:
         data = json.load(f)
+
+    if not should_reload_from_file(data["dependencies"], file_name, moves_table):
+        return
 
     damage_types = get_all_damage_types()
     eq_stat_cats = get_all_equipment_stat_categories()
-    for item in data:
+    for item in data["data"]:
         if not get_move(item["unique_id"]):
             damage_type_id = convert_name_to_id(damage_types, item["damage_type"])
             scaling_equipment_stat_id = convert_name_to_id(eq_stat_cats, item["scaling_equipment_stat"])

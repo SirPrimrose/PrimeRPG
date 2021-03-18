@@ -1,7 +1,7 @@
 #  Copyright (c) 2021
 #  Project: PrimeRPG
 #  Author: Primm
-
+from primerpg.helpers.checksum_helper import update_checksums
 from primerpg.persistence.connection_handler import (
     connection,
     process_queue,
@@ -19,6 +19,7 @@ from primerpg.persistence.equipment_stat_persistence import (
     create_equipment_stats_query,
     populate_equipment_stats_table,
 )
+from primerpg.persistence.file_checksum_persistence import create_file_checksums_query
 from primerpg.persistence.fish_persistence import create_fish_query, populate_fish_table
 from primerpg.persistence.inventory_persistence import create_inventory_query
 from primerpg.persistence.item_categories_persistence import (
@@ -55,7 +56,7 @@ from primerpg.persistence.player_equipment_persistence import create_player_equi
 from primerpg.persistence.player_persistence import create_players_query
 from primerpg.persistence.player_skill_persistence import create_player_skills_query
 from primerpg.persistence.player_task_persistence import create_player_tasks_query
-from primerpg.persistence.skill_categories_persistence import (
+from primerpg.persistence.skill_category_persistence import (
     create_skill_categories_query,
     populate_skill_categories_table,
 )
@@ -75,6 +76,9 @@ def save_queue():
 
 def create_tables():
     cursor_obj = connection.cursor()
+
+    # Utility tables
+    cursor_obj.execute(create_file_checksums_query)
 
     # Raw data tables
     cursor_obj.execute(create_items_query)
@@ -118,5 +122,7 @@ def create_tables():
     populate_moves_table()
     populate_movesets_table()
     populate_item_movesets_table()
+
+    update_checksums()
 
     connection.commit()

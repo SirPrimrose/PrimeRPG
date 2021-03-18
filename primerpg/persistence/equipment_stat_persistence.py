@@ -12,7 +12,7 @@ from primerpg.persistence.dto.equipment_stat import EquipmentStat
 from primerpg.persistence.equipment_stat_categories_persistence import (
     get_all_equipment_stat_categories,
 )
-from primerpg.persistence.skill_categories_persistence import get_all_skill_categories
+from primerpg.persistence.skill_category_persistence import get_all_skill_categories
 
 equipment_stats_table = "equipment_stats"
 

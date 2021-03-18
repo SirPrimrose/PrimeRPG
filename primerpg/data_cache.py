@@ -15,7 +15,7 @@ from primerpg.persistence.equipment_stat_categories_persistence import (
 from primerpg.persistence.equipment_stat_persistence import get_all_equipment_stats
 from primerpg.persistence.item_categories_persistence import get_all_item_categories
 from primerpg.persistence.items_persistence import get_all_items
-from primerpg.persistence.skill_categories_persistence import get_all_skill_categories
+from primerpg.persistence.skill_category_persistence import get_all_skill_categories
 
 dne_string = "DNE"
 

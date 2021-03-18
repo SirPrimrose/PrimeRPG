@@ -1,51 +1,54 @@
-[
-  {
-    "unique_id": 1,
-    "name": "Goblin",
-    "base_xp": 10,
-    "icon_url": "https://i.imgur.com/026QYTo.png",
-    "skills": {
-      "Vitality": 1,
-      "Strength": 2,
-      "Dexterity": 4,
-      "Speed": 4
-    },
-    "equipment": {
-      "Weapon": "Toy Club"
-    },
-    "drops": {
-      "Minnow": {
-        "drop_rate": 0.5,
-        "mean": 1,
-        "std_dev": 0
+{
+  "dependencies": ["items.json", "skill_categories.json", "equipment_categories.json"],
+  "data": [
+    {
+      "unique_id": 1,
+      "name": "Goblin",
+      "base_xp": 10,
+      "icon_url": "https://i.imgur.com/026QYTo.png",
+      "skills": {
+        "Vitality": 1,
+        "Strength": 2,
+        "Dexterity": 4,
+        "Speed": 4
       },
-      "Carp": {
-        "drop_rate": 0.1,
-        "mean": 3,
-        "std_dev": 2
+      "equipment": {
+        "Weapon": "Toy Club"
+      },
+      "drops": {
+        "Minnow": {
+          "drop_rate": 0.5,
+          "mean": 1,
+          "std_dev": 0
+        },
+        "Carp": {
+          "drop_rate": 0.1,
+          "mean": 3,
+          "std_dev": 2
+        }
+      }
+    },
+    {
+      "unique_id": 2,
+      "name": "Slime",
+      "base_xp": 40,
+      "icon_url": "https://i.imgur.com/RskTsQK.png",
+      "skills": {
+        "Vitality": 4,
+        "Strength": 4,
+        "Defense": 7,
+        "Speed": 1
+      },
+      "equipment": {
+        "Weapon": "Claw"
+      },
+      "drops": {
+        "Minnow": {
+          "drop_rate": 0.8,
+          "mean": 5,
+          "std_dev": 0
+        }
       }
     }
-  },
-  {
-    "unique_id": 2,
-    "name": "Slime",
-    "base_xp": 40,
-    "icon_url": "https://i.imgur.com/RskTsQK.png",
-    "skills": {
-      "Vitality": 4,
-      "Strength": 4,
-      "Defense": 7,
-      "Speed": 1
-    },
-    "equipment": {
-      "Weapon": "Claw"
-    },
-    "drops": {
-      "Minnow": {
-        "drop_rate": 0.8,
-        "mean": 5,
-        "std_dev": 0
-      }
-    }
-  }
-]
+  ]
+}

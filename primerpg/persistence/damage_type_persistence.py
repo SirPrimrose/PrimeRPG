@@ -6,10 +6,11 @@ import json
 from typing import List
 
 from primerpg.consts import data_folder
-from primerpg.persistence.common_persistence import insert_dictionary
+from primerpg.persistence.common_persistence import insert_dictionary, should_reload_from_file
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.damage_type import DamageType
 
+file_name = "damage_types.json"
 damage_types_table = "damage_types"
 
 select_damage_types_query = "SELECT * FROM %s WHERE unique_id = ?" % damage_types_table
@@ -22,10 +23,13 @@ create_damage_types_query = (
 
 
 def populate_damage_types_table():
-    with open(data_folder / "damage_types.json") as f:
+    with open(data_folder / file_name) as f:
         data = json.load(f)
 
-    for item in data:
+    if not should_reload_from_file(data["dependencies"], file_name, damage_types_table):
+        return
+
+    for item in data["data"]:
         if not get_damage_type(item["unique_id"]):
             insert_dictionary(damage_types_table, item)
 

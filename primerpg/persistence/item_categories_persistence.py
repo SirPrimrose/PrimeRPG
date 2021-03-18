@@ -6,10 +6,11 @@ import json
 from typing import List
 
 from primerpg.consts import data_folder
-from primerpg.persistence.common_persistence import insert_dictionary
+from primerpg.persistence.common_persistence import insert_dictionary, should_reload_from_file
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.item_category import ItemCategory
 
+file_name = "item_categories.json"
 item_categories_table = "item_categories"
 
 select_item_categories_query = "SELECT * FROM %s WHERE unique_id = ?" % item_categories_table
@@ -22,10 +23,13 @@ create_item_categories_query = (
 
 
 def populate_item_categories_table():
-    with open(data_folder / "item_categories.json") as f:
+    with open(data_folder / file_name) as f:
         data = json.load(f)
 
-    for item in data:
+    if not should_reload_from_file(data["dependencies"], file_name, item_categories_table):
+        return
+
+    for item in data["data"]:
         if not get_item_category(item["unique_id"]):
             insert_dictionary(item_categories_table, item)
 

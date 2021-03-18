@@ -1,22 +1,25 @@
-[
-  {
-    "unique_id": 1,
-    "name": "Fishing"
-  },
-  {
-    "unique_id": 2,
-    "name": "Mining"
-  },
-  {
-    "unique_id": 3,
-    "name": "Woodcutting"
-  },
-  {
-    "unique_id": 4,
-    "name": "Foraging"
-  },
-  {
-    "unique_id": 5,
-    "name": "Farming"
-  }
-]
+{
+  "dependencies": [],
+  "data": [
+    {
+      "unique_id": 1,
+      "name": "Fishing"
+    },
+    {
+      "unique_id": 2,
+      "name": "Mining"
+    },
+    {
+      "unique_id": 3,
+      "name": "Woodcutting"
+    },
+    {
+      "unique_id": 4,
+      "name": "Foraging"
+    },
+    {
+      "unique_id": 5,
+      "name": "Farming"
+    }
+  ]
+}

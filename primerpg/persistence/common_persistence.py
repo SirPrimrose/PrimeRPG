@@ -1,12 +1,13 @@
 #  Copyright (c) 2021
 #  Project: PrimeRPG
 #  Author: Primm
-
 import sys
 from sqlite3 import OperationalError, IntegrityError
 from traceback import print_exc
 from typing import List
 
+from primerpg.consts import data_folder
+from primerpg.helpers.checksum_helper import has_file_changed
 from primerpg.persistence.connection_handler import connection
 
 
@@ -104,3 +105,46 @@ def convert_name_to_id(
     """
     matching_obj = next(filter(lambda obj: getattr(obj, name_prop) == convert_value, elem_list), None)
     return getattr(matching_obj, id_prop)
+
+
+def should_reload_from_file(dependencies: List[str], file_name: str, table_name: str) -> bool:
+    """Checks if a table should be cleaned and reloaded. This is done by performing a checksum with the file_name and
+    all dependencies included in data
+
+    :param dependencies: The dependencies that the table relies on. Could be empty.
+    :param file_name: The file name directly relied upon. Required.
+    :param table_name: The table name for which to clean if the file has changed.
+    :return: True if the table was cleaned, or false if nothing has changed
+    """
+    json_files = [data_folder / file_name]
+    for dependency_name in dependencies:
+        json_files.append(data_folder / dependency_name)
+
+    if not has_file_changed(json_files):
+        return False
+
+    clean_table(table_name)
+    return True
+
+
+def clean_table(table_name: str):
+    connection.commit()
+    disable_foreign_keys()
+    delete_table_entries(table_name)
+    connection.commit()
+    enable_foreign_keys()
+
+
+def delete_table_entries(table_name: str) -> None:
+    cursor_obj = connection.cursor()
+
+    stmt = "DELETE from %s" % table_name
+    cursor_obj.execute(stmt)
+
+
+def disable_foreign_keys():
+    connection.execute("PRAGMA foreign_keys = 0")
+
+
+def enable_foreign_keys():
+    connection.execute("PRAGMA foreign_keys = 1")

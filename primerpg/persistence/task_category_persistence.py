@@ -6,10 +6,11 @@ import json
 from typing import List
 
 from primerpg.consts import data_folder
-from primerpg.persistence.common_persistence import insert_dictionary
+from primerpg.persistence.common_persistence import insert_dictionary, should_reload_from_file
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.task_category import TaskCategory
 
+file_name = "task_categories.json"
 task_categories_table = "task_categories"
 
 select_task_categories_query = "SELECT * FROM %s WHERE unique_id = ?" % task_categories_table
@@ -22,10 +23,13 @@ create_task_categories_query = (
 
 
 def populate_task_categories_table():
-    with open(data_folder / "task_categories.json") as f:
+    with open(data_folder / file_name) as f:
         data = json.load(f)
 
-    for item in data:
+    if not should_reload_from_file(data["dependencies"], file_name, task_categories_table):
+        return
+
+    for item in data["data"]:
         if not get_skill_category(item["unique_id"]):
             insert_dictionary(task_categories_table, item)
 

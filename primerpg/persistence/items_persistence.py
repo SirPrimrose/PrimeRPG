@@ -6,10 +6,11 @@ import json
 from typing import List
 
 from primerpg.consts import data_folder
-from primerpg.persistence.common_persistence import insert_dictionary
+from primerpg.persistence.common_persistence import insert_dictionary, should_reload_from_file
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.item import Item
 
+file_name = "items.json"
 items_table = "items"
 
 select_items_query = "SELECT * FROM %s WHERE unique_id = ?" % items_table
@@ -25,10 +26,13 @@ create_items_query = (
 
 
 def populate_items_table():
-    with open(data_folder / "items.json") as f:
+    with open(data_folder / file_name) as f:
         data = json.load(f)
 
-    for item in data:
+    if not should_reload_from_file(data["dependencies"], file_name, items_table):
+        return
+
+    for item in data["data"]:
         if not get_item(item["unique_id"]):
             if "stats" in item:
                 del item["stats"]

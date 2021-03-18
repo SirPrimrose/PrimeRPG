@@ -35,7 +35,7 @@ from primerpg.persistence.player_skill_persistence import (
     get_player_skill,
 )
 from primerpg.persistence.player_task_persistence import delete_player_tasks
-from primerpg.persistence.skill_categories_persistence import get_all_skill_categories
+from primerpg.persistence.skill_category_persistence import get_all_skill_categories
 from primerpg.util import req_xp_for_level, calculate_max_hp, xp_at_level
 
 starting_vitality_level = 5

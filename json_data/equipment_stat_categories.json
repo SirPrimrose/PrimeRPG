@@ -1,18 +1,21 @@
-[
-  {
-    "unique_id": 1,
-    "name": "Physical Attack"
-  },
-  {
-    "unique_id": 2,
-    "name": "Physical Armor"
-  },
-  {
-    "unique_id": 3,
-    "name": "Magical Attack"
-  },
-  {
-    "unique_id": 4,
-    "name": "Magical Armor"
-  }
-]
+{
+  "dependencies": [],
+  "data": [
+    {
+      "unique_id": 1,
+      "name": "Physical Attack"
+    },
+    {
+      "unique_id": 2,
+      "name": "Physical Armor"
+    },
+    {
+      "unique_id": 3,
+      "name": "Magical Attack"
+    },
+    {
+      "unique_id": 4,
+      "name": "Magical Armor"
+    }
+  ]
+}

@@ -5,10 +5,11 @@
 import json
 
 from primerpg.consts import data_folder
-from primerpg.persistence.common_persistence import insert_dictionary
+from primerpg.persistence.common_persistence import insert_dictionary, should_reload_from_file
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.fish import Fish
 
+file_name = "fish.json"
 fish_table = "fish"
 
 create_fish_query = (
@@ -29,10 +30,13 @@ select_fish_query = (
 
 
 def populate_fish_table():
-    with open(data_folder / "fish.json") as f:
+    with open(data_folder / file_name) as f:
         data = json.load(f)
 
-    for fish in data:
+    if not should_reload_from_file(data["dependencies"], file_name, fish_table):
+        return
+
+    for fish in data["data"]:
         if not get_fish_from_id(fish["unique_id"]):
             insert_dictionary(fish_table, fish)
 

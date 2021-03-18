@@ -6,13 +6,14 @@ import json
 from typing import List
 
 from primerpg.consts import data_folder
-from primerpg.persistence.common_persistence import insert_dictionary
+from primerpg.persistence.common_persistence import insert_dictionary, should_reload_from_file
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.skill_category import SkillCategory
 
+file_name = "skill_categories.json"
 skill_categories_table = "skill_categories"
 
-select_skill_categories_query = "SELECT * FROM %s WHERE unique_id = ?" % skill_categories_table
+select_skill_category_query = "SELECT * FROM %s WHERE unique_id = ?" % skill_categories_table
 select_all_skill_categories_query = "SELECT * FROM %s" % skill_categories_table
 create_skill_categories_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
@@ -23,10 +24,13 @@ create_skill_categories_query = (
 
 
 def populate_skill_categories_table():
-    with open(data_folder / "skill_categories.json") as f:
+    with open(data_folder / file_name) as f:
         data = json.load(f)
 
-    for item in data:
+    if not should_reload_from_file(data["dependencies"], file_name, skill_categories_table):
+        return
+
+    for item in data["data"]:
         if not get_skill_category(item["unique_id"]):
             insert_dictionary(skill_categories_table, item)
 
@@ -40,7 +44,7 @@ def get_skill_category(unique_id: int) -> SkillCategory:
     cursor_obj = connection.cursor()
 
     stmt_args = (unique_id,)
-    statement = select_skill_categories_query
+    statement = select_skill_category_query
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchone()
 

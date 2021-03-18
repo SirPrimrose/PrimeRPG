@@ -1,47 +1,50 @@
-[
-  {
-    "unique_id": 1,
-    "name": "Vitality",
-    "short_name": "VIT"
-  },
-  {
-    "unique_id": 2,
-    "name": "Strength",
-    "short_name": "STR"
-  },
-  {
-    "unique_id": 3,
-    "name": "Dexterity",
-    "short_name": "DEX"
-  },
-  {
-    "unique_id": 4,
-    "name": "Defense",
-    "short_name": "DEF"
-  },
-  {
-    "unique_id": 5,
-    "name": "Intellect",
-    "short_name": "INT"
-  },
-  {
-    "unique_id": 6,
-    "name": "Faith",
-    "short_name": "FTH"
-  },
-  {
-    "unique_id": 7,
-    "name": "Resistance",
-    "short_name": "RES"
-  },
-  {
-    "unique_id": 8,
-    "name": "Speed",
-    "short_name": "SPD"
-  },
-  {
-    "unique_id": 9,
-    "name": "Luck",
-    "short_name": "LCK"
-  }
-]
+{
+  "dependencies": [],
+  "data": [
+    {
+      "unique_id": 1,
+      "name": "Vitality",
+      "short_name": "VIT"
+    },
+    {
+      "unique_id": 2,
+      "name": "Strength",
+      "short_name": "STR"
+    },
+    {
+      "unique_id": 3,
+      "name": "Dexterity",
+      "short_name": "DEX"
+    },
+    {
+      "unique_id": 4,
+      "name": "Defense",
+      "short_name": "DEF"
+    },
+    {
+      "unique_id": 5,
+      "name": "Intellect",
+      "short_name": "INT"
+    },
+    {
+      "unique_id": 6,
+      "name": "Faith",
+      "short_name": "FTH"
+    },
+    {
+      "unique_id": 7,
+      "name": "Resistance",
+      "short_name": "RES"
+    },
+    {
+      "unique_id": 8,
+      "name": "Speed",
+      "short_name": "SPD"
+    },
+    {
+      "unique_id": 9,
+      "name": "Luck",
+      "short_name": "LCK"
+    }
+  ]
+}

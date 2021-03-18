@@ -5,10 +5,11 @@
 import json
 
 from primerpg.consts import data_folder
-from primerpg.persistence.common_persistence import insert_dictionary
+from primerpg.persistence.common_persistence import insert_dictionary, should_reload_from_file
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.mob_core import MobCore
 
+file_name = "mobs.json"
 mobs_table = "mobs"
 
 select_mobs_query = "SELECT * FROM %s WHERE unique_id = ?" % mobs_table
@@ -22,10 +23,13 @@ create_mobs_query = (
 
 
 def populate_mobs_table():
-    with open(data_folder / "mobs.json") as f:
+    with open(data_folder / file_name) as f:
         data = json.load(f)
 
-    for mob in data:
+    if not should_reload_from_file(data["dependencies"], file_name, mobs_table):
+        return
+
+    for mob in data["data"]:
         if not get_mob(mob["unique_id"]):
             del mob["skills"]
             del mob["equipment"]

@@ -6,11 +6,12 @@ import json
 from typing import List
 
 from primerpg.consts import data_folder
-from primerpg.persistence.common_persistence import convert_dict_keys_to_id, insert_dictionary
+from primerpg.persistence.common_persistence import convert_dict_keys_to_id, insert_dictionary, should_reload_from_file
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.mob_drop import MobDrop
 from primerpg.persistence.items_persistence import get_all_items
 
+file_name = "mobs.json"
 mob_drops_table = "mob_drops"
 
 select_mob_drops_query = "SELECT * FROM %s WHERE mob_id = ? AND item_id = ?" % mob_drops_table
@@ -27,11 +28,14 @@ create_mob_drops_query = (
 
 
 def populate_mob_drops_table():
-    with open(data_folder / "mobs.json") as f:
+    with open(data_folder / file_name) as f:
         data = json.load(f)
 
+    if not should_reload_from_file(data["dependencies"], file_name, mob_drops_table):
+        return
+
     items = get_all_items()
-    for mob in data:
+    for mob in data["data"]:
         drops = convert_dict_keys_to_id(items, mob["drops"])
         for drop_item_id, drop_object in drops.items():
             if not get_mob_drop(mob["unique_id"], drop_item_id):

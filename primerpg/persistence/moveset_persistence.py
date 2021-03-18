@@ -6,11 +6,16 @@ import json
 from typing import List
 
 from primerpg.consts import data_folder
-from primerpg.persistence.common_persistence import convert_list_values_to_id, insert_dictionary
+from primerpg.persistence.common_persistence import (
+    convert_list_values_to_id,
+    insert_dictionary,
+    should_reload_from_file,
+)
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.moveset import Moveset
 from primerpg.persistence.move_persistence import get_all_moves
 
+file_name = "movesets.json"
 movesets_table = "movesets"
 
 select_moveset_query = "SELECT * FROM %s WHERE unique_id = ?" % movesets_table
@@ -21,11 +26,14 @@ create_movesets_query = (
 
 
 def populate_movesets_table():
-    with open(data_folder / "movesets.json") as f:
+    with open(data_folder / file_name) as f:
         data = json.load(f)
 
+    if not should_reload_from_file(data["dependencies"], file_name, movesets_table):
+        return
+
     moves = get_all_moves()
-    for item in data:
+    for item in data["data"]:
         if not get_moveset(item["unique_id"]):
             move_ids = convert_list_values_to_id(moves, item["moves"])
             moveset = {

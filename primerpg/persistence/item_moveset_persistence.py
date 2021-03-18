@@ -6,10 +6,11 @@ import json
 from typing import List
 
 from primerpg.consts import data_folder
-from primerpg.persistence.common_persistence import insert_dictionary
+from primerpg.persistence.common_persistence import insert_dictionary, should_reload_from_file
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.item_moveset import ItemMoveset
 
+file_name = "items.json"
 item_movesets_table = "item_movesets"
 
 select_item_moveset_query = "SELECT * FROM %s WHERE item_id = ?" % item_movesets_table
@@ -23,10 +24,13 @@ create_item_movesets_query = (
 
 
 def populate_item_movesets_table():
-    with open(data_folder / "items.json") as f:
+    with open(data_folder / file_name) as f:
         data = json.load(f)
 
-    for item in data:
+    if not should_reload_from_file(data["dependencies"], file_name, item_movesets_table):
+        return
+
+    for item in data["data"]:
         if not get_item_moveset(item["unique_id"]) and "moveset_ids" in item:
             item_moveset = {
                 "item_id": item["unique_id"],
