@@ -13,6 +13,7 @@ from primerpg.data_cache import load_util_data
 from primerpg.helpers.regen_helper import regen_tick
 from primerpg.logging_handler import setup_logging
 from primerpg.persistence import persistence_main
+from settings import env_setup, bot_token
 
 # System Env Vars
 __DEBUG__ = bool(os.getenv("__DEBUG__"))
@@ -31,6 +32,7 @@ def app_setup():
     setup_logging()
     persistence_main.setup_db()
     load_util_data()
+    env_setup()
     print("PrimeRPG setup complete")
 
 
@@ -78,15 +80,14 @@ app_setup()
 
 # Start bot client
 if start_app:
-    token = os.getenv("BOT_TOKEN")
-    if not token:
-        print(token)
+    if not bot_token:
+        print(bot_token)
         print(
             "Missing BOT_TOKEN in environment variables. Copy from "
             "https://discord.com/developers/applications/816353796278976512/bot"
         )
     else:
         game_client.loop.create_task(game_tick())
-        game_client.run(token)
+        game_client.run(bot_token)
 else:
     print("Running in non-connected mode. Will not login to Discord.")
