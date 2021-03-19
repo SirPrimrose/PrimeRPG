@@ -4,8 +4,6 @@
 
 from typing import Dict
 
-
-# Emoji Tags
 from primerpg import consts
 from primerpg.consts import fishing_task_id, farming_task_id, foraging_task_id, woodcutting_task_id, mining_task_id
 
@@ -21,13 +19,14 @@ luck_emoji_id = 821118673464066148
 
 player_heart_id = 821118685301309481
 enemy_heart_id = 821118551309025400
-
 fight_emoji_id = 821118492849340477
 heal_emoji_id = 821118619651276852
 run_emoji_id = 821118763126620191
-info_emoji_id = 821118509526286356
+info_emoji_id = 822280408653234238
 attack_emoji_id = 821118492849340477
 damage_emoji_id = 821118509526286356
+crit_emoji_id = 822281781285617756
+dodge_emoji_id = 822282292730527745
 turn_emoji = ":arrows_counterclockwise:"
 
 letter_s_low_emoji_id = 821118141815848960

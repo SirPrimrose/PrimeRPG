@@ -109,16 +109,15 @@ def process_attack(attacker: EntityBase, defender: EntityBase, log: FightLog):
     attacker_speed = attacker.get_skill_level(speed_skill_id)
     defender_speed = attacker.get_skill_level(speed_skill_id)
     crit = random.random() < get_crit_chance(attacker_luck)
+    dodge = False
 
     response = ""
     if crit:
-        # TODO Add a Crit Action
         phys_damage = get_damage(mod_phys_attack, 0)
         mag_damage = get_damage(mod_mag_attack, 0)
     else:
         dodge = random.random() < get_dodge_chance(attacker_speed, defender_speed, defender_luck)
         if dodge:
-            # TODO Add a Dodged Action
             phys_damage = 0
             mag_damage = 0
         else:
@@ -129,13 +128,7 @@ def process_attack(attacker: EntityBase, defender: EntityBase, log: FightLog):
     defender.change_current_hp(-total_damage)
     is_player = isinstance(attacker, PlayerProfile)
     log.add_action(
-        DamageAction(
-            attacker.name,
-            defender.name,
-            defender.get_current_hp(),
-            total_damage,
-            is_player,
-        )
+        DamageAction(attacker.name, defender.name, defender.get_current_hp(), total_damage, is_player, crit, dodge)
     )
     if is_player:
         def_cb = defender.get_combat_level()

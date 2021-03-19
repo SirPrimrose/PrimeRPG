@@ -9,6 +9,8 @@ from primerpg.emojis import (
     emoji_from_id,
     damage_emoji_id,
     attack_emoji_id,
+    dodge_emoji_id,
+    crit_emoji_id,
 )
 
 
@@ -20,6 +22,8 @@ class DamageAction(ActionBase):
         defender_hp: float,
         damage: int,
         player_attacking: bool,
+        crit: bool,
+        dodge: bool,
     ):
         super().__init__()
         self.attacker_name = attacker_name
@@ -27,6 +31,8 @@ class DamageAction(ActionBase):
         self.defender_hp = defender_hp
         self.damage = damage
         self.player_attacking = player_attacking
+        self.crit = crit
+        self.dodge = dodge
 
     def get_message(self):
         heart = enemy_heart_id if self.player_attacking else player_heart_id
@@ -37,5 +43,12 @@ class DamageAction(ActionBase):
             self.defender_hp,
             emoji_from_id(heart),
             self.damage,
-            emoji_from_id(damage_emoji_id),
+            emoji_from_id(self.get_damage_icon()),
         )
+
+    def get_damage_icon(self) -> int:
+        if self.crit:
+            return crit_emoji_id
+        if self.dodge:
+            return dodge_emoji_id
+        return damage_emoji_id

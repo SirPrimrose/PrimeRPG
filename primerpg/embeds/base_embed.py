@@ -73,13 +73,12 @@ class BaseEmbed:
 
     def get_reaction_check(self):
         def __reaction_check(reaction, user):
-            if user == self.author or user == game_client.user:
-                if extract_id_from_emoji(str(reaction.emoji)) not in self.get_reaction_emojis():
+            if reaction.message == self.embed_message:
+                if extract_id_from_emoji(str(reaction.emoji)) not in self.get_reaction_emojis() or (
+                    user != self.author and user != game_client.user
+                ):
                     loop = asyncio.get_event_loop()
                     loop.create_task(reaction.message.remove_reaction(reaction.emoji, user))
-            if user != self.author and user != game_client.user:
-                loop = asyncio.get_event_loop()
-                loop.create_task(reaction.message.remove_reaction(reaction.emoji, user))
             return (
                 user == self.author
                 and reaction.message == self.embed_message
