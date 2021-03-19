@@ -28,7 +28,7 @@ class SkillsEmbed(BaseEmbed):
         embed.set_author(name="{}'s Skills".format(self.author.name), icon_url=self.author.avatar_url)
         embed.set_thumbnail(url=skills_url)
         value = ""
-        for skill_emoji, skill_id in skill_emojis.items():
+        for skill_id, skill_emoji in skill_emojis.items():
             skill = next(
                 filter(lambda s: s.skill_id == skill_id, self.player_profile.skills),
                 None,

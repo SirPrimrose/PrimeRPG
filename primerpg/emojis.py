@@ -51,16 +51,23 @@ letter_f_low_emoji_id = 821118418194923541
 letter_f_med_emoji_id = 821118407540736052
 letter_f_high_emoji_id = 821118395331248198
 
+fishing_task_emoji_id = letter_s_high_emoji_id
+mining_task_emoji_id = letter_a_high_emoji_id
+woodcutting_task_emoji_id = letter_b_high_emoji_id
+foraging_task_emoji_id = letter_c_high_emoji_id
+farming_task_emoji_id = letter_d_high_emoji_id
+collect_emoji_id = letter_f_high_emoji_id
+
 skill_emojis: Dict[int, int] = {
-    vitality_emoji_id: consts.vitality_skill_id,
-    strength_emoji_id: consts.strength_skill_id,
-    dexterity_emoji_id: consts.dexterity_skill_id,
-    intellect_emoji_id: consts.intellect_skill_id,
-    faith_emoji_id: consts.faith_skill_id,
-    luck_emoji_id: consts.luck_skill_id,
-    defense_emoji_id: consts.defense_skill_id,
-    resistance_emoji_id: consts.resistance_skill_id,
-    speed_emoji_id: consts.speed_skill_id,
+    consts.vitality_skill_id: vitality_emoji_id,
+    consts.strength_skill_id: strength_emoji_id,
+    consts.dexterity_skill_id: dexterity_emoji_id,
+    consts.intellect_skill_id: intellect_emoji_id,
+    consts.faith_skill_id: faith_emoji_id,
+    consts.luck_skill_id: luck_emoji_id,
+    consts.defense_skill_id: defense_emoji_id,
+    consts.resistance_skill_id: resistance_emoji_id,
+    consts.speed_skill_id: speed_emoji_id,
 }
 
 grade_emojis: Dict[int, int] = {
@@ -88,11 +95,11 @@ grade_emojis: Dict[int, int] = {
 }
 
 task_emojis: Dict[int, int] = {
-    fishing_task_id: letter_s_high_emoji_id,
-    mining_task_id: letter_a_high_emoji_id,
-    woodcutting_task_id: letter_b_high_emoji_id,
-    foraging_task_id: letter_c_high_emoji_id,
-    farming_task_id: letter_d_high_emoji_id,
+    fishing_task_id: fishing_task_emoji_id,
+    mining_task_id: mining_task_emoji_id,
+    woodcutting_task_id: woodcutting_task_emoji_id,
+    foraging_task_id: foraging_task_emoji_id,
+    farming_task_id: farming_task_emoji_id,
 }
 
 

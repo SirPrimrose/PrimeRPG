@@ -10,13 +10,12 @@ from primerpg.data.entity_base import EntityBase
 from primerpg.data.fight_log.fight_log import FightLog
 from primerpg.data.fight_log.turn_action import TurnAction
 from primerpg.data.player_profile import PlayerProfile
+from primerpg.data_cache import get_item_name
 from primerpg.embeds.base_embed import BaseEmbed
 from primerpg.embeds.common_embed import add_detailed_stat_field, add_spacer_field, heal_player
 from primerpg.embeds.simple_embed import SimpleEmbed
 from primerpg.emojis import skill_emojis, info_emoji_id, heal_emoji_id, emoji_from_id
-from primerpg.persistence.items_persistence import get_item
 from primerpg.text_consts import no_space, half_space
-from primerpg.util import get_key_for_value
 
 
 class ReconResultsEmbed(BaseEmbed):
@@ -50,12 +49,12 @@ class ReconResultsEmbed(BaseEmbed):
         item_drops_text = ""
         for reward in self.fight_log.get_rewards():
             if reward.quantity > 0:
-                item_name = get_item(reward.item_id).name
+                item_name = get_item_name(reward.item_id)
                 item_drops_text += "\n{}: {}".format(item_name, reward.quantity)
         effort_text = ""
         for effort in self.fight_log.efforts:
             if effort.value > 0:
-                skill_emoji = get_key_for_value(skill_emojis, effort.skill_id)
+                skill_emoji = skill_emojis[effort.skill_id]
                 effort_text += "\n{}{}{}".format(emoji_from_id(skill_emoji), half_space, effort.value)
 
         # Spacer field so inlines do not overlap

@@ -11,6 +11,7 @@ from primerpg.embeds.common_embed import add_world_status_footer
 from primerpg.embeds.task_stopped_embed import TaskStoppedEmbed
 from primerpg.emojis import (
     letter_f_high_emoji_id,
+    collect_emoji_id,
 )
 from primerpg.helpers.player_helper import get_player_profile
 from primerpg.helpers.task_helper import handle_collect_task
@@ -36,7 +37,7 @@ class TaskEmbed(BaseEmbed):
         progress_text = full_bars * full_bar + light_bars * light_bar
         embed.add_field(
             name="**Status**",
-            value="Started at {}\nCollection Attempts:\n`{}`{}`{}` (max at {})".format(
+            value="Started at `{}`\nCollection Attempts:\n`{}`{}`{}` (max at {})".format(
                 get_in_game_time(self.task.time_started),
                 current_attempts,
                 progress_text,
@@ -51,13 +52,13 @@ class TaskEmbed(BaseEmbed):
         return embed
 
     def get_reaction_emojis(self) -> List[int]:
-        return [letter_f_high_emoji_id]
+        return [collect_emoji_id]
 
     async def handle_fail_to_react(self):
         pass
 
     async def handle_reaction(self, reaction_id: int):
-        if reaction_id == letter_f_high_emoji_id:
+        if reaction_id == collect_emoji_id:
             profile = get_player_profile(self.author.id)
             new_task = handle_collect_task(profile)
             embed = TaskStoppedEmbed(self.author, new_task)

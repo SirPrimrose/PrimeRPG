@@ -18,9 +18,6 @@ from primerpg.helpers.stat_helper import get_scaled_stat_value_for_item
 from primerpg.persistence.equipment_stat_persistence import get_equipment_stats
 from primerpg.text_consts import spaced_vert_line, horiz_bar
 from primerpg.urls import equipment_url
-from primerpg.util import (
-    get_key_for_value,
-)
 
 progress_bar_length = 20
 
@@ -55,7 +52,7 @@ class EquipmentEmbed(BaseEmbed):
                     skill_line = "{}".format(spaced_vert_line)
                     scale_line = "{}".format(spaced_vert_line)
                     for skill_id, scaling in stat.scales_with.items():
-                        skill_emoji = get_key_for_value(skill_emojis, skill_id)
+                        skill_emoji = skill_emojis[skill_id]
                         skill_line += "{}{}".format(emoji_from_id(skill_emoji), spaced_vert_line)
                         scale_line += "{}{}".format(get_scaling_grade(scaling), spaced_vert_line)
                     scaling_table = "{}\n{}".format(skill_line, scale_line)

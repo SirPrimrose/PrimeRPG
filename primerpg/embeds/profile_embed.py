@@ -32,7 +32,7 @@ class ProfileEmbed(BaseEmbed):
         add_detailed_stat_field(embed, "Stats", self.player_profile, recently_healed=recently_healed)
         value = "\n|"
         skills_on_line = 0
-        for skill_emoji, skill_id in skill_emojis.items():
+        for skill_id, skill_emoji in skill_emojis.items():
             if skills_on_line >= skills_per_line:
                 skills_on_line = 0
                 value += "\n|"
