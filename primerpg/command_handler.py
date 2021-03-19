@@ -5,8 +5,6 @@
 from typing import List
 
 from primerpg.commands.cm_collect import Collect
-from primerpg.commands.cm_world import World
-from primerpg.commands.cm_data import Data
 from primerpg.commands.cm_equip import Equip
 from primerpg.commands.cm_equipment import Equipment
 from primerpg.commands.cm_heal import Heal
@@ -19,6 +17,7 @@ from primerpg.commands.cm_skills import Skills
 from primerpg.commands.cm_start import Start
 from primerpg.commands.cm_tasks import Tasks
 from primerpg.commands.cm_unequip import Unequip
+from primerpg.commands.cm_world import World
 from primerpg.commands.command import Command
 from primerpg.data_cache import get_command_requirement_by_name, get_player_state_name
 from primerpg.persistence.connection_handler import spam_list
@@ -31,7 +30,6 @@ def load_commands():
     register(Help())
     register(Start())
     register(Tasks())
-    register(Data())
     register(World())
     register(Recon())
     register(Skills())

@@ -14,12 +14,6 @@
       "allowed_states": "All"
     },
     {
-      "name": "Data",
-      "unique_id": 3,
-      "zone": "None",
-      "allowed_states": "All"
-    },
-    {
       "name": "World",
       "unique_id": 4,
       "zone": "None",
