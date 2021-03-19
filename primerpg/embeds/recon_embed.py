@@ -20,7 +20,6 @@ from primerpg.emojis import (
 )
 from primerpg.helpers.battle_helper import get_flee_chance, sim_fight
 from primerpg.helpers.player_helper import save_player_profile, heal_player_profile
-from primerpg.util import get_current_in_game_time, get_current_in_game_weather
 
 
 class ReconEmbed(BaseEmbed):

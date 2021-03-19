@@ -8,7 +8,6 @@ from typing import List
 from primerpg.consts import data_folder
 from primerpg.persistence.common_persistence import insert_dictionary, should_reload_from_file
 from primerpg.persistence.connection_handler import connection
-from primerpg.persistence.dto.task_category import TaskCategory
 from primerpg.persistence.dto.zone import Zone
 
 file_name = "zones.json"

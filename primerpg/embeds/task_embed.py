@@ -10,7 +10,6 @@ from primerpg.embeds.base_embed import BaseEmbed
 from primerpg.embeds.common_embed import add_world_status_footer
 from primerpg.embeds.task_stopped_embed import TaskStoppedEmbed
 from primerpg.emojis import (
-    letter_f_high_emoji_id,
     collect_emoji_id,
 )
 from primerpg.helpers.player_helper import get_player_profile

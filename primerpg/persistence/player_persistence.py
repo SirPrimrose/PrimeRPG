@@ -14,16 +14,16 @@ create_players_query = (
     "unique_id integer PRIMARY KEY, "
     "name text NOT NULL, "
     "avatar_url text NOT NULL, "
-    "state text NOT NULL, "
+    "state_id integer NOT NULL, "
     "current_hp real NOT NULL, "
     "hp_regen real NOT NULL)".format(players_table)
 )
 insert_players_query = (
-    "INSERT INTO %s (unique_id, name, avatar_url, state, current_hp, hp_regen) VALUES (?, ?, ?, ?, ?, ?)"
+    "INSERT INTO %s (unique_id, name, avatar_url, state_id, current_hp, hp_regen) VALUES (?, ?, ?, ?, ?, ?)"
     % players_table
 )
 update_players_query = (
-    "UPDATE %s SET name = ?, avatar_url = ?, state = ?, current_hp = ?, hp_regen = ? WHERE unique_id = ?"
+    "UPDATE %s SET name = ?, avatar_url = ?, state_id = ?, current_hp = ?, hp_regen = ? WHERE unique_id = ?"
     % players_table
 )
 delete_players_query = "DELETE from %s WHERE unique_id = ?" % players_table
@@ -56,7 +56,7 @@ def insert_player_data(player_core: PlayerCore):
         player_core.unique_id,
         player_core.name,
         player_core.avatar_url,
-        player_core.state,
+        player_core.state_id,
         player_core.current_hp,
         player_core.hp_regen,
     )
@@ -68,7 +68,7 @@ def update_player_data(player_core: PlayerCore, quiet=False):
     stmt_args = (
         player_core.name,
         player_core.avatar_url,
-        player_core.state,
+        player_core.state_id,
         player_core.current_hp,
         player_core.hp_regen,
         player_core.unique_id,

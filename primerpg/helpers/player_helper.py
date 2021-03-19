@@ -7,7 +7,8 @@ from primerpg.data.entity_base import EntityBase
 from primerpg.data.entity_skill import EntitySkill
 from primerpg.data.player_profile import PlayerProfile
 from primerpg.helpers.equipment_helper import equip_player_item
-from primerpg.persistence.dto.player_core import PlayerCore, idle_state
+from primerpg.helpers.state_helper import idle_state_id
+from primerpg.persistence.dto.player_core import PlayerCore
 from primerpg.persistence.dto.player_inventory_item import PlayerInventoryItem
 from primerpg.persistence.inventory_persistence import (
     insert_inventory_item,
@@ -62,7 +63,7 @@ def create_new_player_data(player_id, player_name, avatar_url) -> None:
         player_id,
         player_name,
         avatar_url,
-        idle_state,
+        idle_state_id,
         calculate_max_hp(starting_vitality_level),
         player_starting_hp_regen,
     )

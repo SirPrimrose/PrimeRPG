@@ -4,7 +4,6 @@
 
 import datetime
 import random
-from math import floor
 
 from discord import User
 
