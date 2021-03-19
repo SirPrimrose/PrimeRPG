@@ -1,0 +1,17 @@
+{
+  "dependencies": [],
+  "data": [
+    {
+      "unique_id": 1,
+      "name": "Idling"
+    },
+    {
+      "unique_id": 2,
+      "name": "Gathering"
+    },
+    {
+      "unique_id": 3,
+      "name": "Recon"
+    }
+  ]
+}

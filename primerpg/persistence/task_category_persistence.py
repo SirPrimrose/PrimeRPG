@@ -30,15 +30,15 @@ def populate_task_categories_table():
         return
 
     for item in data["data"]:
-        if not get_skill_category(item["unique_id"]):
+        if not get_task_category(item["unique_id"]):
             insert_dictionary(task_categories_table, item)
 
 
-def get_skill_category(unique_id: int) -> TaskCategory:
-    """If making a request to get the name or short name, prefer to use the methods provided in util.
+def get_task_category(unique_id: int) -> TaskCategory:
+    """If making a request to get the name or short name, prefer to use the methods provided in data cache.
 
-    :param unique_id: Unique id of the skill category
-    :return: The skill category
+    :param unique_id: Unique id of the task category
+    :return: The task category
     """
     cursor_obj = connection.cursor()
 
@@ -47,7 +47,7 @@ def get_skill_category(unique_id: int) -> TaskCategory:
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchone()
 
-    return init_skill_category(result)
+    return init_task_category(result)
 
 
 def get_all_task_categories() -> List[TaskCategory]:
@@ -57,10 +57,10 @@ def get_all_task_categories() -> List[TaskCategory]:
     cursor_obj.execute(statement)
     result = cursor_obj.fetchall()
 
-    return [init_skill_category(r) for r in result]
+    return [init_task_category(r) for r in result]
 
 
-def init_skill_category(db_row):
+def init_task_category(db_row):
     if db_row:
         return TaskCategory(
             db_row[0],

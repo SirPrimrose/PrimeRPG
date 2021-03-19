@@ -1,0 +1,23 @@
+{
+  "dependencies": ["zones.json", "player_states.json"],
+  "data": [
+    {
+      "name": "Help",
+      "unique_id": 1,
+      "zone": "None",
+      "allowed_states": "All"
+    },
+    {
+      "name": "Start",
+      "unique_id": 2,
+      "zone": "None",
+      "allowed_states": "All"
+    },
+    {
+      "name": "Recon",
+      "unique_id": 3,
+      "zone": "Grasslands",
+      "allowed_states": ["Idling"]
+    }
+  ]
+}

@@ -2,6 +2,10 @@
 #  Project: PrimeRPG
 #  Author: Primm
 from primerpg.helpers.checksum_helper import update_checksums
+from primerpg.persistence.command_requirement_persistence import (
+    create_command_requirements_query,
+    populate_command_requirements_table,
+)
 from primerpg.persistence.connection_handler import (
     connection,
     process_queue,
@@ -55,6 +59,7 @@ from primerpg.persistence.moveset_persistence import (
 from primerpg.persistence.player_equipment_persistence import create_player_equipment_query
 from primerpg.persistence.player_persistence import create_players_query
 from primerpg.persistence.player_skill_persistence import create_player_skills_query
+from primerpg.persistence.player_state_persistence import create_player_states_query, populate_player_states_table
 from primerpg.persistence.player_task_persistence import create_player_tasks_query
 from primerpg.persistence.skill_category_persistence import (
     create_skill_categories_query,
@@ -64,6 +69,7 @@ from primerpg.persistence.task_category_persistence import (
     create_task_categories_query,
     populate_task_categories_table,
 )
+from primerpg.persistence.zone_persistence import create_zones_query, populate_zones_table
 
 
 def setup_db():
@@ -81,6 +87,9 @@ def create_tables():
     cursor_obj.execute(create_file_checksums_query)
 
     # Raw data tables
+    cursor_obj.execute(create_zones_query)
+    cursor_obj.execute(create_player_states_query)
+    cursor_obj.execute(create_command_requirements_query)
     cursor_obj.execute(create_items_query)
     cursor_obj.execute(create_fish_query)
     cursor_obj.execute(create_item_categories_query)
@@ -106,6 +115,9 @@ def create_tables():
     cursor_obj.execute(create_inventory_query)
 
     # Populate raw data tables
+    populate_zones_table()
+    populate_player_states_table()
+    populate_command_requirements_table()
     populate_items_table()
     populate_fish_table()
     populate_item_categories_table()

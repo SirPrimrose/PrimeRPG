@@ -1,0 +1,21 @@
+{
+  "dependencies": [],
+  "data": [
+    {
+      "unique_id": 0,
+      "name": "None"
+    },
+    {
+      "unique_id": 1,
+      "name": "Grasslands"
+    },
+    {
+      "unique_id": 2,
+      "name": "Forest"
+    },
+    {
+      "unique_id": 3,
+      "name": "Plains"
+    }
+  ]
+}
