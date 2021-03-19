@@ -5,13 +5,12 @@
 from typing import List
 
 from primerpg.commands.cm_add import Add
-from primerpg.commands.cm_collect import Collect
+from primerpg.commands.cm_collect import World
 from primerpg.commands.cm_data import Data
 from primerpg.commands.cm_dice import Dice
 from primerpg.commands.cm_embed import EmbedCommand
 from primerpg.commands.cm_equip import Equip
 from primerpg.commands.cm_equipment import Equipment
-from primerpg.commands.cm_tasks import Tasks
 from primerpg.commands.cm_heal import Heal
 from primerpg.commands.cm_hello import Hello
 from primerpg.commands.cm_help import Help
@@ -21,9 +20,8 @@ from primerpg.commands.cm_recon import Recon
 from primerpg.commands.cm_scrub import Scrub
 from primerpg.commands.cm_skills import Skills
 from primerpg.commands.cm_start import Start
-from primerpg.commands.cm_time import Time
+from primerpg.commands.cm_tasks import Tasks
 from primerpg.commands.cm_unequip import Unequip
-from primerpg.commands.cm_weather import Weather
 from primerpg.persistence.connection_handler import spam_list
 
 command_registry = []
@@ -37,9 +35,7 @@ def load_commands():
     register(Start())
     register(Tasks())
     register(Data())
-    register(Time())
-    register(Collect())
-    register(Weather())
+    register(World())
     register(Recon())
     register(EmbedCommand())
     register(Skills())

@@ -16,6 +16,7 @@ from primerpg.helpers.player_helper import get_player_profile
 from primerpg.helpers.task_helper import handle_collect_task
 from primerpg.tasks.task_base import TaskBase
 from primerpg.text_consts import full_bar, light_bar
+from primerpg.util import get_in_game_time
 
 _progress_bar_length = 15
 
@@ -35,11 +36,16 @@ class TaskEmbed(BaseEmbed):
         progress_text = full_bars * full_bar + light_bars * light_bar
         embed.add_field(
             name="**Status**",
-            value="Started At: {}\nCollection Attempts:\n`{}`{}`{}` (max at {})".format(
-                ":basket:", current_attempts, progress_text, current_attempts + 1, self.task.get_max_task_attempts()
+            value="Started at {}\nCollection Attempts:\n`{}`{}`{}` (max at {})".format(
+                get_in_game_time(self.task.time_started),
+                current_attempts,
+                progress_text,
+                current_attempts + 1,
+                self.task.get_max_task_attempts(),
             ),
+            inline=False,
         )
-        embed.add_field(name="**Actions**", value="{} Collect".format(":basket:"))
+        embed.add_field(name="**Actions**", value="{} Collect".format(":basket:"), inline=False)
 
         add_world_status_footer(embed)
         return embed

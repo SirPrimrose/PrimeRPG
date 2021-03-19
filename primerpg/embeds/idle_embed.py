@@ -32,7 +32,7 @@ class IdleEmbed(BaseEmbed):
             emoji = emoji_from_id(task_emojis[task_cat.unique_id])
             task_name = task_cat.name
             action_text += "\n{} {}".format(emoji, task_name)
-        embed.add_field(name="**Actions**", value=action_text)
+        embed.add_field(name="**Actions**", value=action_text, inline=False)
 
         add_world_status_footer(embed)
         return embed
