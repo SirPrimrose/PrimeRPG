@@ -32,7 +32,7 @@ class ReconResultsEmbed(BaseEmbed):
         self.enemy_profile = enemy_profile
         self.fight_log = fight_log
 
-    def generate_embed(self, recently_healed=False) -> Embed:
+    def generate_embed(self, recently_healed=False, *args) -> Embed:
         winner = self.enemy_profile.name if self.fighter_profile.is_dead() else self.fighter_profile.name
         loser = self.fighter_profile.name if self.fighter_profile.is_dead() else self.enemy_profile.name
         embed = Embed(title="Recon Results", description="{} defeated {}".format(winner, loser))

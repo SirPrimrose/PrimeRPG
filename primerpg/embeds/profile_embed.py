@@ -22,7 +22,7 @@ class ProfileEmbed(BaseEmbed):
         self.player_profile = player_profile
         self.author = author
 
-    def generate_embed(self, recently_healed=False) -> Embed:
+    def generate_embed(self, recently_healed=False, *args) -> Embed:
         embed = Embed()
         embed.set_author(
             name="{}'s Profile".format(self.author.name),

@@ -30,7 +30,7 @@ class EquipmentEmbed(BaseEmbed):
         super().__init__(author)
         self.player_profile = player_profile
 
-    def generate_embed(self) -> Embed:
+    def generate_embed(self, *args) -> Embed:
         embed = Embed()
         embed.set_author(
             name="{}'s Equipment".format(self.author.name),

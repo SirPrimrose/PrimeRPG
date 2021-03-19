@@ -11,6 +11,7 @@ from primerpg.data.player_profile import PlayerProfile
 from primerpg.helpers.player_helper import heal_player_profile
 from primerpg.persistence.player_persistence import update_player_data
 from primerpg.text_consts import no_space
+from primerpg.util import get_current_in_game_time, get_current_in_game_weather
 
 
 def add_detailed_stat_field(embed: Embed, field_title, profile: EntityBase, inline=False, recently_healed=False):
@@ -48,6 +49,10 @@ def add_short_stat_field(embed: Embed, field_title, profile: EntityBase, inline=
 
 def add_spacer_field(embed: Embed):
     embed.add_field(name=no_space, value=no_space, inline=False)
+
+
+def add_world_status_footer(embed: Embed):
+    embed.set_footer(text="It is {} and {}".format(get_current_in_game_time(), get_current_in_game_weather()))
 
 
 def heal_player(player_profile: PlayerProfile):

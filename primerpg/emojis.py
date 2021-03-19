@@ -7,6 +7,7 @@ from typing import Dict
 
 # Emoji Tags
 from primerpg import consts
+from primerpg.consts import fishing_task_id, farming_task_id, foraging_task_id, woodcutting_task_id, mining_task_id
 
 vitality_emoji_id = 821118647766482955
 strength_emoji_id = 821118786446950420
@@ -63,7 +64,7 @@ skill_emojis: Dict[int, int] = {
     speed_emoji_id: consts.speed_skill_id,
 }
 
-grade_emojis = {
+grade_emojis: Dict[int, int] = {
     3: letter_f_low_emoji_id,
     6: letter_f_med_emoji_id,
     10: letter_f_high_emoji_id,
@@ -85,6 +86,14 @@ grade_emojis = {
     63: letter_s_low_emoji_id,
     66: letter_s_med_emoji_id,
     70: letter_s_high_emoji_id,
+}
+
+task_emojis: Dict[int, int] = {
+    fishing_task_id: letter_s_high_emoji_id,
+    mining_task_id: letter_a_high_emoji_id,
+    woodcutting_task_id: letter_b_high_emoji_id,
+    foraging_task_id: letter_c_high_emoji_id,
+    farming_task_id: letter_d_high_emoji_id,
 }
 
 

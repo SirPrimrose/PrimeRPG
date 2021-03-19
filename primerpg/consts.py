@@ -12,7 +12,6 @@ game_client = discord.Client()
 # Game Vars
 day_night_cycles_per_day = 6
 weather_frequency = 6000  # seconds
-base_fish_frequency = 1  # seconds
 
 # Tasks
 fishing_task_id = 1

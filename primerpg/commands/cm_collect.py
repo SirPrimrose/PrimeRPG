@@ -8,7 +8,7 @@ import discord
 
 from primerpg.commands.command import Command
 from primerpg.helpers.player_helper import get_player_profile
-from primerpg.helpers.task_helper import handle_collect
+from primerpg.helpers.task_helper import handle_collect_task
 from primerpg.persistence.player_task_persistence import get_player_task
 from primerpg.util import time_since
 
@@ -25,13 +25,12 @@ class Collect(Command):
 
     async def run_command(self, msg: discord.Message, args: List[str]):
         player_id = msg.author.id
-        task_core = get_player_task(player_id)
         profile = get_player_profile(player_id)
-        task_data = handle_collect(profile, task_core)
+        task_data = handle_collect_task(profile)
 
         # TODO Move this response to a Task Rewards embed
         response = "Finished {} task. You spent {:.2f} secs collecting.".format(
-            task_core.task_id, time_since(task_data.time_started).total_seconds()
+            task_data.task_id, time_since(task_data.time_started).total_seconds()
         )
         if len(task_data.get_task_rewards()) > 0:
             response += "\n\nYou earned {}".format(task_data.get_task_rewards())

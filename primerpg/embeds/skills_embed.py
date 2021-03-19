@@ -15,7 +15,7 @@ from primerpg.emojis import skill_emojis, emoji_from_id
 from primerpg.text_consts import light_bar, full_bar, no_space
 from primerpg.urls import skills_url
 
-progress_bar_length = 20
+_progress_bar_length = 20
 
 
 class SkillsEmbed(BaseEmbed):
@@ -23,7 +23,7 @@ class SkillsEmbed(BaseEmbed):
         super().__init__(author)
         self.player_profile = player_profile
 
-    def generate_embed(self) -> Embed:
+    def generate_embed(self, *args) -> Embed:
         embed = Embed()
         embed.set_author(name="{}'s Skills".format(self.author.name), icon_url=self.author.avatar_url)
         embed.set_thumbnail(url=skills_url)
@@ -34,8 +34,8 @@ class SkillsEmbed(BaseEmbed):
                 None,
             )
             progress = skill.progress_to_next_level()
-            full_bars = floor(progress_bar_length * progress)
-            light_bars = progress_bar_length - full_bars
+            full_bars = floor(_progress_bar_length * progress)
+            light_bars = _progress_bar_length - full_bars
             progress_text = full_bars * full_bar + light_bars * light_bar
             value += "{} `{}`{}`{}`\n".format(
                 emoji_from_id(skill_emoji),

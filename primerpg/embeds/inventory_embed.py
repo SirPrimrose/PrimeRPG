@@ -26,7 +26,7 @@ class InventoryEmbed(BaseEmbed):
         super().__init__(author)
         self.categorized_items = self._organize_categories(items)
 
-    def generate_embed(self) -> Embed:
+    def generate_embed(self, *args) -> Embed:
         embed = Embed()
         embed.set_author(
             name="{}'s Inventory".format(self.author.name),

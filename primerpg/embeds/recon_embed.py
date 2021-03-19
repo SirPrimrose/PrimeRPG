@@ -10,7 +10,7 @@ from primerpg.consts import speed_skill_id
 from primerpg.data.entity_base import EntityBase
 from primerpg.data.player_profile import PlayerProfile
 from primerpg.embeds.base_embed import BaseEmbed
-from primerpg.embeds.common_embed import add_detailed_stat_field, heal_player
+from primerpg.embeds.common_embed import add_detailed_stat_field, heal_player, add_world_status_footer
 from primerpg.embeds.recon_results_embed import ReconResultsEmbed
 from primerpg.emojis import (
     fight_emoji_id,
@@ -29,7 +29,7 @@ class ReconEmbed(BaseEmbed):
         self.fighter_profile = fighter_profile
         self.enemy_profile = enemy_profile
 
-    def generate_embed(self, recently_healed=False) -> Embed:
+    def generate_embed(self, recently_healed=False, *args) -> Embed:
         # TODO Add random events into the recon action
         # TODO Randomly select an enemy to fight based on player area
         embed = Embed(
@@ -55,7 +55,7 @@ class ReconEmbed(BaseEmbed):
             flee_chance * 100,
         )
         embed.add_field(name="Actions", value=action_text, inline=False)
-        embed.set_footer(text="It is {} and {}".format(get_current_in_game_time(), get_current_in_game_weather()))
+        add_world_status_footer(embed)
         return embed
 
     def get_reaction_emojis(self) -> List[int]:

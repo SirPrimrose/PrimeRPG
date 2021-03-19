@@ -4,14 +4,16 @@
 
 import datetime
 import random
+from math import floor
 
 from primerpg import util
-from primerpg.consts import base_fish_frequency
 from primerpg.data.item_amount import ItemAmount
 from primerpg.persistence.dto.fish import Fish
 from primerpg.persistence.dto.player_task_core import PlayerTaskCore
 from primerpg.persistence.fish_persistence import get_fish
 from primerpg.tasks.task_base import TaskBase
+
+base_fish_frequency = 60  # seconds
 
 
 class FishingTask(TaskBase):
@@ -19,21 +21,37 @@ class FishingTask(TaskBase):
         super().__init__(task_core)
 
     def _calculate_task_rewards(self):
-        reward_time = min(util.time_since(self.time_started), datetime.timedelta(hours=1))
+        reward_time = min(util.time_since(self.time_started), datetime.timedelta(seconds=self._get_max_task_seconds()))
         start_time_num = int(self.time_started.timestamp())
         total_time_num = int(reward_time.total_seconds())
 
         self._rewards = []
         if total_time_num < 5:
             return
-        for i in range(
+        for time in range(
             start_time_num + base_fish_frequency,
             start_time_num + total_time_num,
             base_fish_frequency,
         ):
-            fish = self.go_fish(i)
+            fish = self.go_fish(time)
             if fish:
                 self._rewards.append(ItemAmount(fish.item_id, 1))
+
+    def get_task_attempt_count(self) -> int:
+        reward_time = min(util.time_since(self.time_started), datetime.timedelta(seconds=self._get_max_task_seconds()))
+        total_time_num = int(reward_time.total_seconds())
+        return floor(total_time_num / base_fish_frequency)
+
+    def get_current_attempt_progress(self) -> float:
+        reward_time = min(util.time_since(self.time_started), datetime.timedelta(seconds=self._get_max_task_seconds()))
+        total_time_num = int(reward_time.total_seconds())
+        return (total_time_num - self.get_task_attempt_count() * base_fish_frequency) / base_fish_frequency
+
+    def get_max_task_attempts(self) -> int:
+        return floor(self._get_max_task_seconds() / base_fish_frequency)
+
+    def _get_max_task_seconds(self) -> int:
+        return 3600
 
     def go_fish(self, time: int) -> Fish:
         if random.random() < 0.2:

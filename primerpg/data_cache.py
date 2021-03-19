@@ -9,6 +9,7 @@ from primerpg.persistence.dto.equipment_stat_category import EquipmentStatCatego
 from primerpg.persistence.dto.item import Item
 from primerpg.persistence.dto.item_category import ItemCategory
 from primerpg.persistence.dto.skill_category import SkillCategory
+from primerpg.persistence.dto.task_category import TaskCategory
 from primerpg.persistence.equipment_stat_categories_persistence import (
     get_all_equipment_stat_categories,
 )
@@ -16,10 +17,12 @@ from primerpg.persistence.equipment_stat_persistence import get_all_equipment_st
 from primerpg.persistence.item_categories_persistence import get_all_item_categories
 from primerpg.persistence.items_persistence import get_all_items
 from primerpg.persistence.skill_category_persistence import get_all_skill_categories
+from primerpg.persistence.task_category_persistence import get_all_task_categories
 
 dne_string = "DNE"
 
 # Preloaded data
+task_categories: List[TaskCategory] = []
 skill_categories: List[SkillCategory] = []
 item_categories: List[ItemCategory] = []
 equipment_stats: List[EquipmentStat] = []
@@ -28,12 +31,26 @@ items: List[Item] = []
 
 
 def load_util_data() -> None:
-    global skill_categories, item_categories, equipment_stats, equipment_stat_categories, items
+    global task_categories, skill_categories, item_categories, equipment_stats, equipment_stat_categories, items
+    task_categories = get_all_task_categories()
     skill_categories = get_all_skill_categories()
     item_categories = get_all_item_categories()
     equipment_stats = get_all_equipment_stats()
     equipment_stat_categories = get_all_equipment_stat_categories()
     items = get_all_items()
+
+
+# Task data helpers
+def get_task_category_name(task_id: int) -> str:
+    """Gets the task category name without hitting the database
+
+    :param task_id: Unique id of the task category
+    :return: The name of the task category, or "DNE" if it does not exist
+    """
+    try:
+        return next(filter(lambda skill_cat: skill_cat.unique_id == task_id, task_categories)).name
+    except StopIteration:
+        return dne_string
 
 
 # Skill Category data helpers

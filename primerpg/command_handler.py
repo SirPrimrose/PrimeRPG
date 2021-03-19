@@ -11,7 +11,7 @@ from primerpg.commands.cm_dice import Dice
 from primerpg.commands.cm_embed import EmbedCommand
 from primerpg.commands.cm_equip import Equip
 from primerpg.commands.cm_equipment import Equipment
-from primerpg.commands.cm_fish import Fish
+from primerpg.commands.cm_tasks import Tasks
 from primerpg.commands.cm_heal import Heal
 from primerpg.commands.cm_hello import Hello
 from primerpg.commands.cm_help import Help
@@ -35,7 +35,7 @@ def load_commands():
     register(Dice())
     register(Add())
     register(Start())
-    register(Fish())
+    register(Tasks())
     register(Data())
     register(Time())
     register(Collect())
