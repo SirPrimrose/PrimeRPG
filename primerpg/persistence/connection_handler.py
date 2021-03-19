@@ -31,8 +31,8 @@ def queue_transaction(player_id: Optional[int], sql, params):
 def process_queue():
     if len(transaction_queue) == 0:
         return
-    print("{0} transactions to run...".format(len(transaction_queue)))
-    t = time.time()
+    # print("{0} transactions to run...".format(len(transaction_queue)))
+    # t = time.time()
     cursor_obj = connection.cursor()
     cursor_obj.execute("BEGIN TRANSACTION")
 
@@ -43,7 +43,7 @@ def process_queue():
     connection.commit()
     spam_list.clear()
 
-    print("Time taken: %.3f sec" % (time.time() - t))
+    # print("Time taken: %.3f sec" % (time.time() - t))
 
 
 def safe_execute(cursor: sqlite3.Cursor, sql, params):

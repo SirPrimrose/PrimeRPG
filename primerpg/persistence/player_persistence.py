@@ -15,16 +15,17 @@ create_players_query = (
     "name text NOT NULL, "
     "avatar_url text NOT NULL, "
     "state_id integer NOT NULL, "
+    "zone_id integer NOT NULL, "
     "current_hp real NOT NULL, "
     "hp_regen real NOT NULL)".format(players_table)
 )
 insert_players_query = (
-    "INSERT INTO %s (unique_id, name, avatar_url, state_id, current_hp, hp_regen) VALUES (?, ?, ?, ?, ?, ?)"
+    "INSERT INTO %s (unique_id, name, avatar_url, state_id, zone_id, current_hp, hp_regen) VALUES (?, ?, ?, ?, ?, ?, ?)"
     % players_table
 )
 update_players_query = (
-    "UPDATE %s SET name = ?, avatar_url = ?, state_id = ?, current_hp = ?, hp_regen = ? WHERE unique_id = ?"
-    % players_table
+    "UPDATE %s SET name = ?, avatar_url = ?, state_id = ?, zone_id = ?, current_hp = ?, hp_regen = ? WHERE unique_id "
+    "= ? " % players_table
 )
 delete_players_query = "DELETE from %s WHERE unique_id = ?" % players_table
 
@@ -57,6 +58,7 @@ def insert_player_data(player_core: PlayerCore):
         player_core.name,
         player_core.avatar_url,
         player_core.state_id,
+        player_core.zone_id,
         player_core.current_hp,
         player_core.hp_regen,
     )
@@ -69,6 +71,7 @@ def update_player_data(player_core: PlayerCore, quiet=False):
         player_core.name,
         player_core.avatar_url,
         player_core.state_id,
+        player_core.zone_id,
         player_core.current_hp,
         player_core.hp_regen,
         player_core.unique_id,
@@ -84,6 +87,6 @@ def delete_player_data(player_id: int):
 
 def init_player(db_row):
     if db_row:
-        return PlayerCore(db_row[0], db_row[1], db_row[2], db_row[3], db_row[4], db_row[5])
+        return PlayerCore(db_row[0], db_row[1], db_row[2], db_row[3], db_row[4], db_row[5], db_row[6])
     else:
         return None

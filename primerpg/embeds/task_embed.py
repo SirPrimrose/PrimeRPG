@@ -61,7 +61,6 @@ class TaskEmbed(BaseEmbed):
             profile = get_player_profile(self.author.id)
             new_task = handle_collect_task(profile)
             embed = TaskStoppedEmbed(self.author, new_task)
-            generated_embed = embed.generate_embed()
-            await self.embed_message.edit(embed=generated_embed)
+            await self.embed_message.edit(embed=embed.generate_embed())
         else:
             await self.embed_message.channel.send("Failed to handle reaction")

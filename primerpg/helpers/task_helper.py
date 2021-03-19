@@ -22,28 +22,24 @@ task_dict = {fishing_task_id: FishingTask}
 
 def handle_start_task(player_id: int, task_id: int) -> TaskBase:
     player_data = get_player(player_id)
-    # TODO Move state management and checking to command handler
-    if player_data.state_id == idle_state_id:
-        player_data.state_id = gathering_state_id
-        update_player_data(player_data)
-        task_core = PlayerTaskCore(player_id, task_id, str_from_date(datetime.datetime.utcnow()))
-        insert_player_task(task_core)
-        return get_task_for_id(task_core.task_id)(task_core)
+    player_data.state_id = gathering_state_id
+    update_player_data(player_data)
+    task_core = PlayerTaskCore(player_id, task_id, str_from_date(datetime.datetime.utcnow()))
+    insert_player_task(task_core)
+    return get_task_for_id(task_core.task_id)(task_core)
 
 
 def handle_collect_task(profile: PlayerProfile) -> TaskBase:
-    # TODO Move state management and checking to command handler
-    if profile.core.state_id == gathering_state_id:
-        profile.core.state_id = idle_state_id
-        task = get_current_player_task(profile.core.unique_id)
+    profile.core.state_id = idle_state_id
+    task = get_current_player_task(profile.core.unique_id)
 
-        for item in task.get_task_rewards():
-            item_helper.give_player_item(profile, item)
+    for item in task.get_task_rewards():
+        item_helper.give_player_item(profile, item)
 
-        delete_player_task(profile.core.unique_id, task.task_id)
-        save_player_profile(profile)
+    delete_player_task(profile.core.unique_id, task.task_id)
+    save_player_profile(profile)
 
-        return task
+    return task
 
 
 def get_current_player_task(player_id: int) -> Optional[TaskBase]:

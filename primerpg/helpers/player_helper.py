@@ -57,6 +57,8 @@ player_starting_inventory = {toy_sword_id: 1, toy_helmet_id: 1}
 
 player_starting_equipment = [toy_sword_id, toy_helmet_id]
 
+player_starting_zone_id = 1
+
 
 def create_new_player_data(player_id, player_name, avatar_url) -> None:
     core = PlayerCore(
@@ -64,6 +66,7 @@ def create_new_player_data(player_id, player_name, avatar_url) -> None:
         player_name,
         avatar_url,
         idle_state_id,
+        player_starting_zone_id,
         calculate_max_hp(starting_vitality_level),
         player_starting_hp_regen,
     )

@@ -4,10 +4,13 @@
 
 from typing import List, Optional
 
+from primerpg.persistence.command_requirement_persistence import get_all_command_requirements
+from primerpg.persistence.dto.command_requirement import CommandRequirement
 from primerpg.persistence.dto.equipment_stat import EquipmentStat
 from primerpg.persistence.dto.equipment_stat_category import EquipmentStatCategory
 from primerpg.persistence.dto.item import Item
 from primerpg.persistence.dto.item_category import ItemCategory
+from primerpg.persistence.dto.player_state import PlayerState
 from primerpg.persistence.dto.skill_category import SkillCategory
 from primerpg.persistence.dto.task_category import TaskCategory
 from primerpg.persistence.equipment_stat_categories_persistence import (
@@ -16,12 +19,15 @@ from primerpg.persistence.equipment_stat_categories_persistence import (
 from primerpg.persistence.equipment_stat_persistence import get_all_equipment_stats
 from primerpg.persistence.item_categories_persistence import get_all_item_categories
 from primerpg.persistence.items_persistence import get_all_items
+from primerpg.persistence.player_state_persistence import get_all_player_states
 from primerpg.persistence.skill_category_persistence import get_all_skill_categories
 from primerpg.persistence.task_category_persistence import get_all_task_categories
 
 dne_string = "DNE"
 
 # Preloaded data
+command_requirements: List[CommandRequirement] = []
+player_states: List[PlayerState] = []
 task_categories: List[TaskCategory] = []
 skill_categories: List[SkillCategory] = []
 item_categories: List[ItemCategory] = []
@@ -31,13 +37,42 @@ items: List[Item] = []
 
 
 def load_util_data() -> None:
-    global task_categories, skill_categories, item_categories, equipment_stats, equipment_stat_categories, items
+    global command_requirements, player_states, task_categories, skill_categories
+    global item_categories, equipment_stats, equipment_stat_categories, items
+    command_requirements = get_all_command_requirements()
+    player_states = get_all_player_states()
     task_categories = get_all_task_categories()
     skill_categories = get_all_skill_categories()
     item_categories = get_all_item_categories()
     equipment_stats = get_all_equipment_stats()
     equipment_stat_categories = get_all_equipment_stat_categories()
     items = get_all_items()
+
+
+# Command Requirement data helpers
+def get_command_requirement_by_name(command_name: str) -> Optional[CommandRequirement]:
+    """Gets the command requirement without hitting the database
+
+    :param command_name: Name of the command to lookup
+    :return: The CommandRequirement object associated with the name, or None if it does not exist
+    """
+    try:
+        return next(filter(lambda req: req.name == command_name, command_requirements))
+    except StopIteration:
+        return None
+
+
+# Task data helpers
+def get_player_state_name(state_id: int) -> str:
+    """Gets the player state name without hitting the database
+
+    :param state_id: Unique id of the player state
+    :return: The name of the player state, or "DNE" if it does not exist
+    """
+    try:
+        return next(filter(lambda state: state.unique_id == state_id, player_states)).name
+    except StopIteration:
+        return dne_string
 
 
 # Task data helpers

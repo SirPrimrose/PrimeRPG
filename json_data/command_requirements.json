@@ -14,10 +14,82 @@
       "allowed_states": "All"
     },
     {
-      "name": "Recon",
+      "name": "Data",
       "unique_id": 3,
+      "zone": "None",
+      "allowed_states": "All"
+    },
+    {
+      "name": "World",
+      "unique_id": 4,
+      "zone": "None",
+      "allowed_states": "All"
+    },
+    {
+      "name": "Scrub",
+      "unique_id": 5,
       "zone": "Grasslands",
       "allowed_states": ["Idling"]
+    },
+    {
+      "name": "Recon",
+      "unique_id": 6,
+      "zone": "Grasslands",
+      "allowed_states": ["Idling"]
+    },
+    {
+      "name": "Heal",
+      "unique_id": 7,
+      "zone": "Grasslands",
+      "allowed_states": "All"
+    },
+    {
+      "name": "Inventory",
+      "unique_id": 8,
+      "zone": "Grasslands",
+      "allowed_states": "All"
+    },
+    {
+      "name": "Profile",
+      "unique_id": 9,
+      "zone": "Grasslands",
+      "allowed_states": "All"
+    },
+    {
+      "name": "Skills",
+      "unique_id": 10,
+      "zone": "Grasslands",
+      "allowed_states": "All"
+    },
+    {
+      "name": "Equipment",
+      "unique_id": 11,
+      "zone": "Grasslands",
+      "allowed_states": "All"
+    },
+    {
+      "name": "Unequip",
+      "unique_id": 12,
+      "zone": "Grasslands",
+      "allowed_states": ["Idling"]
+    },
+    {
+      "name": "Equip",
+      "unique_id": 13,
+      "zone": "Grasslands",
+      "allowed_states": ["Idling"]
+    },
+    {
+      "name": "Tasks",
+      "unique_id": 14,
+      "zone": "Grasslands",
+      "allowed_states": "All"
+    },
+    {
+      "name": "Collect",
+      "unique_id": 15,
+      "zone": "Grasslands",
+      "allowed_states": ["Gathering"]
     }
   ]
 }

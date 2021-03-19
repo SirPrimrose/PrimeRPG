@@ -10,6 +10,7 @@ class PlayerCore:
         name: str,
         avatar_url: str,
         state_id: int,
+        zone_id: int,
         current_hp: float,
         hp_regen: float,
     ):
@@ -18,6 +19,7 @@ class PlayerCore:
         self.avatar_url = avatar_url
         # TODO Update state to state_id
         self.state_id = state_id
+        self.zone_id = zone_id
         self.current_hp = current_hp
         self.hp_regen = hp_regen
 
@@ -26,6 +28,7 @@ class PlayerCore:
         response += "\nName: %s" % self.name
         response += "\nAvatar URL: %s" % self.avatar_url
         response += "\nState Id: %s" % self.state_id
+        response += "\nZone Id: %s" % self.zone_id
         response += "\nCurrent HP: %s" % self.current_hp
         response += "\nHP Regen: %s" % self.hp_regen
         return response
