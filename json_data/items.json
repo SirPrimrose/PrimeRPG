@@ -17,24 +17,14 @@
     },
     {
       "unique_id": 101,
-      "item_category_id": 1,
+      "item_category_id": 2,
       "equipment_category_id": 0,
-      "name": "Minnow",
-      "value": 100
-    },
-    {
-      "unique_id": 102,
-      "item_category_id": 1,
-      "equipment_category_id": 0,
-      "name": "Carp",
-      "value": 100
-    },
-    {
-      "unique_id": 103,
-      "item_category_id": 1,
-      "equipment_category_id": 0,
-      "name": "Catfish",
-      "value": 100
+      "name": "Bandage",
+      "value": 0,
+      "shop_item": {
+        "cost": 5,
+        "zone": "Grasslands"
+      }
     },
     {
       "unique_id": 201,
@@ -51,7 +41,11 @@
             }
           }
         }
-      ]
+      ],
+      "shop_item": {
+        "cost": 0,
+        "zone": "Grasslands"
+      }
     },
     {
       "unique_id": 202,
@@ -198,6 +192,27 @@
           }
         }
       ]
+    },
+    {
+      "unique_id": 601,
+      "item_category_id": 1,
+      "equipment_category_id": 0,
+      "name": "Minnow",
+      "value": 100
+    },
+    {
+      "unique_id": 602,
+      "item_category_id": 1,
+      "equipment_category_id": 0,
+      "name": "Carp",
+      "value": 100
+    },
+    {
+      "unique_id": 603,
+      "item_category_id": 1,
+      "equipment_category_id": 0,
+      "name": "Catfish",
+      "value": 100
     }
   ]
 }
