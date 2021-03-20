@@ -4,6 +4,7 @@
 
 from typing import List
 
+from primerpg.commands.cm_buy import Buy
 from primerpg.commands.cm_collect import Collect
 from primerpg.commands.cm_equip import Equip
 from primerpg.commands.cm_equipment import Equipment
@@ -43,6 +44,7 @@ def load_commands():
     register(Equipment())
     register(Collect())
     register(Shop())
+    register(Buy())
 
 
 def register(command):

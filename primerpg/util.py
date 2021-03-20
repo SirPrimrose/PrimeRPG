@@ -148,3 +148,10 @@ def get_key_for_value(dictionary: Dict[T, U], value: U) -> T:
 def time_since(start_time: datetime) -> datetime.timedelta:
     end_time = datetime.datetime.utcnow()
     return end_time - start_time
+
+
+def check_is_int(s):
+    s = str(s)
+    if s[0] in ("-", "+"):
+        return s[1:].isdigit()
+    return s.isdigit()
