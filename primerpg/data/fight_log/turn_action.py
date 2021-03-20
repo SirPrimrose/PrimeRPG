@@ -3,7 +3,7 @@
 #  Author: Primm
 
 from primerpg.data.fight_log.action_base import ActionBase
-from primerpg.emojis import turn_emoji
+from primerpg.emojis import turn_emoji_id, emoji_from_id
 
 
 class TurnAction(ActionBase):
@@ -13,6 +13,6 @@ class TurnAction(ActionBase):
 
     def get_message(self):
         return "{0} {1}".format(
-            turn_emoji,
+            emoji_from_id(turn_emoji_id),
             self.turn_number,
         )

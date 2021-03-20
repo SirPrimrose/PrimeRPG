@@ -27,7 +27,7 @@ attack_emoji_id = 821118492849340477
 damage_emoji_id = 821118509526286356
 crit_emoji_id = 822281781285617756
 dodge_emoji_id = 822282292730527745
-turn_emoji = ":arrows_counterclockwise:"
+turn_emoji_id = 822644403667599360
 
 letter_s_low_emoji_id = 821118141815848960
 letter_s_med_emoji_id = 821118123741806633

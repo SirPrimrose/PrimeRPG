@@ -14,6 +14,7 @@ from primerpg.emojis import (
 )
 from primerpg.helpers.task_helper import handle_start_task
 from primerpg.persistence.task_category_persistence import get_all_task_categories
+from primerpg.urls import tasks_url
 from primerpg.util import get_key_for_value
 
 _progress_bar_length = 15
@@ -25,6 +26,7 @@ class IdleEmbed(BaseEmbed):
 
     def generate_embed(self, *args) -> Embed:
         embed = Embed(title="Current Status - Idling")
+        embed.set_thumbnail(url=tasks_url)
 
         # Player is idle, show possible tasks
         action_text = ""

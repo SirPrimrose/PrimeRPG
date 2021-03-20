@@ -9,6 +9,7 @@ from primerpg.embeds.base_embed import BaseEmbed
 from primerpg.embeds.common_embed import add_world_status_footer
 from primerpg.tasks.task_base import TaskBase
 from primerpg.text_consts import no_space
+from primerpg.urls import tasks_url
 from primerpg.util import get_current_in_game_time
 
 
@@ -19,6 +20,7 @@ class TaskStartedEmbed(BaseEmbed):
 
     def generate_embed(self, *args) -> Embed:
         embed = Embed()
+        embed.set_thumbnail(url=tasks_url)
         text = "{} started {} at `{}`. Use .task again to check the status.".format(
             self.author.name, self.task.task_name, get_current_in_game_time()
         )

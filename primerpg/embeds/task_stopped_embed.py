@@ -9,6 +9,7 @@ from primerpg.data_cache import get_item_name
 from primerpg.embeds.base_embed import BaseEmbed
 from primerpg.embeds.common_embed import add_world_status_footer
 from primerpg.tasks.task_base import TaskBase
+from primerpg.urls import tasks_url
 
 
 class TaskStoppedEmbed(BaseEmbed):
@@ -18,6 +19,7 @@ class TaskStoppedEmbed(BaseEmbed):
 
     def generate_embed(self, *args) -> Embed:
         embed = Embed(title=self.task.get_results_string(self.author))
+        embed.set_thumbnail(url=tasks_url)
 
         rewards_text = ""
         for reward in self.task.get_task_rewards():

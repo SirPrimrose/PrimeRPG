@@ -7,6 +7,7 @@ from typing import List, OrderedDict as OrderedDictType
 
 from discord import User, Embed
 
+from primerpg.data.player_profile import PlayerProfile
 from primerpg.data_cache import (
     get_item_category_name,
     get_item_name,
@@ -20,11 +21,12 @@ from primerpg.urls import backpack_url
 class InventoryEmbed(BaseEmbed):
     def __init__(
         self,
-        items: List[PlayerInventoryItem],
         author: User,
+        player_profile: PlayerProfile,
     ):
         super().__init__(author)
-        self.categorized_items = self._organize_categories(items)
+        self.player_profile = player_profile
+        self.categorized_items = self._organize_categories(player_profile.get_inventory())
 
     def generate_embed(self, *args) -> Embed:
         embed = Embed()
@@ -48,6 +50,7 @@ class InventoryEmbed(BaseEmbed):
                     value=cat_text,
                     inline=True,
                 )
+        embed.set_footer(text="You have {} coins.".format(self.player_profile.get_coins()))
         return embed
 
     def get_reaction_emojis(self) -> List[int]:

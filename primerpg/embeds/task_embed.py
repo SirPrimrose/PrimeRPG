@@ -16,6 +16,7 @@ from primerpg.helpers.player_helper import get_player_profile
 from primerpg.helpers.task_helper import handle_collect_task
 from primerpg.tasks.task_base import TaskBase
 from primerpg.text_consts import full_bar, light_bar
+from primerpg.urls import tasks_url
 from primerpg.util import get_in_game_time
 
 _progress_bar_length = 15
@@ -28,6 +29,7 @@ class TaskEmbed(BaseEmbed):
 
     def generate_embed(self, *args) -> Embed:
         embed = Embed(title="Current Status - {}".format(self.task.task_name))
+        embed.set_thumbnail(url=tasks_url)
         # Player has task, show task details
         current_attempts = self.task.get_task_attempt_count()
         attempt_progress = self.task.get_current_attempt_progress()
