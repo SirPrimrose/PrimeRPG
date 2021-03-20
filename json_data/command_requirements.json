@@ -17,7 +17,7 @@
       "name": "Shop",
       "unique_id": 3,
       "zone": "Grasslands",
-      "allowed_states": ["Idling"]
+      "allowed_states": "All"
     },
     {
       "name": "World",
@@ -35,7 +35,7 @@
       "name": "Recon",
       "unique_id": 6,
       "zone": "Grasslands",
-      "allowed_states": ["Idling"]
+      "allowed_states": ["Idling", "Recon"]
     },
     {
       "name": "Heal",
@@ -83,7 +83,7 @@
       "name": "Tasks",
       "unique_id": 14,
       "zone": "Grasslands",
-      "allowed_states": "All"
+      "allowed_states": ["Idling", "Gathering"]
     },
     {
       "name": "Collect",
