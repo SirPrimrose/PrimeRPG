@@ -13,6 +13,7 @@ from primerpg.commands.cm_inventory import Inventory
 from primerpg.commands.cm_profile import Profile
 from primerpg.commands.cm_recon import Recon
 from primerpg.commands.cm_scrub import Scrub
+from primerpg.commands.cm_shop import Shop
 from primerpg.commands.cm_skills import Skills
 from primerpg.commands.cm_start import Start
 from primerpg.commands.cm_tasks import Tasks
@@ -41,6 +42,7 @@ def load_commands():
     register(Unequip())
     register(Equipment())
     register(Collect())
+    register(Shop())
 
 
 def register(command):

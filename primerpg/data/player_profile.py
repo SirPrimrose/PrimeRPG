@@ -4,6 +4,7 @@
 
 from typing import List
 
+from primerpg.consts import coin_item_id
 from primerpg.data.entity_base import EntityBase
 from primerpg.data.entity_equipment import EntityEquipment
 from primerpg.data.entity_skill import EntitySkill
@@ -54,3 +55,7 @@ class PlayerProfile(EntityBase):
 
     def add_inventory_item(self, item: PlayerInventoryItem) -> None:
         self._inventory.append(item)
+
+    def get_coins(self):
+        coin_item = self.get_inventory_item(coin_item_id)
+        return 0 if not coin_item else coin_item.quantity

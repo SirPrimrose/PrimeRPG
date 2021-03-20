@@ -56,3 +56,6 @@ physical_attack_stat_id = 1
 physical_armor_stat_id = 2
 magical_attack_stat_id = 3
 magical_armor_stat_id = 4
+
+# Item ids
+coin_item_id = 1

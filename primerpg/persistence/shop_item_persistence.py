@@ -15,6 +15,7 @@ file_name = "items.json"
 shop_items_table = "shop_items"
 
 select_shop_item_query = "SELECT * FROM %s WHERE item_id = ?" % shop_items_table
+select_shop_items_query = "SELECT * FROM %s WHERE zone_id = ? ORDER BY cost" % shop_items_table
 select_all_shop_items_query = "SELECT * FROM %s" % shop_items_table
 create_shop_items_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
@@ -52,6 +53,17 @@ def get_shop_item(item_id: int) -> ShopItem:
     result = cursor_obj.fetchone()
 
     return init_shop_item(result)
+
+
+def get_shop_items(zone_id: int) -> List[ShopItem]:
+    cursor_obj = connection.cursor()
+
+    stmt_args = (zone_id,)
+    statement = select_shop_items_query
+    cursor_obj.execute(statement, stmt_args)
+    result = cursor_obj.fetchall()
+
+    return [init_shop_item(r) for r in result]
 
 
 def get_all_shop_items() -> List[ShopItem]:

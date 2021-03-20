@@ -58,6 +58,9 @@ foraging_task_emoji_id = letter_c_high_emoji_id
 farming_task_emoji_id = letter_d_high_emoji_id
 collect_emoji_id = letter_f_high_emoji_id
 
+prev_page_emoji_id = letter_d_high_emoji_id
+next_page_emoji_id = letter_f_high_emoji_id
+
 skill_emojis: Dict[int, int] = {
     consts.vitality_skill_id: vitality_emoji_id,
     consts.strength_skill_id: strength_emoji_id,

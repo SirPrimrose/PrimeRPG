@@ -16,15 +16,10 @@
         "Weapon": "Toy Club"
       },
       "drops": {
-        "Minnow": {
-          "drop_rate": 0.5,
-          "mean": 1,
-          "std_dev": 0
-        },
-        "Carp": {
-          "drop_rate": 0.1,
+        "Coin": {
+          "drop_rate": 0.7,
           "mean": 3,
-          "std_dev": 2
+          "std_dev": 1
         }
       }
     },
@@ -43,10 +38,10 @@
         "Weapon": "Claw"
       },
       "drops": {
-        "Minnow": {
-          "drop_rate": 0.8,
-          "mean": 5,
-          "std_dev": 0
+        "Coin": {
+          "drop_rate": 0.1,
+          "mean": 30,
+          "std_dev": 5
         }
       }
     }

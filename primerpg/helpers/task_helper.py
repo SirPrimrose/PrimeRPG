@@ -10,7 +10,7 @@ from primerpg.data.player_profile import PlayerProfile
 from primerpg.date_util import str_from_date
 from primerpg.helpers import item_helper
 from primerpg.helpers.player_helper import save_player_profile
-from primerpg.helpers.state_helper import idle_state_id, gathering_state_id
+from primerpg.helpers.state_helper import idle_state_id, gathering_state_id, set_player_state
 from primerpg.persistence.dto.player_task_core import PlayerTaskCore
 from primerpg.persistence.player_persistence import update_player_data, get_player
 from primerpg.persistence.player_task_persistence import insert_player_task, delete_player_task, get_player_task
@@ -21,16 +21,13 @@ task_dict = {fishing_task_id: FishingTask}
 
 
 def handle_start_task(player_id: int, task_id: int) -> TaskBase:
-    player_data = get_player(player_id)
-    player_data.state_id = gathering_state_id
-    update_player_data(player_data)
+    set_player_state(player_id, gathering_state_id)
     task_core = PlayerTaskCore(player_id, task_id, str_from_date(datetime.datetime.utcnow()))
     insert_player_task(task_core)
     return get_task_for_id(task_core.task_id)(task_core)
 
 
 def handle_collect_task(profile: PlayerProfile) -> TaskBase:
-    profile.core.state_id = idle_state_id
     task = get_current_player_task(profile.core.unique_id)
 
     for item in task.get_task_rewards():
@@ -38,6 +35,7 @@ def handle_collect_task(profile: PlayerProfile) -> TaskBase:
 
     delete_player_task(profile.core.unique_id, task.task_id)
     save_player_profile(profile)
+    set_player_state(profile.core.unique_id, idle_state_id)
 
     return task
 

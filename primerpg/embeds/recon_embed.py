@@ -20,6 +20,7 @@ from primerpg.emojis import (
 )
 from primerpg.helpers.battle_helper import get_flee_chance, sim_fight
 from primerpg.helpers.player_helper import save_player_profile, heal_player_profile
+from primerpg.helpers.state_helper import set_player_state, idle_state_id
 
 
 class ReconEmbed(BaseEmbed):
@@ -27,10 +28,10 @@ class ReconEmbed(BaseEmbed):
         super().__init__(author)
         self.fighter_profile = fighter_profile
         self.enemy_profile = enemy_profile
+        # TODO Randomly select an enemy to fight based on player area
 
     def generate_embed(self, recently_healed=False, *args) -> Embed:
         # TODO Add random events into the recon action
-        # TODO Randomly select an enemy to fight based on player area
         embed = Embed(
             title="Recon",
             description="{} did some recon and found a {}".format(self.fighter_profile.name, self.enemy_profile.name),
@@ -75,7 +76,8 @@ class ReconEmbed(BaseEmbed):
             heal_player(self.fighter_profile)
             await self.update_embed_content()
         elif reaction_id == run_emoji_id:
-            await self.embed_message.channel.send("Attempt to run")
+            await self.embed_message.channel.send("Run success")
+            set_player_state(self.fighter_profile.core.unique_id, idle_state_id)
         else:
             await self.embed_message.channel.send("Failed to handle reaction")
 
@@ -86,5 +88,6 @@ class ReconEmbed(BaseEmbed):
         if self.fighter_profile.is_dead():
             heal_player_profile(self.fighter_profile)
         save_player_profile(self.fighter_profile)
+        set_player_state(self.fighter_profile.core.unique_id, idle_state_id)
         await self.embed_message.edit(embed=generated_embed)
         await embed.connect_reaction_listener(self.embed_message)
