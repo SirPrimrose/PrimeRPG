@@ -12,7 +12,9 @@ player_equipment_table = "player_equipment"
 select_player_equipment_query = (
     "SELECT * FROM %s WHERE player_id = ? AND equipment_category_id = ?" % player_equipment_table
 )
-select_all_player_equipment_query = "SELECT * FROM %s WHERE player_id = ?" % player_equipment_table
+select_all_player_equipment_query = (
+    "SELECT * FROM %s WHERE player_id = ? ORDER BY equipment_category_id" % player_equipment_table
+)
 create_player_equipment_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
     "player_id integer NOT NULL, "

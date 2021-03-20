@@ -77,7 +77,7 @@ class EquipmentEmbed(BaseEmbed):
 
 
 def get_scaling_grade(scaling):
-    for value, emoji in grade_emojis.items():
+    for value, emoji_id in grade_emojis.items():
         if scaling <= value:
-            return emoji
+            return emoji_from_id(emoji_id)
     return
