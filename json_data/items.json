@@ -24,7 +24,13 @@
       "shop_item": {
         "cost": 5,
         "zone": "Grasslands"
-      }
+      },
+      "usage_effects": [
+        {
+          "type": "Current HP",
+          "amount": 100
+        }
+      ]
     },
     {
       "unique_id": 201,

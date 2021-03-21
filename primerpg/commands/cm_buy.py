@@ -2,11 +2,9 @@
 #  Project: PrimeRPG
 #  Author: Primm
 
-import sys
 from typing import List
 
 import discord
-from numpy.core.defchararray import isnumeric
 
 from primerpg.commands.command import Command
 from primerpg.data_cache import get_item_id

@@ -8,7 +8,6 @@ from discord import Embed
 
 from primerpg.data.entity_base import EntityBase
 from primerpg.data.player_profile import PlayerProfile
-from primerpg.helpers.player_helper import heal_player_profile
 from primerpg.persistence.player_persistence import update_player_data
 from primerpg.text_consts import no_space
 from primerpg.util import get_current_in_game_time, get_current_in_game_weather
@@ -56,7 +55,7 @@ def add_world_status_footer(embed: Embed):
 
 
 def heal_player(player_profile: PlayerProfile):
-    heal_player_profile(player_profile)
+    player_profile.heal_player_profile()
     update_player_data(player_profile.core)
 
 

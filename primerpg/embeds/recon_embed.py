@@ -19,7 +19,7 @@ from primerpg.emojis import (
     emoji_from_id,
 )
 from primerpg.helpers.battle_helper import get_flee_chance, sim_fight
-from primerpg.helpers.player_helper import save_player_profile, heal_player_profile
+from primerpg.helpers.player_helper import save_player_profile
 from primerpg.helpers.state_helper import set_player_state, idle_state_id
 
 
@@ -86,7 +86,7 @@ class ReconEmbed(BaseEmbed):
         embed = ReconResultsEmbed(self.fighter_profile, self.enemy_profile, fight_log, self.author)
         generated_embed = embed.generate_embed()
         if self.fighter_profile.is_dead():
-            heal_player_profile(self.fighter_profile)
+            self.fighter_profile.heal_player_profile()
         save_player_profile(self.fighter_profile)
         set_player_state(self.fighter_profile.core.unique_id, idle_state_id)
         await self.embed_message.edit(embed=generated_embed)

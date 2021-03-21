@@ -4,7 +4,6 @@
 
 import logging
 import sqlite3
-import time
 
 from collections import deque
 from typing import Optional, List

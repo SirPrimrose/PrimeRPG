@@ -40,6 +40,8 @@ def populate_items_table():
                 del item["moveset_ids"]
             if "shop_item" in item:
                 del item["shop_item"]
+            if "usage_effects" in item:
+                del item["usage_effects"]
             insert_dictionary(items_table, item)
 
 

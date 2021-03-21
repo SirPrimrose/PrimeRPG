@@ -11,7 +11,6 @@ from primerpg.embeds.recon_embed import ReconEmbed
 from primerpg.helpers.mob_helper import get_mob_profile
 from primerpg.helpers.player_helper import get_player_profile
 from primerpg.helpers.state_helper import recon_state_id, set_player_state
-from primerpg.persistence.player_persistence import update_player_data
 
 
 class Recon(Command):

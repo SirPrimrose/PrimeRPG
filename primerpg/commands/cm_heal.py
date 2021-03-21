@@ -7,10 +7,10 @@ from typing import List
 import discord
 
 from primerpg.commands.command import Command
+from primerpg.helpers.item_helper import attempt_use_item
 from primerpg.helpers.player_helper import (
     get_player_profile,
     save_player_profile,
-    heal_player_profile,
 )
 
 
@@ -27,6 +27,10 @@ class Heal(Command):
     async def run_command(self, msg: discord.Message, args: List[str]):
         player_id = msg.author.id
         player_profile = get_player_profile(player_id)
-        heal_player_profile(player_profile)
-        save_player_profile(player_profile)
-        await msg.channel.send("Healed {}".format(msg.author.name))
+        success = attempt_use_item(player_profile, 101)
+        # TODO Format message based on item id and effect
+        if success:
+            save_player_profile(player_profile)
+            await msg.channel.send("Used a bandage and healed {}".format(msg.author.name))
+        else:
+            await msg.channel.send("{} has no bandages".format(msg.author.name))

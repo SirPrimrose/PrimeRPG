@@ -9,7 +9,6 @@ import discord
 from primerpg.commands.command import Command
 from primerpg.embeds.inventory_embed import InventoryEmbed
 from primerpg.helpers.player_helper import get_player_profile
-from primerpg.persistence.inventory_persistence import get_all_inventory_items
 
 
 class Inventory(Command):

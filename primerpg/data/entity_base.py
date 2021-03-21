@@ -58,6 +58,12 @@ class EntityBase:
         new_hp = min(max(self.get_current_hp() + hp_delta, 0), self.get_max_hp())
         self.set_current_hp(new_hp)
 
+    def heal_player_profile(self, hp_to_heal: int = None) -> None:
+        if hp_to_heal is None:
+            self.set_current_hp(self.get_max_hp())
+        else:
+            self.change_current_hp(hp_to_heal)
+
     def get_skill_level(self, skill_id) -> int:
         try:
             result = next(filter(lambda skill: skill.skill_id == skill_id, self.skills))

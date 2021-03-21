@@ -3,7 +3,7 @@
 #  Author: Primm
 
 from primerpg import consts
-from primerpg.persistence.player_persistence import update_player_data, get_all_players, update_player_regen_data
+from primerpg.persistence.player_persistence import get_all_players, update_player_regen_data
 from primerpg.persistence.player_skill_persistence import get_player_skill
 from primerpg.util import calculate_max_hp
 

@@ -7,11 +7,8 @@ from typing import List
 import discord
 
 from primerpg.commands.command import Command
-from primerpg.embeds.idle_embed import IdleEmbed
 from primerpg.embeds.shop_embed import ShopEmbed
-from primerpg.embeds.task_embed import TaskEmbed
 from primerpg.helpers.player_helper import get_player_profile
-from primerpg.helpers.task_helper import get_current_player_task
 
 
 class Shop(Command):

@@ -1,0 +1,17 @@
+{
+  "dependencies": [],
+  "data": [
+    {
+      "unique_id": 1,
+      "name": "Current HP"
+    },
+    {
+      "unique_id": 2,
+      "name": "Item Gift"
+    },
+    {
+      "unique_id": 3,
+      "name": "XP Gift"
+    }
+  ]
+}

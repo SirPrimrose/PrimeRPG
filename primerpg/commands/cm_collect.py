@@ -7,8 +7,6 @@ from typing import List
 import discord
 
 from primerpg.commands.command import Command
-from primerpg.embeds.idle_embed import IdleEmbed
-from primerpg.embeds.task_embed import TaskEmbed
 from primerpg.embeds.task_stopped_embed import TaskStoppedEmbed
 from primerpg.helpers.player_helper import get_player_profile
 from primerpg.helpers.task_helper import get_current_player_task, handle_collect_task

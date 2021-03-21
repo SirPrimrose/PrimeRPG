@@ -131,13 +131,6 @@ def delete_player_profile(player_id: int) -> None:
     delete_player_data(player_id)
 
 
-def heal_player_profile(player_profile: PlayerProfile, hp_to_heal: int = None) -> None:
-    if hp_to_heal is None:
-        player_profile.set_current_hp(player_profile.get_max_hp())
-    else:
-        player_profile.change_current_hp(hp_to_heal)
-
-
 def apply_death_penalty(player_profile: EntityBase) -> None:
     """Applies a penalty for a player's death.
 

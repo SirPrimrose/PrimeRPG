@@ -12,7 +12,6 @@ from primerpg.helpers import item_helper
 from primerpg.helpers.player_helper import save_player_profile
 from primerpg.helpers.state_helper import idle_state_id, gathering_state_id, set_player_state
 from primerpg.persistence.dto.player_task_core import PlayerTaskCore
-from primerpg.persistence.player_persistence import update_player_data, get_player
 from primerpg.persistence.player_task_persistence import insert_player_task, delete_player_task, get_player_task
 from primerpg.tasks.fishing_task import FishingTask
 from primerpg.tasks.task_base import TaskBase
