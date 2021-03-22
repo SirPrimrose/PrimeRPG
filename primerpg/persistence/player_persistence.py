@@ -27,7 +27,7 @@ update_players_query = (
     "UPDATE %s SET name = ?, avatar_url = ?, state_id = ?, zone_id = ?, current_hp = ?, hp_regen = ? WHERE unique_id "
     "= ? " % players_table
 )
-update_player_regen_query = "UPDATE %s SET current_hp = ? WHERE unique_id = ? " % players_table
+update_player_current_hp_query = "UPDATE %s SET current_hp = ? WHERE unique_id = ? " % players_table
 update_player_state_query = "UPDATE %s SET state_id = ? WHERE unique_id = ? " % players_table
 delete_players_query = "DELETE from %s WHERE unique_id = ?" % players_table
 
@@ -81,8 +81,8 @@ def update_player_data(player_core: PlayerCore):
     queue_transaction(player_core.unique_id, stmt, stmt_args)
 
 
-def update_player_regen_data(player_core: PlayerCore):
-    stmt = update_player_regen_query
+def update_player_current_hp(player_core: PlayerCore):
+    stmt = update_player_current_hp_query
     stmt_args = (
         player_core.current_hp,
         player_core.unique_id,
