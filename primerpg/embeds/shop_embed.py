@@ -9,7 +9,7 @@ from discord import User, Embed
 from primerpg.data.player_profile import PlayerProfile
 from primerpg.embeds.base_embed import BaseEmbed
 from primerpg.emojis import prev_page_emoji_id, next_page_emoji_id
-from primerpg.persistence.shop_item_persistence import get_shop_items
+from primerpg.persistence.items_persistence import get_shop_items
 
 
 class ShopEmbed(BaseEmbed):
@@ -17,16 +17,17 @@ class ShopEmbed(BaseEmbed):
         super().__init__(author)
         self.profile = profile
         self.current_page = 1
-        self.max_page = 2  # profile.core.zone_id
+        self.max_page = profile.core.zone_id
 
     def generate_embed(self, *args) -> Embed:
         embed = Embed()
+        embed.set_author(name="Use `.buy <item name> [amount]` to buy an item.")
         shop_items = get_shop_items(self.current_page)
         field_name = "Shop Page {}/{}".format(self.current_page, self.max_page)
         shop_text = ""
         for shop_item in shop_items:
             shop_text += "\n{}`{}` | {} {} - {}".format(
-                ":crossed_swords:", shop_item.get_name(), shop_item.cost, ":coin:", "Item description..."
+                ":crossed_swords:", shop_item.name, shop_item.value, ":coin:", "Item description..."
             )
         if not shop_text:
             shop_text = "There are no shop items for this zone."

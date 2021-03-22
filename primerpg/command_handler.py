@@ -19,6 +19,7 @@ from primerpg.commands.cm_skills import Skills
 from primerpg.commands.cm_start import Start
 from primerpg.commands.cm_tasks import Tasks
 from primerpg.commands.cm_unequip import Unequip
+from primerpg.commands.cm_use import Use
 from primerpg.commands.cm_world import World
 from primerpg.commands.command import Command
 from primerpg.data_cache import get_command_requirement_by_name, get_player_state_name
@@ -45,6 +46,7 @@ def load_commands():
     register(Collect())
     register(Shop())
     register(Buy())
+    register(Use())
 
 
 def register(command):

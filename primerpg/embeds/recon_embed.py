@@ -19,7 +19,7 @@ from primerpg.emojis import (
     emoji_from_id,
 )
 from primerpg.helpers.battle_helper import get_flee_chance, sim_fight
-from primerpg.helpers.player_helper import save_player_profile
+from primerpg.helpers.player_helper import save_player_profile, hospital_service
 from primerpg.helpers.state_helper import set_player_state, idle_state_id
 
 
@@ -73,7 +73,8 @@ class ReconEmbed(BaseEmbed):
         if reaction_id == fight_emoji_id:
             await self.start_fight()
         elif reaction_id == heal_emoji_id:
-            heal_player(self.fighter_profile)
+            msg = hospital_service(self.fighter_profile)
+            await self.embed_message.channel.send(msg)
             await self.update_embed_content()
         elif reaction_id == run_emoji_id:
             await self.embed_message.channel.send("Run success")

@@ -63,7 +63,6 @@ class EquipmentEmbed(BaseEmbed):
                 value=value,
                 inline=False,
             )
-        print(len(embed))
         return embed
 
     def get_reaction_emojis(self) -> List[int]:

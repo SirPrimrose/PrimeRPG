@@ -15,10 +15,15 @@ from primerpg.util import get_current_in_game_time, get_current_in_game_weather
 
 def add_detailed_stat_field(embed: Embed, field_title, profile: EntityBase, inline=False, recently_healed=False):
     # TODO Find a better way to do things like "recently_healed" instead of passing in more arguments
+    current_hp_text = (
+        "{:.0f}".format(profile.get_current_hp())
+        if not recently_healed
+        else "**{:.0f}**".format(profile.get_current_hp())
+    )
     stats_value = (
-        "HP: {}/{}\nCombat Level: {}\nPhysical Attack: {}\nPhysical Armor: {}\nMagic Attack: {}\nMagic "
+        "HP: {}/{:.0f}\nCombat Level: {}\nPhysical Attack: {}\nPhysical Armor: {}\nMagic Attack: {}\nMagic "
         "Armor: {}".format(
-            profile.get_current_hp() if not recently_healed else "**{}**".format(profile.get_current_hp()),
+            current_hp_text,
             profile.get_max_hp(),
             profile.get_combat_level(),
             floor(profile.get_phys_atk_power()),
@@ -35,7 +40,7 @@ def add_detailed_stat_field(embed: Embed, field_title, profile: EntityBase, inli
 
 
 def add_short_stat_field(embed: Embed, field_title, profile: EntityBase, inline=False):
-    stats_value = "HP: {}/{}".format(
+    stats_value = "HP: {:.0f}/{}".format(
         profile.get_current_hp(),
         profile.get_max_hp(),
     )

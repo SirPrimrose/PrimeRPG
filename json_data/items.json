@@ -20,15 +20,12 @@
       "item_category_id": 2,
       "equipment_category_id": 0,
       "name": "Bandage",
-      "value": 0,
-      "shop_item": {
-        "cost": 5,
-        "zone": "Grasslands"
-      },
+      "value": 5,
+      "shop_zone": "Grasslands",
       "usage_effects": [
         {
           "type": "Current HP",
-          "amount": 100
+          "amount": 50
         }
       ]
     },
@@ -38,6 +35,7 @@
       "equipment_category_id": 1,
       "name": "Toy Club",
       "value": 10,
+      "shop_zone": "Grasslands",
       "stats": [
         {
           "Physical Attack": {
@@ -47,11 +45,7 @@
             }
           }
         }
-      ],
-      "shop_item": {
-        "cost": 0,
-        "zone": "Grasslands"
-      }
+      ]
     },
     {
       "unique_id": 202,

@@ -8,42 +8,39 @@ import discord
 
 from primerpg.commands.command import Command
 from primerpg.data_cache import get_item_id
-from primerpg.helpers.item_helper import attempt_purchase_item
+from primerpg.helpers.item_helper import attempt_use_item
 from primerpg.helpers.player_helper import get_player_profile, save_player_profile
-from primerpg.persistence.items_persistence import get_item
 from primerpg.util import check_is_int
 
 
-class Buy(Command):
+class Use(Command):
     def get_description(self):
-        return "Buy an item."
+        return "Uses an item."
 
     def get_name(self):
-        return "Buy"
+        return "Use"
 
     def get_prefixes(self):
-        return ["buy", "purchase", "b"]
+        return ["use"]
 
     async def run_command(self, msg: discord.Message, args: List[str]):
         try:
-            purchase_count = 1
+            use_count = 1
             item_name = ""
             for arg in args:
                 if check_is_int(arg):
-                    purchase_count = int(arg)
+                    use_count = int(arg)
                     break
                 else:
                     item_name += "{} ".format(arg)
             item_name = item_name.strip()
             item_id = get_item_id(item_name)
             if item_id:
-                shop_item = get_item(item_id)
-                if shop_item.shop_zone_id != 0:
-                    profile = get_player_profile(msg.author.id)
-                    attempt_purchase_item(profile, shop_item, purchase_count)
+                profile = get_player_profile(msg.author.id)
+                success, message = attempt_use_item(profile, item_id, use_count)
+                if success:
                     save_player_profile(profile)
-                else:
-                    await msg.channel.send("You cannot purchase this item.")
+                await msg.channel.send(message)
             else:
                 await msg.channel.send("Item not found.")
         except ValueError:

@@ -1,12 +1,16 @@
 #  Copyright (c) 2021
 #  Project: PrimeRPG
 #  Author: Primm
+from math import ceil
 
 from primerpg import consts
+from primerpg.consts import coin_item_id
 from primerpg.data.entity_base import EntityBase
 from primerpg.data.entity_skill import EntitySkill
+from primerpg.data.item_amount import ItemAmount
 from primerpg.data.player_profile import PlayerProfile
 from primerpg.helpers.equipment_helper import equip_player_item
+from primerpg.helpers.item_helper import give_player_item
 from primerpg.helpers.state_helper import idle_state_id
 from primerpg.persistence.dto.player_core import PlayerCore
 from primerpg.persistence.dto.player_inventory_item import PlayerInventoryItem
@@ -45,6 +49,7 @@ toy_sword_id = 202
 toy_helmet_id = 301
 
 player_starting_hp_regen = 0.2
+_hp_per_coin = 25
 
 level_loss_on_death = 0.5  # percent
 level_min_for_loss = 5  # level number
@@ -152,3 +157,19 @@ def apply_death_penalty(player_profile: EntityBase) -> None:
         if skill.skill_id == consts.vitality_skill_id:
             if skill.get_level() < starting_vitality_level:
                 skill.set_level(starting_vitality_level)
+
+
+def hospital_service(player_profile: PlayerProfile) -> str:
+    health_needed = player_profile.get_max_hp() - player_profile.get_current_hp()
+    if health_needed <= 0:
+        return "{} does not need to heal.".format(player_profile.name)
+    heal_cost = min(ceil(health_needed / _hp_per_coin), player_profile.get_coins())
+    if heal_cost <= 0:
+        return "{} has 0 coins and cannot afford to heal".format(
+            player_profile.name, heal_cost, heal_cost * _hp_per_coin
+        )
+
+    give_player_item(player_profile, ItemAmount(coin_item_id, -heal_cost))
+    player_profile.heal_player_profile(heal_cost * _hp_per_coin)
+    save_player_profile(player_profile)
+    return "{} paid {} coins and healed {} HP".format(player_profile.name, heal_cost, heal_cost * _hp_per_coin)

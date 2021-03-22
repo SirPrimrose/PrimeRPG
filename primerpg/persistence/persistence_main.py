@@ -61,7 +61,6 @@ from primerpg.persistence.player_persistence import create_players_query
 from primerpg.persistence.player_skill_persistence import create_player_skills_query
 from primerpg.persistence.player_state_persistence import create_player_states_query, populate_player_states_table
 from primerpg.persistence.player_task_persistence import create_player_tasks_query
-from primerpg.persistence.shop_item_persistence import create_shop_items_query, populate_shop_items_table
 from primerpg.persistence.skill_category_persistence import (
     create_skill_categories_query,
     populate_skill_categories_table,
@@ -92,7 +91,6 @@ def create_tables():
     cursor_obj.execute(create_player_states_query)
     cursor_obj.execute(create_command_requirements_query)
     cursor_obj.execute(create_items_query)
-    cursor_obj.execute(create_shop_items_query)
     cursor_obj.execute(create_fish_query)
     cursor_obj.execute(create_item_categories_query)
     cursor_obj.execute(create_equipment_categories_query)
@@ -121,7 +119,6 @@ def create_tables():
     populate_player_states_table()
     populate_command_requirements_table()
     populate_items_table()
-    populate_shop_items_table()
     populate_fish_table()
     populate_item_categories_table()
     populate_skill_categories_table()

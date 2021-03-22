@@ -15,6 +15,7 @@ from primerpg.embeds.base_embed import BaseEmbed
 from primerpg.embeds.common_embed import add_detailed_stat_field, add_spacer_field, heal_player
 from primerpg.embeds.simple_embed import SimpleEmbed
 from primerpg.emojis import skill_emojis, info_emoji_id, heal_emoji_id, emoji_from_id
+from primerpg.helpers.player_helper import hospital_service
 from primerpg.text_consts import no_space, half_space
 
 
@@ -72,6 +73,8 @@ class ReconResultsEmbed(BaseEmbed):
                 value=effort_text if effort_text else no_space,
                 inline=True,
             )
+
+        # TODO Show some sort of special message if the player died
         return embed
 
     def get_reaction_emojis(self) -> List[int]:
@@ -84,7 +87,8 @@ class ReconResultsEmbed(BaseEmbed):
         if reaction_id == info_emoji_id:
             await self.print_log()
         elif reaction_id == heal_emoji_id:
-            heal_player(self.fighter_profile)
+            msg = hospital_service(self.fighter_profile)
+            await self.embed_message.channel.send(msg)
             await self.update_embed_content()
         else:
             await self.embed_message.channel.send("Failed to handle reaction")

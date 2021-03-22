@@ -6,8 +6,9 @@ from primerpg.consts import coin_item_id
 from primerpg.data.item_amount import ItemAmount
 from primerpg.data.player_profile import PlayerProfile
 from primerpg.data.shop_transaction import ShopTransaction
+from primerpg.persistence.dto.item import Item
 from primerpg.persistence.dto.player_inventory_item import PlayerInventoryItem
-from primerpg.persistence.dto.shop_item import ShopItem
+from primerpg.persistence.items_persistence import get_item
 
 
 def give_player_item(player_profile: PlayerProfile, item: ItemAmount) -> None:
@@ -19,32 +20,35 @@ def give_player_item(player_profile: PlayerProfile, item: ItemAmount) -> None:
         player_profile.add_inventory_item(current_item)
 
 
-def attempt_purchase_item(player_profile: PlayerProfile, item: ShopItem, quantity: int) -> ShopTransaction:
+def attempt_purchase_item(player_profile: PlayerProfile, item: Item, quantity: int) -> ShopTransaction:
+    if quantity < 1:
+        return ShopTransaction("Must purchase at least 1 of item.", item.name, quantity, 0)
     coins = player_profile.get_coins()
-    total_cost = item.cost * quantity
+    total_cost = item.value * quantity
     if coins < total_cost:
-        return ShopTransaction("Not enough coins.", item.get_name(), quantity, total_cost)
+        return ShopTransaction("Not enough coins.", item.name, quantity, total_cost)
     else:
-        give_player_item(player_profile, ItemAmount(item.item_id, quantity))
+        give_player_item(player_profile, ItemAmount(item.unique_id, quantity))
         give_player_item(player_profile, ItemAmount(coin_item_id, -total_cost))
-        return ShopTransaction("", item.get_name(), quantity, total_cost)
+        return ShopTransaction("", item.name, quantity, total_cost)
 
 
-def attempt_use_item(player_profile: PlayerProfile, item_id: int):
-    current_item = player_profile.get_inventory_item(item_id)
-    if current_item.quantity < 1:
-        return "Did not have enough items"
-    # TODO Allow for xp and item gains (lootboxes?, genie lamps?)
+def attempt_use_item(player_profile: PlayerProfile, item_id: int, use_count: int = 1) -> (bool, str):
+    # TODO Add support for using multiple items at once with use_count
+    inventory_item = player_profile.get_inventory_item(item_id)
+    item = get_item(item_id)
+    if not item.usage_effects:
+        return False, "Cannot use {}".format(item.name)
+    if inventory_item.quantity < 1:
+        return False, "{} did not have any {}".format(player_profile.name, item.name)
     # TODO Store duration effects into table
-    # effects: List[Dict] = get_item_effects(item_id)
-    effects = [{"type": "Current HP", "amount": 100}]
-    if effects:
-        give_player_item(player_profile, ItemAmount(item_id, -1))
-        for effect in effects:
-            if effect["type"] == "Current HP":
-                if "amount" in effect:
-                    player_profile.heal_player_profile(effect["amount"])
-                    return True
-                else:
-                    print("No amount listed in {}".format(effect))
-    return False
+    give_player_item(player_profile, ItemAmount(item_id, -1))
+    effect_text = ""
+    for effect in item.usage_effects:
+        if effect["type"] == "Current HP":
+            if "amount" in effect:
+                player_profile.heal_player_profile(effect["amount"])
+                effect_text += "{} used a {} and healed {}\n".format(player_profile.name, item.name, effect["amount"])
+            else:
+                print("No amount listed in {}".format(effect))
+    return True, effect_text

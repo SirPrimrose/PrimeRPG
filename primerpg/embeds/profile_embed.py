@@ -10,6 +10,7 @@ from primerpg.data.player_profile import PlayerProfile
 from primerpg.embeds.base_embed import BaseEmbed
 from primerpg.embeds.common_embed import add_detailed_stat_field, pretty_format_skill_level, heal_player
 from primerpg.emojis import skill_emojis, heal_emoji_id, emoji_from_id
+from primerpg.helpers.player_helper import hospital_service
 from primerpg.text_consts import large_space, half_space
 from primerpg.urls import profile_url
 
@@ -59,7 +60,8 @@ class ProfileEmbed(BaseEmbed):
 
     async def handle_reaction(self, reaction_id: int):
         if reaction_id == heal_emoji_id:
-            heal_player(self.player_profile)
+            msg = hospital_service(self.player_profile)
+            await self.embed_message.channel.send(msg)
             await self.update_embed_content()
         else:
             await self.embed_message.channel.send("Failed to handle reaction")

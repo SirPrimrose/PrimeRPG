@@ -20,7 +20,7 @@ __DEBUG__ = bool(os.getenv("__DEBUG__"))
 
 # Main File Vars
 ready = False
-game_tick_rate = 0.5  # seconds
+game_tick_rate = 5  # seconds
 save_tick_rate = 1  # ticks
 regen_tick_rate = 120  # ticks
 
