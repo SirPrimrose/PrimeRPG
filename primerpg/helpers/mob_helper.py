@@ -14,7 +14,7 @@ from primerpg.persistence.mob_skill_persistence import get_all_mob_skills
 from primerpg.util import roll_gaussian_dist_for_drop
 
 
-def get_mob_profile(mob_id) -> MobProfile:
+def get_mob_profile(mob_id: int) -> MobProfile:
     core = get_mob(mob_id)
     skills = get_all_mob_skills(mob_id)
     equipment = get_all_mob_equipment(mob_id)

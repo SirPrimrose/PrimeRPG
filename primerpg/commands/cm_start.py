@@ -8,7 +8,7 @@ import discord
 
 from primerpg.commands.command import Command
 from primerpg.helpers.player_helper import create_new_player_data
-from primerpg.persistence.player_persistence import get_player
+from primerpg.persistence.player_persistence import get_player_core
 
 
 class Start(Command):
@@ -23,7 +23,7 @@ class Start(Command):
 
     async def run_command(self, msg: discord.Message, args: List[str]):
         player_id = msg.author.id
-        player_data = get_player(player_id)
+        player_data = get_player_core(player_id)
         if player_data:
             await msg.channel.send("You are already playing {0}.".format(msg.author.name))
         else:

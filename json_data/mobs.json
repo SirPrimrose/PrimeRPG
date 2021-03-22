@@ -4,7 +4,7 @@
     {
       "unique_id": 1,
       "name": "Goblin",
-      "base_xp": 10,
+      "weight": 50,
       "icon_url": "https://i.imgur.com/026QYTo.png",
       "skills": {
         "Vitality": 1,
@@ -17,44 +17,53 @@
       },
       "drops": {
         "Coin": {
-          "drop_rate": 0.7,
-          "mean": 3,
-          "std_dev": 1
+          "drop_rate": 0.8,
+          "mean": 5,
+          "std_dev": 2
+        },
+        "Goblin Hat": {
+          "drop_rate": 0.05,
+          "mean": 1,
+          "std_dev": 0
         }
       }
     },
     {
       "unique_id": 2,
       "name": "Slime",
-      "base_xp": 40,
+      "weight": 10,
       "icon_url": "https://i.imgur.com/RskTsQK.png",
       "skills": {
         "Vitality": 4,
         "Strength": 4,
-        "Defense": 7,
-        "Speed": 1
+        "Defense": 7
       },
       "equipment": {
-        "Weapon": "Claw"
+        "Weapon": "Jelly"
       },
       "drops": {
         "Coin": {
-          "drop_rate": 0.1,
+          "drop_rate": 0.2,
           "mean": 30,
           "std_dev": 5
+        },
+        "Gelatin Sword": {
+          "drop_rate": 0.05,
+          "mean": 1,
+          "std_dev": 0
         }
       }
     },
     {
       "unique_id": 3,
       "name": "Wolf",
-      "base_xp": 40,
+      "weight": 5,
       "icon_url": "https://i.imgur.com/mZeOCLt.png",
       "skills": {
-        "Vitality": 4,
+        "Vitality": 2,
         "Strength": 4,
         "Defense": 7,
-        "Speed": 1
+        "Speed": 5
       },
       "equipment": {
         "Weapon": "Claw"

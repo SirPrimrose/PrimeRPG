@@ -32,7 +32,7 @@ update_player_state_query = "UPDATE %s SET state_id = ? WHERE unique_id = ? " % 
 delete_players_query = "DELETE from %s WHERE unique_id = ?" % players_table
 
 
-def get_player(unique_id: int) -> PlayerCore:
+def get_player_core(unique_id: int) -> PlayerCore:
     cursor_obj = connection.cursor()
 
     stmt_args = (unique_id,)

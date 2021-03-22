@@ -18,7 +18,7 @@ from primerpg.data.weighted_value import WeightedValue
 from primerpg.helpers.item_helper import give_player_item
 from primerpg.helpers.mob_helper import get_mob_kill_rewards
 from primerpg.helpers.player_helper import apply_death_penalty
-from primerpg.util import get_random_from_weighted_table
+from primerpg.util import get_random_from_weighted_list
 
 attack_variance = 0.3
 crit_divider = 50
@@ -67,7 +67,7 @@ def sim_fight(attacker: EntityBase, defender: EntityBase) -> FightLog:
 
     :param attacker:
     :param defender:
-    :return: The winner of the fight
+    :return: A log of the fight results
     """
     log = FightLog()
     turn = 0
@@ -137,7 +137,7 @@ def process_attack(attacker: EntityBase, defender: EntityBase, log: FightLog):
             weighted_skills = [
                 WeightedValue(defender.get_skill_level(skill_id) + 1, skill_id) for skill_id in skill_ids
             ]
-            effort_skill_id: WeightedValue = get_random_from_weighted_table(weighted_skills)
+            effort_skill_id: WeightedValue = get_random_from_weighted_list(weighted_skills)
             effort_value = (random.random() + 0.5) * total_damage * get_effort_multiplier()
             effort = Effort(effort_skill_id.value, int(effort_value))
             log.add_effort(effort)

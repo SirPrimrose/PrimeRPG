@@ -3,22 +3,27 @@
   "data": [
     {
       "unique_id": 1,
+      "zone": "Grasslands",
       "name": "Fishing"
     },
     {
       "unique_id": 2,
+      "zone": "Forest",
       "name": "Mining"
     },
     {
       "unique_id": 3,
+      "zone": "Forest",
       "name": "Woodcutting"
     },
     {
       "unique_id": 4,
+      "zone": "Forest",
       "name": "Foraging"
     },
     {
       "unique_id": 5,
+      "zone": "Forest",
       "name": "Farming"
     }
   ]

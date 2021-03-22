@@ -10,14 +10,17 @@ from typing import TypeVar, Dict
 
 from numpy.random import normal
 
-
-# Util constants
 from primerpg.consts import day_night_cycles_per_day, weather_frequency, raining_weather, clear_weather
 
+# Util constants
 base_xp_per_level = 100
 increased_xp_per_level = 40
 base_hp_per_level = 20
 hp_loss_per_tier = 2
+
+
+T = TypeVar("T")
+U = TypeVar("U")
 
 
 def get_current_in_game_time() -> str:
@@ -51,16 +54,15 @@ def time_delta_to_str(time_d: datetime.timedelta):
     return "{:02}:{:02}:{:02}".format(int(hours), int(minutes), int(seconds))
 
 
-async def safe_send(msg, response):
-    if len(response) > 2000:
-        response = response[0:1900] + "; Message was too long, partly truncated"
-    await msg.channel.send(response)
+def get_random_from_weighted_list(weighted_list: list[T]) -> T:
+    """Gets a random item from the list of objects, weighted by the "weight" property on each item
 
-
-def get_random_from_weighted_table(w_table):
-    total_weight = sum([x.weight for x in w_table])
+    :param weighted_list: List of objects with a weight property
+    :return: An item from the list
+    """
+    total_weight = sum([x.weight for x in weighted_list])
     weight = random.randrange(total_weight)
-    for item in w_table:
+    for item in weighted_list:
         if weight < item.weight:
             return item
         else:
@@ -131,10 +133,6 @@ def roll_gaussian_dist_for_drop(mean: float, std_dev: float) -> float:
     drop_min = max(mean - 3 * std_dev, 1)
     drop_max = mean + 3 * std_dev
     return min(max(normal(mean, std_dev), drop_min), drop_max)
-
-
-T = TypeVar("T")
-U = TypeVar("U")
 
 
 def get_key_for_value(dictionary: Dict[T, U], value: U) -> T:

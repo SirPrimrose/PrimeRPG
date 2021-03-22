@@ -13,7 +13,7 @@ from primerpg.emojis import (
     emoji_from_id,
 )
 from primerpg.helpers.task_helper import handle_start_task
-from primerpg.persistence.task_category_persistence import get_all_task_categories
+from primerpg.persistence.dto.task_category import TaskCategory
 from primerpg.urls import tasks_url
 from primerpg.util import get_key_for_value
 
@@ -21,8 +21,9 @@ _progress_bar_length = 15
 
 
 class IdleEmbed(BaseEmbed):
-    def __init__(self, author: User):
+    def __init__(self, author: User, categories: list[TaskCategory]):
         super().__init__(author)
+        self.categories = categories
 
     def generate_embed(self, *args) -> Embed:
         embed = Embed(title="Current Status - Idling")
@@ -30,7 +31,7 @@ class IdleEmbed(BaseEmbed):
 
         # Player is idle, show possible tasks
         action_text = ""
-        for task_cat in get_all_task_categories():
+        for task_cat in self.categories:
             emoji = emoji_from_id(task_emojis[task_cat.unique_id])
             task_name = task_cat.name
             action_text += "\n{} {}".format(emoji, task_name)
@@ -40,7 +41,10 @@ class IdleEmbed(BaseEmbed):
         return embed
 
     def get_reaction_emojis(self) -> List[int]:
-        return list(task_emojis.values())
+        emojis = []
+        for task_cat in self.categories:
+            emojis.append(task_emojis[task_cat.unique_id])
+        return emojis
 
     async def handle_fail_to_react(self):
         pass

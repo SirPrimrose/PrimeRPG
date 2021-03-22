@@ -75,7 +75,7 @@ def get_player_state_name(state_id: int) -> str:
         return dne_string
 
 
-# Task data helpers
+# Task Category data helpers
 def get_task_category_name(task_id: int) -> str:
     """Gets the task category name without hitting the database
 
@@ -83,7 +83,7 @@ def get_task_category_name(task_id: int) -> str:
     :return: The name of the task category, or "DNE" if it does not exist
     """
     try:
-        return next(filter(lambda skill_cat: skill_cat.unique_id == task_id, task_categories)).name
+        return next(filter(lambda task_cat: task_cat.unique_id == task_id, task_categories)).name
     except StopIteration:
         return dne_string
 

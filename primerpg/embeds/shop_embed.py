@@ -10,6 +10,7 @@ from primerpg.data.player_profile import PlayerProfile
 from primerpg.embeds.base_embed import BaseEmbed
 from primerpg.emojis import prev_page_emoji_id, next_page_emoji_id
 from primerpg.persistence.items_persistence import get_shop_items
+from primerpg.text_consts import no_space
 
 
 class ShopEmbed(BaseEmbed):
@@ -21,7 +22,7 @@ class ShopEmbed(BaseEmbed):
 
     def generate_embed(self, *args) -> Embed:
         embed = Embed()
-        embed.set_author(name="Use `.buy <item name> [amount]` to buy an item.")
+        embed.add_field(name="Use `.buy <item name> [amount]` to buy an item.", value=no_space)
         shop_items = get_shop_items(self.current_page)
         field_name = "Shop Page {}/{}".format(self.current_page, self.max_page)
         shop_text = ""

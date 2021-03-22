@@ -3,6 +3,7 @@
 #  Author: Primm
 
 import json
+from typing import List
 
 from primerpg.consts import data_folder
 from primerpg.persistence.common_persistence import insert_dictionary, should_reload_from_file
@@ -12,12 +13,13 @@ from primerpg.persistence.dto.mob_core import MobCore
 file_name = "mobs.json"
 mobs_table = "mobs"
 
-select_mobs_query = "SELECT * FROM %s WHERE unique_id = ?" % mobs_table
+select_mob_query = "SELECT * FROM %s WHERE unique_id = ?" % mobs_table
+select_mobs_query = "SELECT * FROM %s" % mobs_table
 create_mobs_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
     "unique_id integer PRIMARY KEY NOT NULL,"
     "name text NOT NULL,"
-    "base_xp integer NOT NULL,"
+    "weight integer NOT NULL,"
     "icon_url text NOT NULL)" % mobs_table
 )
 
@@ -37,15 +39,25 @@ def populate_mobs_table():
             insert_dictionary(mobs_table, mob)
 
 
-def get_mob(unique_id: int):
+def get_mob(unique_id: int) -> MobCore:
     cursor_obj = connection.cursor()
 
     stmt_args = (unique_id,)
-    statement = select_mobs_query
+    statement = select_mob_query
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchone()
 
     return init_mob(result)
+
+
+def get_all_mobs() -> List[MobCore]:
+    cursor_obj = connection.cursor()
+
+    statement = select_mobs_query
+    cursor_obj.execute(statement)
+    result = cursor_obj.fetchall()
+
+    return [init_mob(r) for r in result]
 
 
 def init_mob(db_row):

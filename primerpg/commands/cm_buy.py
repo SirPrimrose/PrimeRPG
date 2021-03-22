@@ -8,6 +8,7 @@ import discord
 
 from primerpg.commands.command import Command
 from primerpg.data_cache import get_item_id
+from primerpg.embeds.simple_embed import SimpleEmbed
 from primerpg.helpers.item_helper import attempt_purchase_item
 from primerpg.helpers.player_helper import get_player_profile, save_player_profile
 from primerpg.persistence.items_persistence import get_item
@@ -40,8 +41,18 @@ class Buy(Command):
                 shop_item = get_item(item_id)
                 if shop_item.shop_zone_id != 0:
                     profile = get_player_profile(msg.author.id)
-                    attempt_purchase_item(profile, shop_item, purchase_count)
+                    transaction = attempt_purchase_item(profile, shop_item, purchase_count)
                     save_player_profile(profile)
+                    if transaction.err_message:
+                        title = "Failed to purchase {}".format(shop_item.name)
+                        content = transaction.err_message
+                    else:
+                        title = "Purchase success"
+                        content = "{0} bought {1.quantity} {1.item_name} for {1.total_cost} coins".format(
+                            msg.author.name, transaction
+                        )
+                    embed = SimpleEmbed(msg.author, title, content)
+                    await msg.channel.send(embed=embed.generate_embed())
                 else:
                     await msg.channel.send("You cannot purchase this item.")
             else:

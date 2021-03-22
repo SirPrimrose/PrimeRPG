@@ -17,7 +17,6 @@ class PlayerCore:
         self.unique_id = unique_id
         self.name = name
         self.avatar_url = avatar_url
-        # TODO Update state to state_id
         self.state_id = state_id
         self.zone_id = zone_id
         self.current_hp = current_hp

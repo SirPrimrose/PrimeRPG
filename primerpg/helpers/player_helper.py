@@ -28,7 +28,7 @@ from primerpg.persistence.player_equipment_persistence import (
 )
 from primerpg.persistence.player_persistence import (
     insert_player_data,
-    get_player,
+    get_player_core,
     update_player_data,
     delete_player_data,
 )
@@ -102,7 +102,7 @@ def insert_player_profile(player_profile: PlayerProfile) -> None:
 
 
 def get_player_profile(player_id) -> PlayerProfile:
-    core = get_player(player_id)
+    core = get_player_core(player_id)
     skills = get_all_player_skills(player_id)
     equipment = get_all_player_equipment(player_id)
     inventory = get_all_inventory_items(player_id)

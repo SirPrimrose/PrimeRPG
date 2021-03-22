@@ -3,6 +3,7 @@
 #  Author: Primm
 
 from primerpg.data.fight_log.action_base import ActionBase
+from primerpg.embeds.common_embed import format_hp
 from primerpg.emojis import (
     player_heart_id,
     enemy_heart_id,
@@ -36,11 +37,11 @@ class DamageAction(ActionBase):
 
     def get_message(self):
         heart = enemy_heart_id if self.player_attacking else player_heart_id
-        return "{0} {1} {2} (**{3}** {4}) for **{5}**{6}".format(
+        return "{0} {1} {2} (**{3}** {4}) for **{5:.0f}**{6}".format(
             self.attacker_name,
             emoji_from_id(attack_emoji_id),
             self.defender_name,
-            self.defender_hp,
+            format_hp(self.defender_hp),
             emoji_from_id(heart),
             self.damage,
             emoji_from_id(self.get_damage_icon()),

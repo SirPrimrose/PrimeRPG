@@ -8,7 +8,7 @@ from discord import User, Embed
 
 from primerpg.data.player_profile import PlayerProfile
 from primerpg.embeds.base_embed import BaseEmbed
-from primerpg.embeds.common_embed import add_detailed_stat_field, pretty_format_skill_level, heal_player
+from primerpg.embeds.common_embed import add_detailed_stat_field, pretty_format_skill_level
 from primerpg.emojis import skill_emojis, heal_emoji_id, emoji_from_id
 from primerpg.helpers.player_helper import hospital_service
 from primerpg.text_consts import large_space, half_space

@@ -24,7 +24,7 @@ from primerpg.commands.cm_world import World
 from primerpg.commands.command import Command
 from primerpg.data_cache import get_command_requirement_by_name, get_player_state_name
 from primerpg.persistence.connection_handler import spam_list
-from primerpg.persistence.player_persistence import get_player
+from primerpg.persistence.player_persistence import get_player_core
 
 command_registry: List[Command] = []
 
@@ -74,7 +74,7 @@ async def handle_command(msg, split_content: List[str]):
 def verify_command_usage(player_id: int, command: Command) -> (bool, str):
     command_req = get_command_requirement_by_name(command.get_name())
     if command_req:
-        player_core = get_player(player_id)
+        player_core = get_player_core(player_id)
         if not player_core:
             if command_req.zone_id == 0:
                 return True, ""

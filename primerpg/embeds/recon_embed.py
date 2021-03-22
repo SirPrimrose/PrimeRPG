@@ -10,7 +10,7 @@ from primerpg.consts import speed_skill_id
 from primerpg.data.entity_base import EntityBase
 from primerpg.data.player_profile import PlayerProfile
 from primerpg.embeds.base_embed import BaseEmbed
-from primerpg.embeds.common_embed import add_detailed_stat_field, heal_player, add_world_status_footer
+from primerpg.embeds.common_embed import add_detailed_stat_field, add_world_status_footer
 from primerpg.embeds.recon_results_embed import ReconResultsEmbed
 from primerpg.emojis import (
     fight_emoji_id,
@@ -28,7 +28,6 @@ class ReconEmbed(BaseEmbed):
         super().__init__(author)
         self.fighter_profile = fighter_profile
         self.enemy_profile = enemy_profile
-        # TODO Randomly select an enemy to fight based on player area
 
     def generate_embed(self, recently_healed=False, *args) -> Embed:
         # TODO Add random events into the recon action
@@ -84,7 +83,7 @@ class ReconEmbed(BaseEmbed):
 
     async def start_fight(self):
         fight_log = sim_fight(self.fighter_profile, self.enemy_profile)
-        embed = ReconResultsEmbed(self.fighter_profile, self.enemy_profile, fight_log, self.author)
+        embed = ReconResultsEmbed(self.author, self.fighter_profile, self.enemy_profile, fight_log)
         generated_embed = embed.generate_embed()
         if self.fighter_profile.is_dead():
             self.fighter_profile.heal_player_profile()

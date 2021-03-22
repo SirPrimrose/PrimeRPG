@@ -54,4 +54,4 @@ class FishingTask(TaskBase):
 
     def get_fish_from_table(self, ig_time: str, ig_weather: str) -> Fish:
         fish_table = get_fish(ig_time, ig_weather)
-        return util.get_random_from_weighted_table(fish_table)
+        return util.get_random_from_weighted_list(fish_table)
