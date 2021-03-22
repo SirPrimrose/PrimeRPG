@@ -22,6 +22,7 @@ from primerpg.commands.cm_unequip import Unequip
 from primerpg.commands.cm_use import Use
 from primerpg.commands.cm_world import World
 from primerpg.commands.command import Command
+from primerpg.commands.cm_monitor import Monitor
 from primerpg.data_cache import get_command_requirement_by_name, get_player_state_name
 from primerpg.persistence.connection_handler import spam_list
 from primerpg.persistence.player_persistence import get_player_core
@@ -47,6 +48,7 @@ def load_commands():
     register(Shop())
     register(Buy())
     register(Use())
+    register(Monitor())
 
 
 def register(command):
