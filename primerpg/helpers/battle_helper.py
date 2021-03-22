@@ -150,18 +150,10 @@ def get_effort_multiplier():
 
 
 def get_effort_chance(attacker_cb: int, defender_cb: int, damage: int):
-    diff = (defender_cb - attacker_cb) + 5
+    diff = (defender_cb - attacker_cb) + 14
     if diff <= 0:
         return min_effort_chance
-    if attacker_cb <= 0:
-        return max_effort_chance
-    return min(
-        max(
-            math.pow((diff * 5) / math.sqrt(attacker_cb), 0.7) * math.pow(damage, 0.333) / 100,
-            min_effort_chance,
-        ),
-        max_effort_chance,
-    )
+    return min(min_effort_chance + 0.025 * diff, max_effort_chance)
 
 
 def get_variance():
