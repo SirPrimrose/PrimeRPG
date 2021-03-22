@@ -10,7 +10,7 @@ player_tasks_table = "player_tasks"
 select_player_tasks_query = "SELECT * FROM %s WHERE player_id = ?" % player_tasks_table
 create_player_tasks_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
-    "player_id integer PRIMARY KEY NOT NULL, "
+    "player_id integer PRIMARY KEY, "
     "task_id integer NOT NULL, "
     "time_started text NOT NULL)" % player_tasks_table
 )

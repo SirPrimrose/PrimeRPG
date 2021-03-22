@@ -9,6 +9,7 @@ from discord import User
 
 from primerpg import util
 from primerpg.data.item_amount import ItemAmount
+from primerpg.date_util import time_since
 from primerpg.persistence.dto.fish import Fish
 from primerpg.persistence.dto.player_task_core import PlayerTaskCore
 from primerpg.persistence.fish_persistence import get_fish
@@ -26,7 +27,7 @@ class FishingTask(TaskBase):
             return "{} caught {} fish!".format(author.name, len(self.get_task_rewards()))
 
     def _calculate_task_rewards(self) -> None:
-        reward_time = min(util.time_since(self.time_started), datetime.timedelta(seconds=self._get_max_task_seconds()))
+        reward_time = min(time_since(self.time_started), datetime.timedelta(seconds=self._get_max_task_seconds()))
         start_time_num = int(self.time_started.timestamp())
         total_time_num = int(reward_time.total_seconds())
 

@@ -16,9 +16,7 @@ item_categories_table = "item_categories"
 select_item_categories_query = "SELECT * FROM %s WHERE unique_id = ?" % item_categories_table
 select_all_item_categories_query = "SELECT * FROM %s" % item_categories_table
 create_item_categories_query = (
-    "CREATE TABLE IF NOT EXISTS %s ("
-    "unique_id integer PRIMARY KEY NOT NULL, "
-    "name text NOT NULL)" % item_categories_table
+    "CREATE TABLE IF NOT EXISTS %s (" "unique_id integer PRIMARY KEY, " "name text NOT NULL)" % item_categories_table
 )
 
 

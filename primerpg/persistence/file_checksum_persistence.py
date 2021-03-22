@@ -13,7 +13,7 @@ select_file_checksum_query = "SELECT * FROM %s WHERE file_name = ?" % file_check
 select_all_file_checksums_query = "SELECT * FROM %s" % file_checksums_table
 create_file_checksums_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
-    "file_name text PRIMARY KEY NOT NULL, "
+    "file_name text PRIMARY KEY, "
     "md5_checksum text NOT NULL)" % file_checksums_table
 )
 update_file_checksum_query = "UPDATE %s SET md5_checksum = ? WHERE file_name = ?" % file_checksums_table

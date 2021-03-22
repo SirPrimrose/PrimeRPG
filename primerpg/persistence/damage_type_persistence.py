@@ -16,9 +16,7 @@ damage_types_table = "damage_types"
 select_damage_types_query = "SELECT * FROM %s WHERE unique_id = ?" % damage_types_table
 select_all_damage_types_query = "SELECT * FROM %s" % damage_types_table
 create_damage_types_query = (
-    "CREATE TABLE IF NOT EXISTS %s ("
-    "unique_id integer PRIMARY KEY NOT NULL, "
-    "name text NOT NULL)" % damage_types_table
+    "CREATE TABLE IF NOT EXISTS %s (" "unique_id integer PRIMARY KEY, " "name text NOT NULL)" % damage_types_table
 )
 
 

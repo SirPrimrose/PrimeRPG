@@ -35,6 +35,7 @@
       "name": "Recon",
       "unique_id": 6,
       "zone": "Grasslands",
+      "cooldown": 60,
       "allowed_states": ["Idling", "Recon"]
     },
     {
@@ -94,6 +95,12 @@
     {
       "name": "Buy",
       "unique_id": 16,
+      "zone": "Grasslands",
+      "allowed_states": ["Idling"]
+    },
+    {
+      "name": "Use",
+      "unique_id": 17,
       "zone": "Grasslands",
       "allowed_states": ["Idling"]
     }

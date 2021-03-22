@@ -23,7 +23,9 @@ from primerpg.commands.cm_use import Use
 from primerpg.commands.cm_world import World
 from primerpg.commands.command import Command
 from primerpg.data_cache import get_command_requirement_by_name, get_player_state_name
+from primerpg.helpers.command_usage_helper import is_command_off_cooldown, set_command_last_usage
 from primerpg.persistence.connection_handler import spam_list
+from primerpg.persistence.dto.command_requirement import CommandRequirement
 from primerpg.persistence.player_persistence import get_player_core
 
 command_registry: List[Command] = []
@@ -61,8 +63,10 @@ async def handle_command(msg, split_content: List[str]):
         return
     for command in command_registry:
         if split_content[0].lower() in tuple(command.get_prefixes()):
-            can_execute, err_msg = verify_command_usage(msg.author.id, command)
+            command_req = get_command_requirement_by_name(command.get_name())
+            can_execute, err_msg = verify_command_usage(msg.author.id, command_req)
             if can_execute:
+                set_command_last_usage(msg.author.id, command_req.unique_id)
                 await command.run_command(msg, split_content[1:])
                 return
             else:
@@ -71,8 +75,7 @@ async def handle_command(msg, split_content: List[str]):
     await msg.channel.send("Unknown command, try `.help` to see a list of all commands")
 
 
-def verify_command_usage(player_id: int, command: Command) -> (bool, str):
-    command_req = get_command_requirement_by_name(command.get_name())
+def verify_command_usage(player_id: int, command_req: CommandRequirement) -> (bool, str):
     if command_req:
         player_core = get_player_core(player_id)
         if not player_core:
@@ -83,7 +86,7 @@ def verify_command_usage(player_id: int, command: Command) -> (bool, str):
         else:
             if player_core.zone_id >= command_req.zone_id:
                 if player_core.state_id in command_req.allowed_state_ids:
-                    return True, ""
+                    return is_command_off_cooldown(player_id, command_req)
                 else:
                     # Player is not in a correct state
                     return False, "Cannot perform command in current state: {}".format(
@@ -96,5 +99,5 @@ def verify_command_usage(player_id: int, command: Command) -> (bool, str):
                 )
     else:
         # Command requirement doesn't exist for some reason, allow usage
-        print('Command "{}" does not have requirement!'.format(command.get_name()))
+        print('Command "{}" does not have requirement!'.format(command_req.name))
         return True, ""

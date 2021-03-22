@@ -17,7 +17,7 @@ select_equipment_stat_categories_query = "SELECT * FROM %s WHERE unique_id = ?" 
 select_all_equipment_stat_categories_query = "SELECT * FROM %s" % equipment_stat_categories_table
 create_equipment_stat_categories_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
-    "unique_id integer PRIMARY KEY NOT NULL, "
+    "unique_id integer PRIMARY KEY, "
     "name text NOT NULL)" % equipment_stat_categories_table
 )
 

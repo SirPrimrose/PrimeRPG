@@ -2,8 +2,6 @@
 #  Project: PrimeRPG
 #  Author: Primm
 
-from math import floor
-
 from discord import Embed
 
 from primerpg.data.entity_base import EntityBase

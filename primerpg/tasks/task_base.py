@@ -12,7 +12,7 @@ from primerpg.data.item_amount import ItemAmount
 from primerpg.data_cache import get_task_category_name
 from primerpg.date_util import date_from_str
 from primerpg.persistence.dto.player_task_core import PlayerTaskCore
-from primerpg.util import time_since
+from primerpg.date_util import time_since
 
 
 class TaskBase:

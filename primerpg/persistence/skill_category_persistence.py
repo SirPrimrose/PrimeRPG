@@ -17,7 +17,7 @@ select_skill_category_query = "SELECT * FROM %s WHERE unique_id = ?" % skill_cat
 select_all_skill_categories_query = "SELECT * FROM %s" % skill_categories_table
 create_skill_categories_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
-    "unique_id integer PRIMARY KEY NOT NULL, "
+    "unique_id integer PRIMARY KEY, "
     "name text NOT NULL, "
     "short_name text NOT NULL)" % skill_categories_table
 )

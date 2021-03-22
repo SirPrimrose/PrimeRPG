@@ -27,6 +27,7 @@ create_command_requirements_query = (
     "unique_id integer PRIMARY KEY, "
     "name text NOT NULL, "
     "zone_id integer NOT NULL, "
+    "cooldown integer NOT NULL, "
     "allowed_state_ids text NOT NULL, "
     "FOREIGN KEY(zone_id) REFERENCES zones(unique_id))" % command_requirements_table
 )
@@ -54,7 +55,10 @@ def populate_command_requirements_table():
                 "name": item["name"],
                 "zone_id": zone_id,
                 "allowed_state_ids": str(allowed_state_ids),
+                "cooldown": 0,
             }
+            if "cooldown" in item:
+                command_requirement["cooldown"] = item["cooldown"]
             insert_dictionary(command_requirements_table, command_requirement)
 
 
@@ -85,7 +89,8 @@ def init_command_requirement(db_row):
             db_row[0],
             db_row[1],
             db_row[2],
-            eval(db_row[3]),
+            db_row[3],
+            eval(db_row[4]),
         )
     else:
         return None

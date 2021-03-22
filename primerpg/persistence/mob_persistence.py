@@ -17,7 +17,7 @@ select_mob_query = "SELECT * FROM %s WHERE unique_id = ?" % mobs_table
 select_mobs_query = "SELECT * FROM %s" % mobs_table
 create_mobs_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
-    "unique_id integer PRIMARY KEY NOT NULL,"
+    "unique_id integer PRIMARY KEY,"
     "name text NOT NULL,"
     "weight integer NOT NULL,"
     "icon_url text NOT NULL)" % mobs_table

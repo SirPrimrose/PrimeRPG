@@ -2,7 +2,7 @@
 #  Project: PrimeRPG
 #  Author: Primm
 from math import floor
-from typing import List, Optional
+from typing import List
 
 from discord import User, Embed
 
@@ -23,7 +23,7 @@ _progress_bar_length = 15
 
 
 class TaskEmbed(BaseEmbed):
-    def __init__(self, author: User, task: Optional[TaskBase]):
+    def __init__(self, author: User, task: TaskBase):
         super().__init__(author)
         self.task = task
 

@@ -13,6 +13,8 @@ from numpy.random import normal
 from primerpg.consts import day_night_cycles_per_day, weather_frequency, raining_weather, clear_weather
 
 # Util constants
+from primerpg.date_util import time_delta_to_str
+
 base_xp_per_level = 100
 increased_xp_per_level = 40
 base_hp_per_level = 20
@@ -46,12 +48,6 @@ def get_in_game_weather(time: datetime) -> str:
         return raining_weather
     else:
         return clear_weather
-
-
-def time_delta_to_str(time_d: datetime.timedelta):
-    hours, remainder = divmod(time_d.seconds, 3600)
-    minutes, seconds = divmod(remainder, 60)
-    return "{:02}:{:02}:{:02}".format(int(hours), int(minutes), int(seconds))
 
 
 def get_random_from_weighted_list(weighted_list: list[T]) -> T:
@@ -141,11 +137,6 @@ def get_key_for_value(dictionary: Dict[T, U], value: U) -> T:
 
     position = vals.index(value)
     return keys[position]
-
-
-def time_since(start_time: datetime) -> datetime.timedelta:
-    end_time = datetime.datetime.utcnow()
-    return end_time - start_time
 
 
 def check_is_int(s):

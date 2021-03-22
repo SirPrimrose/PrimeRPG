@@ -6,6 +6,7 @@ from primerpg.persistence.command_requirement_persistence import (
     create_command_requirements_query,
     populate_command_requirements_table,
 )
+from primerpg.persistence.command_usage_persistence import create_command_usages_query
 from primerpg.persistence.connection_handler import (
     connection,
     process_queue,
@@ -108,6 +109,7 @@ def create_tables():
     cursor_obj.execute(create_item_movesets_query)
 
     # Mutable tables
+    cursor_obj.execute(create_command_usages_query)
     cursor_obj.execute(create_players_query)
     cursor_obj.execute(create_player_tasks_query)
     cursor_obj.execute(create_player_skills_query)
