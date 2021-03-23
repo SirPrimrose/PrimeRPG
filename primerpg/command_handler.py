@@ -66,7 +66,7 @@ async def handle_command(msg, split_content: List[str]):
             command_req = get_command_requirement_by_name(command.get_name())
             can_execute, err_msg = verify_command_usage(msg.author.id, command_req)
             if can_execute:
-                set_command_last_usage(msg.author.id, command_req.unique_id)
+                set_command_last_usage(msg.author.id, command_req)
                 await command.run_command(msg, split_content[1:])
                 return
             else:

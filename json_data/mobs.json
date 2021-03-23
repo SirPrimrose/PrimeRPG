@@ -10,14 +10,15 @@
         "Vitality": 1,
         "Strength": 2,
         "Dexterity": 4,
-        "Speed": 4
+        "Speed": 2,
+        "Luck": 8
       },
       "equipment": {
         "Weapon": "Toy Club"
       },
       "drops": {
         "Coin": {
-          "drop_rate": 0.8,
+          "drop_rate": 1,
           "mean": 5,
           "std_dev": 2
         },
@@ -62,7 +63,7 @@
       "skills": {
         "Vitality": 2,
         "Strength": 4,
-        "Defense": 7,
+        "Dexterity": 4,
         "Speed": 5
       },
       "equipment": {

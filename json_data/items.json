@@ -97,7 +97,7 @@
       "stats": [
         {
           "Physical Attack": {
-            "value": 5,
+            "value": 6,
             "scales_with": {
               "Strength": 10
             }
@@ -115,7 +115,7 @@
       "stats": [
         {
           "Physical Attack": {
-            "value": 5,
+            "value": 6,
             "scales_with": {
               "Strength": 6,
               "Dexterity": 6
@@ -137,7 +137,7 @@
       "stats": [
         {
           "Physical Attack": {
-            "value": 5,
+            "value": 6,
             "scales_with": {
               "Dexterity": 10
             }
@@ -227,6 +227,14 @@
         {
           "Physical Attack": {
             "value": 2,
+            "scales_with": {
+              "Vitality": 10
+            }
+          }
+        },
+        {
+          "Physical Armor": {
+            "value": 1,
             "scales_with": {
               "Vitality": 10
             }

@@ -23,17 +23,16 @@ from primerpg.helpers.player_helper import save_player_profile, hospital_service
 from primerpg.helpers.state_helper import set_player_state, idle_state_id
 
 
-class ReconEmbed(BaseEmbed):
-    def __init__(self, fighter_profile: PlayerProfile, enemy_profile: EntityBase, author: User):
+class BossEmbed(BaseEmbed):
+    def __init__(self, author: User, fighter_profile: PlayerProfile, enemy_profile: EntityBase):
         super().__init__(author)
         self.fighter_profile = fighter_profile
         self.enemy_profile = enemy_profile
 
-    def generate_embed(self, recently_healed=False, *args) -> Embed:
-        # TODO Add random events into the recon action
+    def generate_embed(self, *args) -> Embed:
         embed = Embed(
-            title="Recon",
-            description="{} did some recon and found a {}".format(self.fighter_profile.name, self.enemy_profile.name),
+            title="Boss",
+            description="{} is up against boss enemy {}".format(self.fighter_profile.name, self.enemy_profile.name),
         )
         embed.set_thumbnail(url=self.enemy_profile.get_icon_url())
         add_detailed_stat_field(
@@ -42,7 +41,6 @@ class ReconEmbed(BaseEmbed):
             self.fighter_profile,
             self.fighter_profile.core.zone_id,
             True,
-            recently_healed,
         )
         add_detailed_stat_field(
             embed, self.enemy_profile.name, self.enemy_profile, self.fighter_profile.core.zone_id, True

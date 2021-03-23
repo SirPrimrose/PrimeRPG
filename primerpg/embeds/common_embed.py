@@ -9,21 +9,23 @@ from primerpg.text_consts import no_space
 from primerpg.util import get_current_in_game_time, get_current_in_game_weather
 
 
-def add_detailed_stat_field(embed: Embed, field_title, profile: EntityBase, inline=False, recently_healed=False):
+def add_detailed_stat_field(
+    embed: Embed, field_title, profile: EntityBase, player_zone_id: int, inline=False, recently_healed=False
+):
     # TODO Find a better way to do things like "recently_healed" instead of passing in more arguments
     current_hp_text = format_hp(profile.get_current_hp(), recently_healed)
-    stats_value = (
-        "HP: {}/{:.0f}\nCombat Level: {}\nPhysical Attack: {}\nPhysical Armor: {}\nMagic Attack: {}\nMagic "
-        "Armor: {}".format(
-            current_hp_text,
-            profile.get_max_hp(),
-            profile.get_combat_level(),
-            round(profile.get_phys_atk_power()),
-            round(profile.get_phys_arm_power()),
+    stats_value = "HP: {}/{:.0f}\nCombat Level: {}\nPhysical Attack: {}\nPhysical Armor: {}".format(
+        current_hp_text,
+        profile.get_max_hp(),
+        profile.get_combat_level(),
+        round(profile.get_phys_atk_power()),
+        round(profile.get_phys_arm_power()),
+    )
+    if player_zone_id > 1:
+        stats_value += "\nMagic Attack: {}\nMagic Armor: {}".format(
             round(profile.get_mag_atk_power()),
             round(profile.get_mag_arm_power()),
         )
-    )
     embed.add_field(
         name=field_title,
         value=stats_value,

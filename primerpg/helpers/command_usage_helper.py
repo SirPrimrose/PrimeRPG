@@ -28,9 +28,12 @@ def is_command_off_cooldown(player_id: int, command_req: CommandRequirement):
         return True, ""
 
 
-def set_command_last_usage(player_id: int, command_id: int):
-    new_usage = CommandUsage(player_id, command_id, str_from_date(datetime.datetime.utcnow()))
-    current_usage = get_command_usage(player_id, command_id)
+def set_command_last_usage(player_id: int, command_req: CommandRequirement):
+    if command_req.cooldown <= 0:
+        return
+
+    new_usage = CommandUsage(player_id, command_req.unique_id, str_from_date(datetime.datetime.utcnow()))
+    current_usage = get_command_usage(player_id, command_req.unique_id)
     if current_usage:
         update_command_usage(new_usage)
     else:

@@ -34,12 +34,16 @@ max_effort_chance = 0.5
 # TODO Refactor all methods specific to the recon fight into a ReconFight object, leave all damage and
 # TODO stat calculations here in battle helper
 def get_damage(attack, armor) -> float:
-    if armor == 0:
-        return attack
-    if attack > armor:
-        damage = 0.60307 * armor + attack - 0.79 * armor * math.exp(-0.27 * armor / attack)
+    if armor > 8 * attack:
+        damage = 0.1 * attack
+    elif armor > attack:
+        damage = (19.2 / 49 * math.pow(attack / armor - 0.125, 2) + 0.1) * attack
+    elif armor > 0.4 * attack:
+        damage = (-0.4 / 3 * math.pow(attack / armor - 2.5, 2) + 0.7) * attack
+    elif armor > 0.125 * attack:
+        damage = (-0.8 / 121 * math.pow(attack / armor - 8, 2) + 0.9) * attack
     else:
-        damage = 1 * (math.pow(attack, 3) / math.pow(armor, 2)) - 0.09 * math.pow(attack, 2) / armor + 0.09 * attack
+        damage = 0.9 * attack
     return max(damage, 1)
 
 
@@ -113,8 +117,8 @@ def process_attack(attacker: EntityBase, defender: EntityBase, log: FightLog):
 
     response = ""
     if crit:
-        phys_damage = get_damage(mod_phys_attack, 0)
-        mag_damage = get_damage(mod_mag_attack, 0)
+        phys_damage = get_damage(mod_phys_attack * 1.5, defender.get_phys_arm_power() / 2)
+        mag_damage = get_damage(mod_mag_attack * 1.5, defender.get_mag_arm_power() / 2)
     else:
         dodge = random.random() < get_dodge_chance(attacker_speed, defender_speed, defender_luck)
         if dodge:

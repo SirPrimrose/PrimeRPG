@@ -41,10 +41,13 @@ class ReconResultsEmbed(BaseEmbed):
             embed,
             self.fighter_profile.name,
             self.fighter_profile,
+            self.fighter_profile.core.zone_id,
             True,
             recently_healed,
         )
-        add_detailed_stat_field(embed, self.enemy_profile.name, self.enemy_profile, True)
+        add_detailed_stat_field(
+            embed, self.enemy_profile.name, self.enemy_profile, self.fighter_profile.core.zone_id, True
+        )
 
         if winner == self.fighter_profile.name:
             # Calculate item drop and effort text fields

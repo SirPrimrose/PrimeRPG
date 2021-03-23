@@ -12,6 +12,10 @@
     {
       "unique_id": 3,
       "name": "Recon"
+    },
+    {
+      "unique_id": 4,
+      "name": "Boss"
     }
   ]
 }

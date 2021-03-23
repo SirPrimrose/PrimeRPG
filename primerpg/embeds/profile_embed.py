@@ -30,7 +30,9 @@ class ProfileEmbed(BaseEmbed):
             icon_url=self.author.avatar_url,
         )
         embed.set_thumbnail(url=profile_url)
-        add_detailed_stat_field(embed, "Stats", self.player_profile, recently_healed=recently_healed)
+        add_detailed_stat_field(
+            embed, "Stats", self.player_profile, self.player_profile.core.zone_id, recently_healed=recently_healed
+        )
         value = "\n|"
         skills_on_line = 0
         for skill_id, skill_emoji in skill_emojis.items():

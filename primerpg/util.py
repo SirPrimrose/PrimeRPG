@@ -12,9 +12,9 @@ from numpy.random import normal
 
 from primerpg.consts import day_night_cycles_per_day, weather_frequency, raining_weather, clear_weather
 
-# Util constants
 from primerpg.date_util import time_delta_to_str
 
+# Util constants
 base_xp_per_level = 100
 increased_xp_per_level = 40
 base_hp_per_level = 20

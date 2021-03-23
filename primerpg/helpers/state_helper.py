@@ -6,8 +6,9 @@ from primerpg.persistence.player_persistence import get_player_core, update_play
 idle_state_id = 1
 gathering_state_id = 2
 recon_state_id = 3
+bossfight_state_id = 4
 
-player_states = [idle_state_id, gathering_state_id, recon_state_id]
+player_states = [idle_state_id, gathering_state_id, recon_state_id, bossfight_state_id]
 
 
 def set_player_state(player_id: int, state_id: int):
