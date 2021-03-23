@@ -3,7 +3,7 @@
 #  Author: Primm
 import datetime
 
-from primerpg.date_util import date_from_str, time_since, time_delta_to_str, str_from_date
+from primerpg.date_util import date_from_str, time_since, time_delta_to_str, str_from_date, time_delta_to_readable_str
 from primerpg.persistence.command_usage_persistence import get_command_usage, update_command_usage, insert_command_usage
 from primerpg.persistence.dto.command_requirement import CommandRequirement
 from primerpg.persistence.dto.command_usage import CommandUsage
@@ -21,7 +21,9 @@ def is_command_off_cooldown(player_id: int, command_req: CommandRequirement):
         if cooldown_left.total_seconds() <= 0:
             return True, ""
         else:
-            return False, "Command is still on cooldown. Remaining time: `{}`".format(time_delta_to_str(cooldown_left))
+            return False, "Command is still on cooldown. Remaining time: `{}`".format(
+                time_delta_to_readable_str(cooldown_left)
+            )
     else:
         return True, ""
 
