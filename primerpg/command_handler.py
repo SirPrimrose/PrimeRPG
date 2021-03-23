@@ -4,6 +4,7 @@
 
 from typing import List
 
+from primerpg.commands.cm_boss import Boss
 from primerpg.commands.cm_buy import Buy
 from primerpg.commands.cm_collect import Collect
 from primerpg.commands.cm_equip import Equip
@@ -63,10 +64,9 @@ async def handle_command(msg, split_content: List[str]):
         return
     for command in command_registry:
         if split_content[0].lower() in tuple(command.get_prefixes()):
-            command_req = get_command_requirement_by_name(command.get_name())
-            can_execute, err_msg = verify_command_usage(msg.author.id, command_req)
+            can_execute, err_msg = verify_command_usage(msg.author.id, command.get_name())
             if can_execute:
-                set_command_last_usage(msg.author.id, command_req)
+                set_command_last_usage(msg.author.id, command.get_name())
                 await command.run_command(msg, split_content[1:])
                 return
             else:
@@ -75,7 +75,8 @@ async def handle_command(msg, split_content: List[str]):
     await msg.channel.send("Unknown command, try `.help` to see a list of all commands")
 
 
-def verify_command_usage(player_id: int, command_req: CommandRequirement) -> (bool, str):
+def verify_command_usage(player_id: int, command_name: str) -> (bool, str):
+    command_req = get_command_requirement_by_name(command_name)
     if command_req:
         player_core = get_player_core(player_id)
         if not player_core:
@@ -99,5 +100,5 @@ def verify_command_usage(player_id: int, command_req: CommandRequirement) -> (bo
                 )
     else:
         # Command requirement doesn't exist for some reason, allow usage
-        print('Command "{}" does not have requirement!'.format(command_req.name))
+        print('Command "{}" does not have requirement!'.format(command_name))
         return True, ""

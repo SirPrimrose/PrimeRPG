@@ -34,6 +34,8 @@ max_effort_chance = 0.5
 # TODO Refactor all methods specific to the recon fight into a ReconFight object, leave all damage and
 # TODO stat calculations here in battle helper
 def get_damage(attack, armor) -> float:
+    if attack <= 0:
+        return 0
     if armor > 8 * attack:
         damage = 0.1 * attack
     elif armor > attack:
@@ -126,7 +128,7 @@ def process_attack(attacker: EntityBase, defender: EntityBase, log: FightLog):
             mag_damage = 0
         else:
             phys_damage = get_damage(mod_phys_attack, defender.get_phys_arm_power())
-            mag_damage = get_damage(mod_mag_attack, defender.get_phys_arm_power())
+            mag_damage = get_damage(mod_mag_attack, defender.get_mag_arm_power())
 
     total_damage = phys_damage + mag_damage
     defender.change_current_hp(-total_damage)

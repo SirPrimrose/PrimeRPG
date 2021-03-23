@@ -3,6 +3,7 @@
 #  Author: Primm
 import datetime
 
+from primerpg.data_cache import get_command_requirement_by_name
 from primerpg.date_util import date_from_str, time_since, time_delta_to_str, str_from_date, time_delta_to_readable_str
 from primerpg.persistence.command_usage_persistence import get_command_usage, update_command_usage, insert_command_usage
 from primerpg.persistence.dto.command_requirement import CommandRequirement
@@ -28,8 +29,9 @@ def is_command_off_cooldown(player_id: int, command_req: CommandRequirement):
         return True, ""
 
 
-def set_command_last_usage(player_id: int, command_req: CommandRequirement):
-    if command_req.cooldown <= 0:
+def set_command_last_usage(player_id: int, command_name: str):
+    command_req = get_command_requirement_by_name(command_name)
+    if not command_req or command_req.cooldown <= 0:
         return
 
     new_usage = CommandUsage(player_id, command_req.unique_id, str_from_date(datetime.datetime.utcnow()))
