@@ -189,6 +189,18 @@ def get_item_name(item_id: int) -> str:
         return dne_string
 
 
+def get_item_moveset_ids(item_id: int) -> [None, int]:
+    """Gets the item moveset id without hitting the database
+
+    :param item_id: Unique id of the item
+    :return: The moveset id of the item, or None if it does not exist
+    """
+    try:
+        return next(filter(lambda item: item.unique_id == item_id, items)).moveset_ids
+    except StopIteration:
+        return None
+
+
 def get_item_category_id(item_id: int) -> [None, int]:
     """Gets the item category id without hitting the database
 

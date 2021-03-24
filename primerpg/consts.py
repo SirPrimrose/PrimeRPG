@@ -51,6 +51,9 @@ skill_ids = [
     luck_skill_id,
 ]
 
+# Equipment Category ids
+weapon_category_id = 1
+
 # Equipment Stat ids
 physical_attack_stat_id = 1
 physical_armor_stat_id = 2

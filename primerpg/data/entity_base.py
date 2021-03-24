@@ -2,7 +2,6 @@
 #  Project: PrimeRPG
 #  Author: Primm
 
-from abc import abstractmethod
 from math import floor
 from typing import List
 
@@ -39,6 +38,7 @@ class EntityBase:
         self.icon_url = icon_url
         self.skills = skills
         self.equipment = equipment
+        self._current_hp = 0
 
     def __repr__(self):
         response = "Current HP: %s" % self.get_current_hp()
@@ -46,13 +46,11 @@ class EntityBase:
         response += "\nSkills: %s" % self.skills
         return response
 
-    @abstractmethod
     def get_current_hp(self) -> float:
-        pass
+        return self._current_hp
 
-    @abstractmethod
     def set_current_hp(self, new_hp: float) -> None:
-        pass
+        self._current_hp = new_hp
 
     def change_current_hp(self, hp_delta: float):
         new_hp = min(max(self.get_current_hp() + hp_delta, 0), self.get_max_hp())

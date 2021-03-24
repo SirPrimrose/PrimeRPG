@@ -29,10 +29,12 @@ create_moves_query = (
     "power integer NOT NULL, "
     "damage_type_id integer NOT NULL, "
     "scaling_equipment_stat_id integer NOT NULL, "
+    "armor_equipment_stat_id integer NOT NULL, "
     "success_chance real NOT NULL, "
     "name text NOT NULL, "
     "FOREIGN KEY(damage_type_id) REFERENCES damage_types(unique_id), "
-    "FOREIGN KEY(scaling_equipment_stat_id) REFERENCES equipment_stat_categories(unique_id))" % moves_table
+    "FOREIGN KEY(scaling_equipment_stat_id) REFERENCES equipment_stat_categories(unique_id), "
+    "FOREIGN KEY(armor_equipment_stat_id) REFERENCES equipment_stat_categories(unique_id))" % moves_table
 )
 
 
@@ -49,13 +51,14 @@ def populate_moves_table():
         if not get_move(item["unique_id"]):
             damage_type_id = convert_name_to_id(damage_types, item["damage_type"])
             scaling_equipment_stat_id = convert_name_to_id(eq_stat_cats, item["scaling_equipment_stat"])
-            # TODO Create object and use insert query instead of temporary dict
+            armor_equipment_stat_id = convert_name_to_id(eq_stat_cats, item["armor_equipment_stat"])
             move = {
                 "name": item["name"],
                 "unique_id": item["unique_id"],
                 "power": item["power"],
                 "damage_type_id": damage_type_id,
                 "scaling_equipment_stat_id": scaling_equipment_stat_id,
+                "armor_equipment_stat_id": armor_equipment_stat_id,
                 "success_chance": item["success_chance"],
             }
             insert_dictionary(moves_table, move)
@@ -91,6 +94,7 @@ def init_move(db_row):
             db_row[3],
             db_row[4],
             db_row[5],
+            db_row[6],
         )
     else:
         return None

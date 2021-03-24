@@ -20,13 +20,18 @@
         "Coin": {
           "drop_rate": 1,
           "mean": 5,
-          "std_dev": 2
+          "std_dev": 1
         },
         "Goblin Hat": {
           "drop_rate": 0.05,
           "mean": 1,
           "std_dev": 0
         }
+      },
+      "boss_data": {
+        "zone": "Grasslands",
+        "type_strengths": ["Slash"],
+        "type_weaknesses": ["Pierce"]
       }
     },
     {

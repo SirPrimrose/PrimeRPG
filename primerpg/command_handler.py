@@ -26,7 +26,6 @@ from primerpg.commands.command import Command
 from primerpg.data_cache import get_command_requirement_by_name, get_player_state_name
 from primerpg.helpers.command_usage_helper import is_command_off_cooldown, set_command_last_usage
 from primerpg.persistence.connection_handler import spam_list
-from primerpg.persistence.dto.command_requirement import CommandRequirement
 from primerpg.persistence.player_persistence import get_player_core
 
 command_registry: List[Command] = []
@@ -50,6 +49,7 @@ def load_commands():
     register(Shop())
     register(Buy())
     register(Use())
+    register(Boss())
 
 
 def register(command):

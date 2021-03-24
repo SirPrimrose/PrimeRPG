@@ -19,7 +19,7 @@ def get_mob_profile(mob_id: int) -> MobProfile:
     skills = get_all_mob_skills(mob_id)
     equipment = get_all_mob_equipment(mob_id)
     drops = get_all_mob_drops(mob_id)
-    return MobProfile(core, core.name, core.icon_url, skills, equipment, drops)
+    return MobProfile(core, skills, equipment, drops)
 
 
 def get_mob_kill_rewards(mob_profile: MobProfile) -> List[ItemAmount]:

@@ -18,21 +18,28 @@ class Effort(object):
 class FightLog:
     def __init__(self):
         self.actions: List[ActionBase] = []
-        self.efforts: List[Effort] = []
+        self._efforts: List[Effort] = []
         self._rewards: List[ItemAmount] = []
 
     def add_action(self, action: ActionBase):
         self.actions.append(action)
 
     def add_effort(self, effort: Effort):
-        for e in self.efforts:
+        for e in self._efforts:
             if e.skill_id == effort.skill_id:
                 e.value += effort.value
                 return
-        self.efforts.append(copy(effort))
+        self._efforts.append(copy(effort))
+
+    def get_efforts(self):
+        return self._efforts
 
     def add_rewards(self, rewards: List[ItemAmount]):
         self._rewards.extend(rewards)
 
     def get_rewards(self):
         return self._rewards
+
+    def get_last_actions(self, num_of_actions: int) -> List[ActionBase]:
+        actions_to_show = min(num_of_actions, len(self.actions))
+        return self.actions[-actions_to_show:]

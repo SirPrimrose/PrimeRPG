@@ -23,9 +23,6 @@ class PlayerProfile(EntityBase):
         super().__init__(core.name, core.avatar_url, skills, equipment)
         self.core = core
         self._inventory = inventory
-        # Reassign fields to correct typing errors
-        self.skills = skills
-        self.equipment = equipment
 
     def __repr__(self):
         response = super.__repr__(self)

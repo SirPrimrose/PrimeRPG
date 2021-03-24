@@ -57,7 +57,7 @@ class ReconResultsEmbed(BaseEmbed):
                     item_name = get_item_name(reward.item_id)
                     item_drops_text += "\n{}: {}".format(item_name, reward.quantity)
             effort_text = ""
-            for effort in self.fight_log.efforts:
+            for effort in self.fight_log.get_efforts():
                 if effort.value > 0:
                     skill_emoji = skill_emojis[effort.skill_id]
                     effort_text += "\n{}{}{}".format(emoji_from_id(skill_emoji), half_space, effort.value)

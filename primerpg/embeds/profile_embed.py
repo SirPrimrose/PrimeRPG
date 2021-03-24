@@ -14,7 +14,7 @@ from primerpg.helpers.player_helper import hospital_service
 from primerpg.text_consts import large_space, half_space
 from primerpg.urls import profile_url
 
-skills_per_line = 3
+_skills_per_line = 3
 
 
 class ProfileEmbed(BaseEmbed):
@@ -36,7 +36,7 @@ class ProfileEmbed(BaseEmbed):
         value = "\n|"
         skills_on_line = 0
         for skill_id, skill_emoji in skill_emojis.items():
-            if skills_on_line >= skills_per_line:
+            if skills_on_line >= _skills_per_line:
                 skills_on_line = 0
                 value += "\n|"
             skill = next(

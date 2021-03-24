@@ -24,7 +24,8 @@ create_items_query = (
     "equipment_category_id integer NOT NULL, "
     "name text NOT NULL, "
     "value integer NOT NULL, "
-    "shop_zone_id integer NOT NULL, "
+    "shop_zone_id integer, "
+    "moveset_ids text NOT NULL, "
     "usage_effects text NOT NULL)" % items_table
 )
 
@@ -45,11 +46,14 @@ def populate_items_table():
                 "equipment_category_id": item["equipment_category_id"],
                 "name": item["name"],
                 "value": item["value"],
-                "shop_zone_id": 0,
+                "shop_zone_id": None,
+                "moveset_ids": "[]",
                 "usage_effects": "[]",
             }
             if "shop_zone" in item:
                 item_row["shop_zone_id"] = convert_name_to_id(zones, item["shop_zone"])
+            if "moveset_ids" in item:
+                item_row["moveset_ids"] = str(item["moveset_ids"])
             if "usage_effects" in item:
                 item_row["usage_effects"] = str(item["usage_effects"])
             insert_dictionary(items_table, item_row)
@@ -97,6 +101,7 @@ def init_item(db_row):
             db_row[4],
             db_row[5],
             eval(db_row[6]),
+            eval(db_row[7]),
         )
     else:
         return None

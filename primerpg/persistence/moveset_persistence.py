@@ -68,7 +68,7 @@ def init_moveset(db_row):
     if db_row:
         return Moveset(
             db_row[0],
-            db_row[1],
+            eval(db_row[1]),
         )
     else:
         return None

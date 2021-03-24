@@ -4,7 +4,7 @@
 import datetime
 
 from primerpg.data_cache import get_command_requirement_by_name
-from primerpg.date_util import date_from_str, time_since, time_delta_to_str, str_from_date, time_delta_to_readable_str
+from primerpg.date_util import date_from_str, time_since, str_from_date, time_delta_to_readable_str
 from primerpg.persistence.command_usage_persistence import get_command_usage, update_command_usage, insert_command_usage
 from primerpg.persistence.dto.command_requirement import CommandRequirement
 from primerpg.persistence.dto.command_usage import CommandUsage

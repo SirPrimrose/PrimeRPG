@@ -10,6 +10,7 @@ class Move:
         power: int,
         damage_type_id: int,
         scaling_equipment_stat_id: int,
+        armor_equipment_stat_id: int,
         success_chance: float,
         name: str,
     ):
@@ -17,5 +18,6 @@ class Move:
         self.power = power
         self.damage_type_id = damage_type_id
         self.scaling_equipment_stat_id = scaling_equipment_stat_id
+        self.armor_equipment_stat_id = armor_equipment_stat_id
         self.success_chance = success_chance
         self.name = name

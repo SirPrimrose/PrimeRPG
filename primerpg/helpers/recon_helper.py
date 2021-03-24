@@ -50,7 +50,7 @@ def get_damage(attack, armor) -> float:
 
 
 def credit_effort(attacker: EntityBase, log: FightLog):
-    for effort in log.efforts:
+    for effort in log.get_efforts():
         attacker.give_skill_effort(effort.skill_id, effort.value)
 
 
@@ -68,7 +68,7 @@ def player_win(attacker: PlayerProfile, defender: MobProfile, log: FightLog):
         give_player_item(attacker, reward)
 
 
-def sim_fight(attacker: EntityBase, defender: EntityBase) -> FightLog:
+def sim_recon_fight(attacker: EntityBase, defender: EntityBase) -> FightLog:
     """Simulates a fight between two EntityBase objects
 
     :param attacker:
@@ -140,9 +140,7 @@ def process_attack(attacker: EntityBase, defender: EntityBase, log: FightLog):
         def_cb = defender.get_combat_level()
         atk_cb = attacker.get_combat_level()
         if random.random() < get_effort_chance(atk_cb, def_cb, total_damage):
-            weighted_skills = [
-                WeightedValue(defender.get_skill_level(skill_id) + 1, skill_id) for skill_id in skill_ids
-            ]
+            weighted_skills = [WeightedValue(defender.get_skill_level(skill_id), skill_id) for skill_id in skill_ids]
             effort_skill_id: WeightedValue = get_random_from_weighted_list(weighted_skills)
             effort_value = (random.random() + 0.5) * total_damage * get_effort_multiplier()
             effort = Effort(effort_skill_id.value, int(effort_value))

@@ -4,17 +4,19 @@
     {
       "name": "Slash",
       "unique_id": 1,
-      "power": 10,
+      "power": 40,
       "damage_type": "Slash",
       "scaling_equipment_stat": "Physical Attack",
+      "armor_equipment_stat": "Physical Armor",
       "success_chance": 0.9
     },
     {
       "name": "Stab",
       "unique_id": 2,
-      "power": 12,
+      "power": 50,
       "damage_type": "Pierce",
       "scaling_equipment_stat": "Physical Attack",
+      "armor_equipment_stat": "Physical Armor",
       "success_chance": 0.8
     }
   ]

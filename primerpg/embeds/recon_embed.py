@@ -18,7 +18,7 @@ from primerpg.emojis import (
     run_emoji_id,
     emoji_from_id,
 )
-from primerpg.helpers.battle_helper import get_flee_chance, sim_fight
+from primerpg.helpers.recon_helper import get_flee_chance, sim_recon_fight
 from primerpg.helpers.player_helper import save_player_profile, hospital_service
 from primerpg.helpers.state_helper import set_player_state, idle_state_id
 
@@ -85,7 +85,7 @@ class ReconEmbed(BaseEmbed):
             await self.embed_message.channel.send("Failed to handle reaction")
 
     async def start_fight(self):
-        fight_log = sim_fight(self.fighter_profile, self.enemy_profile)
+        fight_log = sim_recon_fight(self.fighter_profile, self.enemy_profile)
         embed = ReconResultsEmbed(self.author, self.fighter_profile, self.enemy_profile, fight_log)
         generated_embed = embed.generate_embed()
         if self.fighter_profile.is_dead():

@@ -2,6 +2,7 @@
 #  Project: PrimeRPG
 #  Author: Primm
 from primerpg.helpers.checksum_helper import update_checksums
+from primerpg.persistence.boss_persistence import populate_bosses_table, create_bosses_query
 from primerpg.persistence.command_requirement_persistence import (
     create_command_requirements_query,
     populate_command_requirements_table,
@@ -30,10 +31,6 @@ from primerpg.persistence.inventory_persistence import create_inventory_query
 from primerpg.persistence.item_categories_persistence import (
     populate_item_categories_table,
     create_item_categories_query,
-)
-from primerpg.persistence.item_moveset_persistence import (
-    populate_item_movesets_table,
-    create_item_movesets_query,
 )
 from primerpg.persistence.items_persistence import (
     create_items_query,
@@ -106,7 +103,7 @@ def create_tables():
     cursor_obj.execute(create_damage_types_query)
     cursor_obj.execute(create_moves_query)
     cursor_obj.execute(create_movesets_query)
-    cursor_obj.execute(create_item_movesets_query)
+    cursor_obj.execute(create_bosses_query)
 
     # Mutable tables
     cursor_obj.execute(create_command_usages_query)
@@ -135,7 +132,7 @@ def create_tables():
     populate_damage_types_table()
     populate_moves_table()
     populate_movesets_table()
-    populate_item_movesets_table()
+    populate_bosses_table()
 
     update_checksums()
 

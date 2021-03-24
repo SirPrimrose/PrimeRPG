@@ -103,6 +103,13 @@
       "unique_id": 17,
       "zone": "Grasslands",
       "allowed_states": ["Idling"]
+    },
+    {
+      "name": "Boss",
+      "unique_id": 18,
+      "zone": "Grasslands",
+      "cooldown": 0,
+      "allowed_states": ["Idling", "Boss"]
     }
   ]
 }

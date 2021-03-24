@@ -36,6 +36,8 @@ def populate_mobs_table():
             del mob["skills"]
             del mob["equipment"]
             del mob["drops"]
+            if "boss_data" in mob:
+                del mob["boss_data"]
             insert_dictionary(mobs_table, mob)
 
 
