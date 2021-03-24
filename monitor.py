@@ -1,121 +1,107 @@
 #  Copyright (c) 2021
 #  Project: PrimeRPG
-#  Author: iKosm
+#  Author: Snack
 
 import os
 import subprocess
-import re
 import shutil
 
-statistics = {}
-matcher = re.compile("\d+")
 
+class Monitor:
+    def __init__(self, mon_time: int = None, do_log: bool = None) -> None:
+        """
+        :param mon_time: Monitor Time | How long, in minutes, shall the system monitor processes
+        :param do_log: Do Logging | Will the system save a log, rather than terminating after execution
+        """
+        self.mon_time = mon_time * 60
+        self.do_log = do_log
 
-def cpu_monitor_count(do_return: bool):
-    # Get Physical & Logical CPU Count
-    cpu_count = os.cpu_count()
+    def get_sys_proc(self):
+        # Create new dictionary / Clean old data
+        sys_data = {}
 
-    statistics["cpu_count"] = cpu_count
+        # Get Physical & Logical CPU Count
+        try:
+            cpu_count = os.cpu_count()
+        except OSError:
+            return OSError.strerror
 
-    if do_return:
-        return cpu_count
+        # Obtain usable CPUs the current process can use.
+        try:
+            usable_cpu_count = len(os.sched_getaffinity(0))
+        except OSError:
+            return OSError.strerror
 
+        # Calculated CPU load average over a span of 1, 5, and 15 minutes. [Returns as a percentage]
+        cpu_load_avg = [x / cpu_count * 100 for x in os.getloadavg()][-1]
 
-def cpu_monitor_avg(do_return: bool):
-    # Load average
-    # Average system load calculated over 1, 5, and 15 minutes.
-    # We will average out over a period of 15 minutes. Can be changed later if desired.
+        # Store CPU data into system dictionary
+        sys_data["cpu"] = dict(
+            {
+                "cpu_count": cpu_count,
+                "usable_cpu_count": usable_cpu_count,
+                "cpu_load_avg": cpu_load_avg,
+            }
+        )
 
-    # Calculate load average | calculated into percentage
-    cpu_load = [x / os.cpu_count() * 100 for x in os.getloadavg()][-1]
+        # Obtain [Total | Used | Free] system RAM information. [Returns in mB format]
+        total_mem, used_mem, free_mem = map(int, os.popen("free -t -m").readlines()[-1].split()[1:])
 
-    statistics["cpu_load"] = cpu_load
+        # Human readable percentage for accurate RAM usage. [Integer based round method]
+        mem_percentage = round((used_mem / total_mem) * 100, 0)
 
-    if do_return:
-        return cpu_load
+        # Store RAM data into system dictionary
+        sys_data["ram"] = dict(
+            {
+                "total_mem": total_mem,
+                "used_mem": used_mem,
+                "free_mem": free_mem,
+                "mem_percentage": mem_percentage,
+            }
+        )
 
+        # Low level linux 'TOP' command. Obtains all disk information on system.
+        top_command = subprocess.run(["top", "-1 1", "-n 0"], stdout=subprocess.PIPE).stdout.decode("utf-8")
 
-def ram_monitor(do_return: bool):
-    total_ram = subprocess.run(["sysctl", "hw.memsize"], stdout=subprocess.PIPE).stdout.decode("utf-8")
-    vm = subprocess.Popen(["vm_stat"], stdout=subprocess.PIPE).communicate()[0].decode("utf-8")
-    vm_lines = vm.split("\n")
+        # Obtain [Total | Used | Free] system DISK information.
+        total, used, free = shutil.disk_usage("/")
 
-    wired_mem = (int(matcher.search(vm_lines[6]).group()) * 4096) / 1024 ** 3
-    free_mem = (int(matcher.search(vm_lines[1]).group()) * 4096) / 1024 ** 3
-    active_mem = (int(matcher.search(vm_lines[2]).group()) * 4096) / 1024 ** 3
-    inactive_mem = (int(matcher.search(vm_lines[3]).group()) * 4096) / 1024 ** 3
+        # Number of Read & Write operations
+        # The operation read will return as follows:
+        # 'Disks: XXXXXX/xxG read, XXXX/xxG written.'
+        read_written = top_command[9].split(":")[1].split(",")
+        read = read_written[0].split(" ")[1]
+        written = read_written[1].split(" ")[1]
 
-    # Currently used memory = wired_mem + active_mem + inactive_mem
+        # Store DISK data into system dictionary
+        sys_data["disk"] = dict(
+            {
+                "total_disk_space": round(total / 1024 ** 3, 1),
+                "used_disk_space": round(used / 1024 ** 3, 1),
+                "free_disk_space": round(free / 1024 ** 3, 1),
+                "read_write": {"read": read, "written": written},
+            }
+        )
 
-    statistics["ram"] = dict(
-        {
-            "total_ram": int(matcher.search(total_ram).group()) / 1024 ** 3,
-            "used_ram": round(wired_mem + active_mem + inactive_mem, 2),
-        }
-    )
+        # We will ping Google servers at an interval of roughly 5 seconds, for 5 times.
+        # This will record the min response time, average response time, and the max response time.
+        ping_result = (
+            subprocess.run(["ping", "-i 5", "-c 5", "google.com"], stdout=subprocess.PIPE)
+            .stdout.decode("utf-8")
+            .split("\n")
+        )
 
-    if do_return:
-        return statistics.get("ram")
+        # Obtain [Minimum | Average | Maximum] network information from ping_result and parses the data
+        min_ping, avg_ping, max_ping = ping_result[-2].split("=")[1].split("/")[:3]
 
+        # Store NETWORK data into system dictionary
+        sys_data["network_latency"] = dict(
+            {
+                "min_ping": min_ping.strip(),
+                "avg_ping": avg_ping.strip(),
+                "max_ping": max_ping.strip(),
+            }
+        )
 
-def disk_monitor(do_return: bool):
-    top_command = subprocess.run(["top", "-1 1", "-n 0"], stdout=subprocess.PIPE).stdout.decode("utf-8")
-
-    # Disk Usage
-    # Get total disk size, used disk space, and free space
-
-    total, used, free = shutil.disk_usage("/")
-
-    # Number of Read & Write operations
-    # The operation read will return as follows:
-    # 'Disks: XXXXXX/xxG read, XXXX/xxG written.'
-
-    read_written = top_command[9].split(":")[1].split(",")
-    read = read_written[0].split(" ")[1]
-    written = read_written[1].split(" ")[1]
-
-    statistics["disk"] = dict(
-        {
-            "total_disk_space": round(total / 1024 ** 3, 1),
-            "used_disk_space": round(used / 1024 ** 3, 1),
-            "free_disk_space": round(free / 1024 ** 3, 1),
-            "read_write": {"read": read, "written": written},
-        }
-    )
-
-    if do_return:
-        return statistics.get("disk")
-
-
-def network_monitor(do_return: bool):
-    # We will ping Google servers at an interval of roughly 5 seconds, for 5 times.
-    # This will record the min response time, average response time, and the max response time.
-
-    ping_result = (
-        subprocess.run(["ping", "-i 5", "-c 5", "google.com"], stdout=subprocess.PIPE)
-        .stdout.decode("utf-8")
-        .split("\n")
-    )
-
-    min_ping, avg_ping, max_ping = ping_result[-2].split("=")[1].split("/")[:3]
-    statistics["network_latency"] = dict(
-        {
-            "min_ping": min_ping.strip(),
-            "avg_ping": avg_ping.strip(),
-            "max_ping": max_ping.strip(),
-        }
-    )
-
-    if do_return:
-        return statistics.get("network_latency")
-
-
-def return_stats():
-    # Function dedicated to purely calling, displaying, and saving monitor statistics.
-    cpu_monitor_count(False)
-    cpu_monitor_avg(False)
-    ram_monitor(False)
-    disk_monitor(False)
-    network_monitor(False)
-
-    return statistics
+        if self.do_log:
+            pass
