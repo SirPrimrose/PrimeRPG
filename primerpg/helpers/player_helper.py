@@ -12,6 +12,7 @@ from primerpg.data.player_profile import PlayerProfile
 from primerpg.helpers.equipment_helper import equip_player_item
 from primerpg.helpers.item_helper import give_player_item
 from primerpg.helpers.state_helper import idle_state_id
+from primerpg.persistence.command_usage_persistence import delete_player_command_usages
 from primerpg.persistence.dto.player_core import PlayerCore
 from primerpg.persistence.dto.player_inventory_item import PlayerInventoryItem
 from primerpg.persistence.inventory_persistence import (
@@ -32,6 +33,7 @@ from primerpg.persistence.player_persistence import (
     update_player_data,
     delete_player_data,
 )
+from primerpg.persistence.player_rank_persistence import delete_player_ranks
 from primerpg.persistence.player_skill_persistence import (
     get_all_player_skills,
     insert_player_skill,
@@ -101,7 +103,7 @@ def insert_player_profile(player_profile: PlayerProfile) -> None:
         insert_inventory_item(item)
 
 
-def get_player_profile(player_id) -> PlayerProfile:
+def get_player_profile(player_id: int) -> PlayerProfile:
     core = get_player_core(player_id)
     skills = get_all_player_skills(player_id)
     equipment = get_all_player_equipment(player_id)
@@ -133,6 +135,8 @@ def delete_player_profile(player_id: int) -> None:
     delete_player_equipment(player_id)
     delete_inventory_items(player_id)
     delete_player_tasks(player_id)
+    delete_player_ranks(player_id)
+    delete_player_command_usages(player_id)
     delete_player_data(player_id)
 
 

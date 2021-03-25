@@ -10,7 +10,7 @@ from discord import User, Embed
 from primerpg.data.player_profile import PlayerProfile
 from primerpg.data_cache import get_skill_category_short_name
 from primerpg.embeds.base_embed import BaseEmbed
-from primerpg.embeds.common_embed import pretty_format_skill_level
+from primerpg.embeds.common_embed import pretty_format_with_length
 from primerpg.emojis import skill_emojis, emoji_from_id
 from primerpg.text_consts import light_bar, full_bar, no_space
 from primerpg.urls import skills_url
@@ -41,7 +41,7 @@ class SkillsEmbed(BaseEmbed):
             progress_text = full_bars * full_bar + light_bars * light_bar
             value += "{} `{}`{}`{}`\n".format(
                 emoji_from_id(skill_emoji),
-                pretty_format_skill_level(skill.get_level()),
+                pretty_format_with_length(skill.get_level(), 2),
                 progress_text,
                 get_skill_category_short_name(skill_id),
             )

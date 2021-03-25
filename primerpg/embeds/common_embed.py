@@ -53,9 +53,9 @@ def add_world_status_footer(embed: Embed):
     embed.set_footer(text="It is {} and {}".format(get_current_in_game_time(), get_current_in_game_weather()))
 
 
-def pretty_format_skill_level(level: int) -> str:
+def pretty_format_with_length(level: int, length: int, prefix: str = "") -> str:
     skill_level_text = "{}".format(level)
-    return "`{}{}`".format((2 - len(skill_level_text)) * " ", skill_level_text)
+    return "`{}{}{}`".format(prefix, (length - len(skill_level_text)) * " ", skill_level_text)
 
 
 def format_hp(hp: float, bold: bool = False) -> str:

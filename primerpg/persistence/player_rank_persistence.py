@@ -2,7 +2,7 @@
 #  Project: PrimeRPG
 #  Author: Primm
 
-from primerpg.persistence.connection_handler import connection
+from primerpg.persistence.connection_handler import connection, queue_transaction
 from primerpg.persistence.dto.player_rank import PlayerRank
 
 player_ranks_table = "player_ranks"
@@ -27,14 +27,15 @@ update_player_total_ranks_query = (
     "player_id, 0 skill_id, RANK() OVER(ORDER BY SUM(total_xp) DESC) player_rank "
     "FROM player_skills GROUP BY player_id" % player_ranks_table
 )
-delete_player_ranks_query = "DELETE from %s" % player_ranks_table
+delete_player_ranks_query = "DELETE from %s WHERE player_id = ?" % player_ranks_table
+delete_all_player_ranks_query = "DELETE from %s" % player_ranks_table
 
 
 def generate_player_ranks():
     cursor_obj = connection.cursor()
 
     # Remove previous ranks
-    stmt = delete_player_ranks_query
+    stmt = delete_all_player_ranks_query
     cursor_obj.execute(stmt)
 
     # Update ranks with skills table
@@ -71,6 +72,12 @@ def get_all_player_ranks(player_id: int) -> list[PlayerRank]:
     items = [init_player_rank(x) for x in result]
 
     return items
+
+
+def delete_player_ranks(player_id: int) -> None:
+    stmt = delete_player_ranks_query
+    stmt_args = (player_id,)
+    queue_transaction(player_id, stmt, stmt_args)
 
 
 def init_player_rank(db_row):

@@ -116,6 +116,12 @@
       "unique_id": 19,
       "zone": "Grasslands",
       "allowed_states": ["Idling"]
+    },
+    {
+      "name": "Rank",
+      "unique_id": 20,
+      "zone": "Grasslands",
+      "allowed_states": "All"
     }
   ]
 }

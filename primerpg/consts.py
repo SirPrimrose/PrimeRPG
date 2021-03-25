@@ -29,6 +29,7 @@ data_folder = Path("json_data")
 log_folder = Path("logs")
 
 # Skill ids
+overall_skill_id = 0  # Used for ranks
 vitality_skill_id = 1
 strength_skill_id = 2
 dexterity_skill_id = 3

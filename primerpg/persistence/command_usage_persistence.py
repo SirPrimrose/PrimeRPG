@@ -28,6 +28,7 @@ update_command_usage_query = (
     "UPDATE %s SET time_last_used = ? WHERE player_id = ? AND command_id = ?" % command_usages_table
 )
 delete_command_usage_query = "DELETE from %s WHERE player_id = ? AND command_id = ?" % command_usages_table
+delete_player_command_usages_query = "DELETE from %s WHERE player_id = ?" % command_usages_table
 
 
 def get_command_usage(player_id: int, command_id: int) -> CommandUsage:
@@ -66,6 +67,12 @@ def update_command_usage(command_usage: CommandUsage) -> None:
 def delete_command_usage(player_id: int, command_id: int) -> None:
     stmt = delete_command_usage_query
     stmt_args = (player_id, command_id)
+    queue_transaction(player_id, stmt, stmt_args)
+
+
+def delete_player_command_usages(player_id: int) -> None:
+    stmt = delete_player_command_usages_query
+    stmt_args = (player_id,)
     queue_transaction(player_id, stmt, stmt_args)
 
 

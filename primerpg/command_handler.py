@@ -13,6 +13,7 @@ from primerpg.commands.cm_heal import Heal
 from primerpg.commands.cm_help import Help
 from primerpg.commands.cm_inventory import Inventory
 from primerpg.commands.cm_profile import Profile
+from primerpg.commands.cm_rank import Rank
 from primerpg.commands.cm_recon import Recon
 from primerpg.commands.cm_scrub import Scrub
 from primerpg.commands.cm_sell import Sell
@@ -52,6 +53,7 @@ def load_commands():
     register(Sell())
     register(Use())
     register(Boss())
+    register(Rank())
 
 
 def register(command):
