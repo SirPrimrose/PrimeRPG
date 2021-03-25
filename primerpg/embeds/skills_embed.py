@@ -33,6 +33,8 @@ class SkillsEmbed(BaseEmbed):
                 filter(lambda s: s.skill_id == skill_id, self.player_profile.skills),
                 None,
             )
+            if skill.get_total_xp() <= 0:
+                continue
             progress = skill.progress_to_next_level()
             full_bars = floor(_progress_bar_length * progress)
             light_bars = _progress_bar_length - full_bars

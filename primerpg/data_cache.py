@@ -6,6 +6,7 @@ from typing import List, Optional
 
 from primerpg.persistence.command_requirement_persistence import get_all_command_requirements
 from primerpg.persistence.dto.command_requirement import CommandRequirement
+from primerpg.persistence.dto.equipment_category import EquipmentCategory
 from primerpg.persistence.dto.equipment_stat import EquipmentStat
 from primerpg.persistence.dto.equipment_stat_category import EquipmentStatCategory
 from primerpg.persistence.dto.item import Item
@@ -14,6 +15,7 @@ from primerpg.persistence.dto.player_state import PlayerState
 from primerpg.persistence.dto.skill_category import SkillCategory
 from primerpg.persistence.dto.task_category import TaskCategory
 from primerpg.persistence.dto.zone import Zone
+from primerpg.persistence.equipment_categories_persistence import get_all_equipment_categories
 from primerpg.persistence.equipment_stat_categories_persistence import (
     get_all_equipment_stat_categories,
 )
@@ -34,13 +36,14 @@ task_categories: List[TaskCategory] = []
 skill_categories: List[SkillCategory] = []
 item_categories: List[ItemCategory] = []
 equipment_stats: List[EquipmentStat] = []
+equipment_categories: List[EquipmentCategory] = []
 equipment_stat_categories: List[EquipmentStatCategory] = []
 items: List[Item] = []
 zones: List[Zone] = []
 
 
 def load_util_data() -> None:
-    global command_requirements, player_states, task_categories, skill_categories
+    global command_requirements, player_states, task_categories, skill_categories, equipment_categories
     global item_categories, equipment_stats, equipment_stat_categories, items, zones
     command_requirements = get_all_command_requirements()
     player_states = get_all_player_states()
@@ -48,6 +51,7 @@ def load_util_data() -> None:
     skill_categories = get_all_skill_categories()
     item_categories = get_all_item_categories()
     equipment_stats = get_all_equipment_stats()
+    equipment_categories = get_all_equipment_categories()
     equipment_stat_categories = get_all_equipment_stat_categories()
     items = get_all_items()
     zones = get_all_zones()
@@ -162,6 +166,24 @@ def get_equipment_stat_category_name(equipment_stat_category_id: int) -> str:
             filter(
                 lambda cat: cat.unique_id == equipment_stat_category_id,
                 equipment_stat_categories,
+            )
+        ).name
+    except StopIteration:
+        return dne_string
+
+
+# Equipment Category data helpers
+def get_equipment_category_name(equipment_category_id: int) -> str:
+    """Gets the equipment category name without hitting the database
+
+    :param equipment_category_id: Unique id of the stat category
+    :return: The name of the equipment category, or "DNE" if it does not exist
+    """
+    try:
+        return next(
+            filter(
+                lambda cat: cat.unique_id == equipment_category_id,
+                equipment_categories,
             )
         ).name
     except StopIteration:

@@ -7,7 +7,7 @@ from typing import List
 from discord import User, Embed
 
 from primerpg.data.player_profile import PlayerProfile
-from primerpg.data_cache import get_equipment_stat_category_name, get_item_name
+from primerpg.data_cache import get_equipment_stat_category_name, get_item_name, get_equipment_category_name
 from primerpg.embeds.base_embed import BaseEmbed
 from primerpg.emojis import (
     skill_emojis,
@@ -35,6 +35,9 @@ class EquipmentEmbed(BaseEmbed):
         )
         embed.set_thumbnail(url=equipment_url)
         for equipment in self.player_profile.equipment:
+            title = "{} - {}".format(
+                get_equipment_category_name(equipment.equipment_category_id), get_item_name(equipment.item_id)
+            )
             stats = get_equipment_stats(equipment.item_id)
             value = ""
             for stat in stats:
@@ -59,7 +62,7 @@ class EquipmentEmbed(BaseEmbed):
                     value += "\nStat Bonus:\n{}".format(scaling_table)
             value += "\n" + horiz_bar * 15
             embed.add_field(
-                name=get_item_name(equipment.item_id),
+                name=title,
                 value=value,
                 inline=False,
             )

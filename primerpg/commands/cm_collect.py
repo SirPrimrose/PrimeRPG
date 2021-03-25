@@ -20,7 +20,7 @@ class Collect(Command):
         return "Collect"
 
     def get_prefixes(self):
-        return ["collect"]
+        return ["collect", "gather"]
 
     async def run_command(self, msg: discord.Message, args: List[str]):
         player_id = msg.author.id

@@ -7,7 +7,7 @@ from typing import List
 from discord import User, Embed
 
 from primerpg.data.player_profile import PlayerProfile
-from primerpg.data_cache import get_zone_name
+from primerpg.data_cache import get_zone_name, get_equipment_category_name, get_item_name
 from primerpg.embeds.base_embed import BaseEmbed
 from primerpg.embeds.common_embed import add_detailed_stat_field, pretty_format_skill_level
 from primerpg.emojis import skill_emojis, heal_emoji_id, emoji_from_id
@@ -45,6 +45,8 @@ class ProfileEmbed(BaseEmbed):
                 filter(lambda s: s.skill_id == skill_id, self.player_profile.skills),
                 None,
             )
+            if skill.get_total_xp() <= 0:
+                continue
             value += "{2}{0}{3}{1}{2}|".format(
                 emoji_from_id(skill_emoji),
                 pretty_format_skill_level(skill.get_level()),
@@ -55,7 +57,16 @@ class ProfileEmbed(BaseEmbed):
 
         embed.add_field(name="Skills", value=value, inline=False)
 
-        # TODO Add summary of player equipment
+        equipment_text = ""
+        for equipment in self.player_profile.equipment:
+            category_name = get_equipment_category_name(equipment.equipment_category_id)
+            item_name = get_item_name(equipment.item_id)
+            equipment_text += "**{}** - {}\n".format(category_name, item_name)
+        embed.add_field(
+            name="Equipment",
+            value=equipment_text,
+            inline=False,
+        )
         return embed
 
     def get_reaction_emojis(self) -> List[int]:

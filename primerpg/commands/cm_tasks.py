@@ -22,7 +22,20 @@ class Tasks(Command):
         return "Tasks"
 
     def get_prefixes(self):
-        return ["tasks", "task", "t"]
+        return [
+            "tasks",
+            "task",
+            "t",
+            "fish",
+            "fishing",
+            "mine",
+            "mining",
+            "chop",
+            "wood",
+            "woodcutting",
+            "farming",
+            "foraging",
+        ]
 
     async def run_command(self, msg: discord.Message, args: List[str]):
         player_id = msg.author.id

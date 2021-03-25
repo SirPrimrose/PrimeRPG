@@ -243,7 +243,7 @@
           "Physical Attack": {
             "value": 2,
             "scales_with": {
-              "Vitality": 10
+              "Vitality": 8
             }
           }
         },
@@ -251,7 +251,8 @@
           "Physical Armor": {
             "value": 5,
             "scales_with": {
-              "Vitality": 10
+              "Vitality": 10,
+              "Defense": 5
             }
           }
         }
@@ -281,21 +282,21 @@
       "item_category_id": 1,
       "equipment_category_id": 0,
       "name": "Minnow",
-      "value": 100
+      "value": 3
     },
     {
       "unique_id": 602,
       "item_category_id": 1,
       "equipment_category_id": 0,
       "name": "Carp",
-      "value": 100
+      "value": 10
     },
     {
       "unique_id": 603,
       "item_category_id": 1,
       "equipment_category_id": 0,
       "name": "Catfish",
-      "value": 100
+      "value": 15
     }
   ]
 }
