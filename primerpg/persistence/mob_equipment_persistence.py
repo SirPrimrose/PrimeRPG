@@ -11,6 +11,7 @@ from primerpg.persistence.common_persistence import convert_dict_keys_to_id, ins
 from primerpg.persistence.connection_handler import connection, queue_transaction
 from primerpg.persistence.equipment_categories_persistence import get_all_equipment_categories
 from primerpg.persistence.items_persistence import get_all_items
+from primerpg.persistence.persistence_exception import PersistenceException
 
 file_name = "mobs.json"
 mob_equipment_table = "mob_equipment"
@@ -68,7 +69,7 @@ def get_mob_equipment(mob_id: int, equipment_category_id: int) -> EntityEquipmen
     return init_mob_equipment(result)
 
 
-def get_all_mob_equipment(mob_id: int) -> List[EntityEquipment]:
+def get_all_mob_equipment(mob_id: int) -> list[EntityEquipment]:
     cursor_obj = connection.cursor()
 
     stmt_args = (mob_id,)
@@ -107,8 +108,8 @@ def delete_mob_equipment(mob_id: int):
     queue_transaction(mob_id, stmt, stmt_args)
 
 
-def init_mob_equipment(db_row):
+def init_mob_equipment(db_row) -> EntityEquipment:
     if db_row:
         return EntityEquipment(db_row[0], db_row[1], db_row[2])
     else:
-        return None
+        raise PersistenceException(EntityEquipment)

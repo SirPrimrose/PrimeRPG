@@ -6,6 +6,7 @@ from typing import List
 
 from primerpg.data.entity_equipment import EntityEquipment
 from primerpg.persistence.connection_handler import connection, queue_transaction
+from primerpg.persistence.persistence_exception import PersistenceException
 
 player_equipment_table = "player_equipment"
 
@@ -44,7 +45,7 @@ def get_player_equipment(player_id: int, equipment_category_id: int) -> EntityEq
     return init_player_equipment(result)
 
 
-def get_all_player_equipment(player_id: int) -> List[EntityEquipment]:
+def get_all_player_equipment(player_id: int) -> list[EntityEquipment]:
     cursor_obj = connection.cursor()
 
     stmt_args = (player_id,)
@@ -81,8 +82,8 @@ def delete_player_equipment(player_id: int):
     queue_transaction(player_id, stmt, stmt_args)
 
 
-def init_player_equipment(db_row):
+def init_player_equipment(db_row) -> EntityEquipment:
     if db_row:
         return EntityEquipment(db_row[0], db_row[1], db_row[2])
     else:
-        return None
+        raise PersistenceException(EntityEquipment)

@@ -6,6 +6,7 @@ from typing import List
 
 from primerpg.persistence.connection_handler import connection, queue_transaction
 from primerpg.persistence.dto.command_usage import CommandUsage
+from primerpg.persistence.persistence_exception import PersistenceException
 
 file_name = "command_usages.json"
 command_usages_table = "command_usages"
@@ -41,7 +42,7 @@ def get_command_usage(player_id: int, command_id: int) -> CommandUsage:
     return init_command_usage(result)
 
 
-def get_all_command_usages() -> List[CommandUsage]:
+def get_all_command_usages() -> list[CommandUsage]:
     cursor_obj = connection.cursor()
 
     statement = select_all_command_usages_query
@@ -51,25 +52,25 @@ def get_all_command_usages() -> List[CommandUsage]:
     return [init_command_usage(r) for r in result]
 
 
-def insert_command_usage(command_usage: CommandUsage) -> None:
+def insert_command_usage(command_usage: CommandUsage):
     stmt = insert_command_usage_query
     stmt_args = (command_usage.player_id, command_usage.command_id, command_usage.time_last_used)
     queue_transaction(command_usage.player_id, stmt, stmt_args)
 
 
-def update_command_usage(command_usage: CommandUsage) -> None:
+def update_command_usage(command_usage: CommandUsage):
     stmt = update_command_usage_query
     stmt_args = (command_usage.time_last_used, command_usage.player_id, command_usage.command_id)
     queue_transaction(command_usage.player_id, stmt, stmt_args)
 
 
-def delete_command_usage(player_id: int, command_id: int) -> None:
+def delete_command_usage(player_id: int, command_id: int):
     stmt = delete_command_usage_query
     stmt_args = (player_id, command_id)
     queue_transaction(player_id, stmt, stmt_args)
 
 
-def init_command_usage(db_row):
+def init_command_usage(db_row) -> CommandUsage:
     if db_row:
         return CommandUsage(
             db_row[0],
@@ -77,4 +78,4 @@ def init_command_usage(db_row):
             db_row[2],
         )
     else:
-        return None
+        raise PersistenceException(CommandUsage)

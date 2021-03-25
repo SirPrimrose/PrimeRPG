@@ -6,6 +6,7 @@ from typing import List
 
 from primerpg.persistence.connection_handler import connection, queue_transaction
 from primerpg.persistence.dto.player_inventory_item import PlayerInventoryItem
+from primerpg.persistence.persistence_exception import PersistenceException
 
 inventory_table = "inventory"
 
@@ -38,7 +39,7 @@ def get_inventory_item(player_id: int, item_id: int) -> PlayerInventoryItem:
     return init_inventory_item(result)
 
 
-def get_all_inventory_items(player_id: int) -> List[PlayerInventoryItem]:
+def get_all_inventory_items(player_id: int) -> list[PlayerInventoryItem]:
     cursor_obj = connection.cursor()
 
     stmt_args = (player_id,)
@@ -69,8 +70,8 @@ def delete_inventory_items(player_id: int) -> None:
     queue_transaction(player_id, stmt, stmt_args)
 
 
-def init_inventory_item(db_row):
+def init_inventory_item(db_row) -> PlayerInventoryItem:
     if db_row:
         return PlayerInventoryItem(db_row[0], db_row[1], db_row[2])
     else:
-        return None
+        raise PersistenceException(PlayerInventoryItem)

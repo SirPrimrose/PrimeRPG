@@ -9,6 +9,7 @@ from primerpg.consts import data_folder
 from primerpg.persistence.common_persistence import insert_dictionary, should_reload_from_file
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.damage_type import DamageType
+from primerpg.persistence.persistence_exception import PersistenceException
 
 file_name = "damage_types.json"
 damage_types_table = "damage_types"
@@ -48,7 +49,7 @@ def get_damage_type(unique_id: int) -> DamageType:
     return init_skill_category(result)
 
 
-def get_all_damage_types() -> List[DamageType]:
+def get_all_damage_types() -> list[DamageType]:
     cursor_obj = connection.cursor()
 
     statement = select_all_damage_types_query
@@ -58,11 +59,11 @@ def get_all_damage_types() -> List[DamageType]:
     return [init_skill_category(r) for r in result]
 
 
-def init_skill_category(db_row):
+def init_skill_category(db_row) -> DamageType:
     if db_row:
         return DamageType(
             db_row[0],
             db_row[1],
         )
     else:
-        return None
+        raise PersistenceException(DamageType)

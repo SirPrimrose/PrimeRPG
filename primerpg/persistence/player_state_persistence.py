@@ -9,6 +9,7 @@ from primerpg.consts import data_folder
 from primerpg.persistence.common_persistence import insert_dictionary, should_reload_from_file
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.player_state import PlayerState
+from primerpg.persistence.persistence_exception import PersistenceException
 
 file_name = "player_states.json"
 player_states_table = "player_states"
@@ -43,7 +44,7 @@ def get_player_state(unique_id: int) -> PlayerState:
     return init_player_state(result)
 
 
-def get_all_player_states() -> List[PlayerState]:
+def get_all_player_states() -> list[PlayerState]:
     cursor_obj = connection.cursor()
 
     statement = select_all_player_states_query
@@ -53,11 +54,11 @@ def get_all_player_states() -> List[PlayerState]:
     return [init_player_state(r) for r in result]
 
 
-def init_player_state(db_row):
+def init_player_state(db_row) -> PlayerState:
     if db_row:
         return PlayerState(
             db_row[0],
             db_row[1],
         )
     else:
-        return None
+        raise PersistenceException(PlayerState)

@@ -10,6 +10,7 @@ from primerpg.persistence.common_persistence import convert_dict_keys_to_id, ins
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.mob_drop import MobDrop
 from primerpg.persistence.items_persistence import get_all_items
+from primerpg.persistence.persistence_exception import PersistenceException
 
 file_name = "mobs.json"
 mob_drops_table = "mob_drops"
@@ -63,7 +64,7 @@ def get_mob_drop(mob_id: int, skill_id: int) -> MobDrop:
     return init_mob_drop(result)
 
 
-def get_all_mob_drops(mob_id: int) -> List[MobDrop]:
+def get_all_mob_drops(mob_id: int) -> list[MobDrop]:
     cursor_obj = connection.cursor()
 
     stmt_args = (mob_id,)
@@ -80,4 +81,4 @@ def init_mob_drop(db_row):
     if db_row:
         return MobDrop(db_row[0], db_row[1], db_row[2], db_row[3], db_row[4])
     else:
-        return None
+        raise PersistenceException(MobDrop)

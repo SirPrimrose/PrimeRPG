@@ -15,6 +15,7 @@ from primerpg.persistence.common_persistence import (
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.damage_type_persistence import get_all_damage_types
 from primerpg.persistence.dto.boss_core import BossCore
+from primerpg.persistence.persistence_exception import PersistenceException
 from primerpg.persistence.zone_persistence import get_all_zones
 
 file_name = "mobs.json"
@@ -65,7 +66,7 @@ def get_boss(zone_id: int) -> BossCore:
     return init_boss(result)
 
 
-def get_all_bosses() -> List[BossCore]:
+def get_all_bosses() -> list[BossCore]:
     cursor_obj = connection.cursor()
 
     statement = select_bosses_query
@@ -75,7 +76,7 @@ def get_all_bosses() -> List[BossCore]:
     return [init_boss(r) for r in result]
 
 
-def init_boss(db_row):
+def init_boss(db_row) -> BossCore:
     if db_row:
         return BossCore(
             db_row[0],
@@ -84,4 +85,4 @@ def init_boss(db_row):
             eval(db_row[3]),
         )
     else:
-        return None
+        raise PersistenceException(BossCore)

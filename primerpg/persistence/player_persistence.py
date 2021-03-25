@@ -6,6 +6,7 @@ from typing import List
 
 from primerpg.persistence.connection_handler import connection, queue_transaction
 from primerpg.persistence.dto.player_core import PlayerCore
+from primerpg.persistence.persistence_exception import PersistenceException
 
 players_table = "players"
 
@@ -43,7 +44,7 @@ def get_player_core(unique_id: int) -> PlayerCore:
     return init_player(result)
 
 
-def get_all_players() -> List[PlayerCore]:
+def get_all_players() -> list[PlayerCore]:
     cursor_obj = connection.cursor()
 
     statement = "SELECT * FROM %s" % players_table
@@ -105,8 +106,8 @@ def delete_player_data(player_id: int):
     queue_transaction(player_id, stmt, stmt_args)
 
 
-def init_player(db_row):
+def init_player(db_row) -> PlayerCore:
     if db_row:
         return PlayerCore(db_row[0], db_row[1], db_row[2], db_row[3], db_row[4], db_row[5], db_row[6])
     else:
-        return None
+        raise PersistenceException(PlayerCore)

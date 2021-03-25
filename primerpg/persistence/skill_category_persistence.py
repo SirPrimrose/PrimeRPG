@@ -3,12 +3,13 @@
 #  Author: Primm
 
 import json
-from typing import List
+from typing import List, Optional
 
 from primerpg.consts import data_folder
 from primerpg.persistence.common_persistence import insert_dictionary, should_reload_from_file
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.skill_category import SkillCategory
+from primerpg.persistence.persistence_exception import PersistenceException
 
 file_name = "skill_categories.json"
 skill_categories_table = "skill_categories"
@@ -51,7 +52,7 @@ def get_skill_category(unique_id: int) -> SkillCategory:
     return init_skill_category(result)
 
 
-def get_all_skill_categories() -> List[SkillCategory]:
+def get_all_skill_categories() -> list[SkillCategory]:
     cursor_obj = connection.cursor()
 
     statement = select_all_skill_categories_query
@@ -61,7 +62,7 @@ def get_all_skill_categories() -> List[SkillCategory]:
     return [init_skill_category(r) for r in result]
 
 
-def init_skill_category(db_row):
+def init_skill_category(db_row) -> SkillCategory:
     if db_row:
         return SkillCategory(
             db_row[0],
@@ -69,4 +70,4 @@ def init_skill_category(db_row):
             db_row[2],
         )
     else:
-        return None
+        raise PersistenceException(SkillCategory)
