@@ -15,6 +15,6 @@ class EffortAction(ActionBase):
         super().__init__(False)
         self.effort = effort
 
-    def get_message(self):
+    def get_message(self) -> str:
         skill_emoji = skill_emojis[self.effort.skill_id]
         return "(Gained **{}** {} Effort)".format(self.effort.value, emoji_from_id(skill_emoji))

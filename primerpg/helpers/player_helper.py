@@ -173,3 +173,14 @@ def hospital_service(player_profile: PlayerProfile) -> str:
     player_profile.heal_player_profile(heal_cost * _hp_per_coin)
     save_player_profile(player_profile)
     return "{} paid {} coins and healed {} HP".format(player_profile.name, heal_cost, heal_cost * _hp_per_coin)
+
+
+def graduate_from_zone(player_profile: PlayerProfile, zone_id: int):
+    """Upgrade a player from their current zone
+
+    :param player_profile: The player to upgrade
+    :param zone_id: The zone to allow upgrading from, usually based on a boss they just killed
+    :return:
+    """
+    if player_profile.core.zone_id == zone_id:
+        player_profile.core.zone_id += 1

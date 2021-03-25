@@ -12,4 +12,6 @@ def get_all_move_ids(profile: EntityBase):
     move_ids = []
     for moveset_id in moveset_ids:
         move_ids += get_moveset(moveset_id).move_ids
+    if not move_ids:
+        move_ids = [0]
     return move_ids

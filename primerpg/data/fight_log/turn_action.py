@@ -11,7 +11,7 @@ class TurnAction(ActionBase):
         super().__init__()
         self.turn_number = turn_number
 
-    def get_message(self):
+    def get_message(self) -> str:
         return "{0} {1}".format(
             emoji_from_id(turn_emoji_id),
             self.turn_number,

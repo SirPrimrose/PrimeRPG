@@ -7,6 +7,7 @@ from typing import List
 from discord import User, Embed
 
 from primerpg.data.player_profile import PlayerProfile
+from primerpg.data_cache import get_zone_name
 from primerpg.embeds.base_embed import BaseEmbed
 from primerpg.embeds.common_embed import add_detailed_stat_field, pretty_format_skill_level
 from primerpg.emojis import skill_emojis, heal_emoji_id, emoji_from_id
@@ -30,6 +31,7 @@ class ProfileEmbed(BaseEmbed):
             icon_url=self.author.avatar_url,
         )
         embed.set_thumbnail(url=profile_url)
+        embed.add_field(name="Zone", value="{}".format(get_zone_name(self.player_profile.core.zone_id)))
         add_detailed_stat_field(
             embed, "Stats", self.player_profile, self.player_profile.core.zone_id, recently_healed=recently_healed
         )
@@ -52,6 +54,8 @@ class ProfileEmbed(BaseEmbed):
             skills_on_line += 1
 
         embed.add_field(name="Skills", value=value, inline=False)
+
+        # TODO Add summary of player equipment
         return embed
 
     def get_reaction_emojis(self) -> List[int]:

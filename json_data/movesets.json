@@ -5,7 +5,21 @@
       "unique_id": 1,
       "moves": [
         "Slash",
-        "Stab"
+        "Lunge"
+      ]
+    },
+    {
+      "unique_id": 2,
+      "moves": [
+        "Smash",
+        "Spinning Strike"
+      ]
+    },
+    {
+      "unique_id": 3,
+      "moves": [
+        "Focused Shot",
+        "Rapid Fire"
       ]
     }
   ]

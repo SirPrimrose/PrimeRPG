@@ -10,5 +10,5 @@ class ActionBase:
         self.newline = newline
 
     @abstractmethod
-    def get_message(self):
+    def get_message(self) -> str:
         pass

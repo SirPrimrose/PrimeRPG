@@ -10,5 +10,5 @@ class MessageAction(ActionBase):
         super().__init__()
         self.message = message
 
-    def get_message(self):
+    def get_message(self) -> str:
         return self.message

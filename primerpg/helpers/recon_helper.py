@@ -29,6 +29,7 @@ dodge_cap = 0.1  # percent
 double_attack_per_speed_level = 0.05
 min_effort_chance = 0.05
 max_effort_chance = 0.5
+_turn_limit = 100
 
 
 # TODO Refactor all methods specific to the recon fight into a ReconFight object, leave all damage and
@@ -77,7 +78,7 @@ def sim_recon_fight(attacker: EntityBase, defender: EntityBase) -> FightLog:
     """
     log = FightLog()
     turn = 0
-    while turn < 100:
+    while turn < _turn_limit:
         log.add_action(TurnAction(turn))
         if attacker.is_dead():
             player_lose(attacker, defender, log)
@@ -124,8 +125,8 @@ def process_attack(attacker: EntityBase, defender: EntityBase, log: FightLog):
     else:
         dodge = random.random() < get_dodge_chance(attacker_speed, defender_speed, defender_luck)
         if dodge:
-            phys_damage = 0
-            mag_damage = 0
+            phys_damage = 0.0
+            mag_damage = 0.0
         else:
             phys_damage = get_damage(mod_phys_attack, defender.get_phys_arm_power())
             mag_damage = get_damage(mod_mag_attack, defender.get_mag_arm_power())
@@ -134,12 +135,20 @@ def process_attack(attacker: EntityBase, defender: EntityBase, log: FightLog):
     defender.change_current_hp(-total_damage)
     is_player = isinstance(attacker, PlayerProfile)
     log.add_action(
-        DamageAction(attacker.name, defender.name, defender.get_current_hp(), total_damage, is_player, crit, dodge)
+        DamageAction(
+            attacker_name=attacker.name,
+            defender_name=defender.name,
+            defender_hp=defender.get_current_hp(),
+            damage=total_damage,
+            player_attacking=is_player,
+            crit=crit,
+            dodge=dodge,
+        )
     )
     if is_player:
         def_cb = defender.get_combat_level()
         atk_cb = attacker.get_combat_level()
-        if random.random() < get_effort_chance(atk_cb, def_cb, total_damage):
+        if random.random() < get_effort_chance(atk_cb, def_cb):
             weighted_skills = [WeightedValue(defender.get_skill_level(skill_id), skill_id) for skill_id in skill_ids]
             effort_skill_id: WeightedValue = get_random_from_weighted_list(weighted_skills)
             effort_value = (random.random() + 0.5) * total_damage * get_effort_multiplier()
@@ -153,7 +162,7 @@ def get_effort_multiplier():
     return 5
 
 
-def get_effort_chance(attacker_cb: int, defender_cb: int, damage: int):
+def get_effort_chance(attacker_cb: int, defender_cb: int):
     diff = (defender_cb - attacker_cb) + 14
     if diff <= 0:
         return min_effort_chance

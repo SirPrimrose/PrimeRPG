@@ -2,22 +2,74 @@
   "dependencies": ["damage_types.json","equipment_stat_categories.json"],
   "data": [
     {
+      "name": "Struggle",
+      "unique_id": 0,
+      "power": 10,
+      "hits": 1,
+      "damage_type": "Blunt",
+      "scaling_equipment_stat": "Physical Attack",
+      "armor_equipment_stat": "Physical Armor",
+      "success_chance": 0.5
+    },
+    {
       "name": "Slash",
       "unique_id": 1,
       "power": 40,
+      "hits": 1,
       "damage_type": "Slash",
       "scaling_equipment_stat": "Physical Attack",
       "armor_equipment_stat": "Physical Armor",
       "success_chance": 0.9
     },
     {
-      "name": "Stab",
+      "name": "Lunge",
       "unique_id": 2,
-      "power": 50,
+      "power": 60,
+      "hits": 1,
       "damage_type": "Pierce",
       "scaling_equipment_stat": "Physical Attack",
       "armor_equipment_stat": "Physical Armor",
+      "success_chance": 0.85
+    },
+    {
+      "name": "Smash",
+      "unique_id": 3,
+      "power": 70,
+      "hits": 1,
+      "damage_type": "Blunt",
+      "scaling_equipment_stat": "Physical Attack",
+      "armor_equipment_stat": "Physical Armor",
       "success_chance": 0.8
+    },
+    {
+      "name": "Spinning Strike",
+      "unique_id": 4,
+      "power": 100,
+      "hits": 1,
+      "damage_type": "Blunt",
+      "scaling_equipment_stat": "Physical Attack",
+      "armor_equipment_stat": "Physical Armor",
+      "success_chance": 0.6
+    },
+    {
+      "name": "Focused Shot",
+      "unique_id": 5,
+      "power": 50,
+      "hits": 1,
+      "damage_type": "Pierce",
+      "scaling_equipment_stat": "Physical Attack",
+      "armor_equipment_stat": "Physical Armor",
+      "success_chance": 1
+    },
+    {
+      "name": "Rapid Fire",
+      "unique_id": 6,
+      "power": 30,
+      "hits": 3,
+      "damage_type": "Pierce",
+      "scaling_equipment_stat": "Physical Attack",
+      "armor_equipment_stat": "Physical Armor",
+      "success_chance": 0.75
     }
   ]
 }

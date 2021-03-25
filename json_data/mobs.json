@@ -5,7 +5,7 @@
       "unique_id": 1,
       "name": "Goblin",
       "weight": 50,
-      "icon_url": "https://i.imgur.com/026QYTo.png",
+      "icon_url": "https://i.imgur.com/pOfaU62.png",
       "skills": {
         "Vitality": 1,
         "Strength": 2,
@@ -27,11 +27,6 @@
           "mean": 1,
           "std_dev": 0
         }
-      },
-      "boss_data": {
-        "zone": "Grasslands",
-        "type_strengths": ["Slash"],
-        "type_weaknesses": ["Pierce"]
       }
     },
     {
@@ -80,6 +75,34 @@
           "mean": 30,
           "std_dev": 5
         }
+      }
+    },
+    {
+      "unique_id": 4,
+      "name": "Boss Goblin",
+      "weight": 0,
+      "icon_url": "https://i.imgur.com/026QYTo.png",
+      "skills": {
+        "Vitality": 20,
+        "Strength": 10,
+        "Dexterity": 5,
+        "Defense": 10
+      },
+      "equipment": {
+        "Weapon": "Wooden Club",
+        "Head": "Wooden Helmet"
+      },
+      "drops": {
+        "Coin": {
+          "drop_rate": 1,
+          "mean": 100,
+          "std_dev": 5
+        }
+      },
+      "boss_data": {
+        "zone": "Grasslands",
+        "type_strengths": ["Slash"],
+        "type_weaknesses": ["Pierce"]
       }
     }
   ]

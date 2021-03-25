@@ -13,6 +13,7 @@ from primerpg.persistence.dto.item_category import ItemCategory
 from primerpg.persistence.dto.player_state import PlayerState
 from primerpg.persistence.dto.skill_category import SkillCategory
 from primerpg.persistence.dto.task_category import TaskCategory
+from primerpg.persistence.dto.zone import Zone
 from primerpg.persistence.equipment_stat_categories_persistence import (
     get_all_equipment_stat_categories,
 )
@@ -22,6 +23,7 @@ from primerpg.persistence.items_persistence import get_all_items
 from primerpg.persistence.player_state_persistence import get_all_player_states
 from primerpg.persistence.skill_category_persistence import get_all_skill_categories
 from primerpg.persistence.task_category_persistence import get_all_task_categories
+from primerpg.persistence.zone_persistence import get_all_zones
 
 dne_string = "DNE"
 
@@ -34,11 +36,12 @@ item_categories: List[ItemCategory] = []
 equipment_stats: List[EquipmentStat] = []
 equipment_stat_categories: List[EquipmentStatCategory] = []
 items: List[Item] = []
+zones: List[Zone] = []
 
 
 def load_util_data() -> None:
     global command_requirements, player_states, task_categories, skill_categories
-    global item_categories, equipment_stats, equipment_stat_categories, items
+    global item_categories, equipment_stats, equipment_stat_categories, items, zones
     command_requirements = get_all_command_requirements()
     player_states = get_all_player_states()
     task_categories = get_all_task_categories()
@@ -47,6 +50,7 @@ def load_util_data() -> None:
     equipment_stats = get_all_equipment_stats()
     equipment_stat_categories = get_all_equipment_stat_categories()
     items = get_all_items()
+    zones = get_all_zones()
 
 
 # Command Requirement data helpers
@@ -211,3 +215,16 @@ def get_item_category_id(item_id: int) -> [None, int]:
         return next(filter(lambda item: item.unique_id == item_id, items)).item_category_id
     except StopIteration:
         return None
+
+
+# Zone data helpers
+def get_zone_name(zone_id: int) -> str:
+    """Gets the zone name without hitting the database
+
+    :param zone_id: Unique id of the zone
+    :return: The name of the zone, or "DNE" if it does not exist
+    """
+    try:
+        return next(filter(lambda zone: zone.unique_id == zone_id, zones)).name
+    except StopIteration:
+        return dne_string

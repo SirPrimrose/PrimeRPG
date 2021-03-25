@@ -23,3 +23,5 @@ class BossProfile(MobProfile):
         super().__init__(mob_core, skills, equipment, drops)
         self.type_strength_ids = core.type_strength_ids
         self.type_weakness_ids = core.type_weakness_ids
+        self.zone_id = core.zone_id
+        self._current_hp = self.get_max_hp()

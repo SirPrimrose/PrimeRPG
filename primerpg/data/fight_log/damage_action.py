@@ -21,7 +21,7 @@ class DamageAction(ActionBase):
         attacker_name: str,
         defender_name: str,
         defender_hp: float,
-        damage: int,
+        damage: float,
         player_attacking: bool,
         crit: bool,
         dodge: bool,
@@ -35,7 +35,7 @@ class DamageAction(ActionBase):
         self.crit = crit
         self.dodge = dodge
 
-    def get_message(self):
+    def get_message(self) -> str:
         heart = enemy_heart_id if self.player_attacking else player_heart_id
         return "{0} {1} {2} (**{3}** {4}) for **{5:.0f}**{6}".format(
             self.attacker_name,

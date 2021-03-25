@@ -5,7 +5,16 @@
 from typing import Dict
 
 from primerpg import consts
-from primerpg.consts import fishing_task_id, farming_task_id, foraging_task_id, woodcutting_task_id, mining_task_id
+from primerpg.consts import (
+    fishing_task_id,
+    farming_task_id,
+    foraging_task_id,
+    woodcutting_task_id,
+    mining_task_id,
+    pierce_damage_type_id,
+    blunt_damage_type_id,
+    slash_damage_type_id,
+)
 
 vitality_emoji_id = 821118647766482955
 strength_emoji_id = 821118786446950420
@@ -28,6 +37,8 @@ damage_emoji_id = 821118509526286356
 crit_emoji_id = 822281781285617756
 dodge_emoji_id = 822282292730527745
 turn_emoji_id = 822644403667599360
+super_effective_emoji_id = crit_emoji_id
+not_effective_emoji_id = dodge_emoji_id
 
 letter_s_low_emoji_id = 821118141815848960
 letter_s_med_emoji_id = 821118123741806633
@@ -60,6 +71,11 @@ collect_emoji_id = letter_f_high_emoji_id
 
 prev_page_emoji_id = letter_d_high_emoji_id
 next_page_emoji_id = letter_f_high_emoji_id
+
+slash_damage_emoji_id = letter_c_high_emoji_id
+pierce_damage_emoji_id = letter_d_high_emoji_id
+blunt_damage_emoji_id = letter_e_high_emoji_id
+unknown_damage_emoji_id = letter_f_high_emoji_id
 
 skill_emojis: Dict[int, int] = {
     consts.vitality_skill_id: vitality_emoji_id,
@@ -103,6 +119,12 @@ task_emojis: Dict[int, int] = {
     woodcutting_task_id: woodcutting_task_emoji_id,
     foraging_task_id: foraging_task_emoji_id,
     farming_task_id: farming_task_emoji_id,
+}
+
+damage_type_emojis: Dict[int, int] = {
+    slash_damage_type_id: slash_damage_emoji_id,
+    pierce_damage_type_id: pierce_damage_emoji_id,
+    blunt_damage_type_id: blunt_damage_emoji_id,
 }
 
 

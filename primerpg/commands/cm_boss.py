@@ -27,7 +27,7 @@ class Boss(Command):
         player_id = msg.author.id
         player_profile = get_player_profile(player_id)
 
-        boss_profile = get_boss_profile(1)
+        boss_profile = get_boss_profile(4)
 
         set_player_state(player_id, bossfight_state_id)
         embed = BossEmbed(msg.author, player_profile, boss_profile)

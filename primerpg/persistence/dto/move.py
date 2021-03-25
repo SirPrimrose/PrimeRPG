@@ -8,6 +8,7 @@ class Move:
         self,
         unique_id: int,
         power: int,
+        hits: int,
         damage_type_id: int,
         scaling_equipment_stat_id: int,
         armor_equipment_stat_id: int,
@@ -16,6 +17,7 @@ class Move:
     ):
         self.unique_id = unique_id
         self.power = power
+        self.hits = hits
         self.damage_type_id = damage_type_id
         self.scaling_equipment_stat_id = scaling_equipment_stat_id
         self.armor_equipment_stat_id = armor_equipment_stat_id

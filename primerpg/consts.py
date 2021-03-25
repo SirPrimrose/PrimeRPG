@@ -62,3 +62,8 @@ magical_armor_stat_id = 4
 
 # Item ids
 coin_item_id = 1
+
+# Damage Type ids
+slash_damage_type_id = 1
+pierce_damage_type_id = 2
+blunt_damage_type_id = 3

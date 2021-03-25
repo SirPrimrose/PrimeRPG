@@ -8,13 +8,12 @@ from discord import Embed, User
 
 from primerpg.data.entity_base import EntityBase
 from primerpg.data.fight_log.fight_log import FightLog
-from primerpg.data.fight_log.turn_action import TurnAction
 from primerpg.data.player_profile import PlayerProfile
 from primerpg.data_cache import get_item_name
 from primerpg.embeds.base_embed import BaseEmbed
 from primerpg.embeds.common_embed import add_detailed_stat_field, add_spacer_field
-from primerpg.embeds.simple_embed import SimpleEmbed
 from primerpg.emojis import skill_emojis, info_emoji_id, heal_emoji_id, emoji_from_id
+from primerpg.helpers.log_helper import print_log
 from primerpg.helpers.player_helper import hospital_service
 from primerpg.text_consts import no_space, half_space
 
@@ -94,38 +93,10 @@ class ReconResultsEmbed(BaseEmbed):
 
     async def handle_reaction(self, reaction_id: int):
         if reaction_id == info_emoji_id:
-            await self.print_log()
+            await print_log(self.embed_message.channel, self.fight_log)
         elif reaction_id == heal_emoji_id:
             msg = hospital_service(self.fighter_profile)
             await self.embed_message.channel.send(msg)
             await self.update_embed_content()
         else:
             await self.embed_message.channel.send("Failed to handle reaction")
-
-    async def print_log(self):
-        response = ""
-        current_turn = ""
-        page_num = 1
-
-        async def check_add_turn_to_response():
-            nonlocal response, current_turn, page_num
-            if len(response) + len(current_turn) >= 2048:
-                await self.send_fight_log_page(page_num, response)
-                page_num += 1
-                response = ""
-            response += current_turn
-            current_turn = ""
-
-        for log in self.fight_log.actions:
-            if type(log) == TurnAction:
-                await check_add_turn_to_response()
-            current_turn += "\n" if log.newline else ""
-            current_turn += "{}".format(log.get_message())
-        await check_add_turn_to_response()
-
-        await self.send_fight_log_page(page_num, response, page_num != 1)
-
-    async def send_fight_log_page(self, page_num, content, show_page_num=True):
-        title = "Fight Log Page {}".format(page_num) if show_page_num else "Fight Log"
-        embed = SimpleEmbed(self.author, title, content)
-        await self.embed_message.channel.send(embed=embed.generate_embed())

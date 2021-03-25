@@ -27,6 +27,7 @@ create_moves_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
     "unique_id integer PRIMARY KEY, "
     "power integer NOT NULL, "
+    "hits integer NOT NULL, "
     "damage_type_id integer NOT NULL, "
     "scaling_equipment_stat_id integer NOT NULL, "
     "armor_equipment_stat_id integer NOT NULL, "
@@ -56,6 +57,7 @@ def populate_moves_table():
                 "name": item["name"],
                 "unique_id": item["unique_id"],
                 "power": item["power"],
+                "hits": item["hits"],
                 "damage_type_id": damage_type_id,
                 "scaling_equipment_stat_id": scaling_equipment_stat_id,
                 "armor_equipment_stat_id": armor_equipment_stat_id,
@@ -95,6 +97,7 @@ def init_move(db_row):
             db_row[4],
             db_row[5],
             db_row[6],
+            db_row[7],
         )
     else:
         return None
