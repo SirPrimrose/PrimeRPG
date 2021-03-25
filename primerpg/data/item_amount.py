@@ -9,6 +9,5 @@ class ItemAmount:
         self.quantity = quantity
 
     def __repr__(self):
-        response = "Item Id: %s" % self.item_id
-        response += "\nQuantity: %s" % self.quantity
-        return response
+        var_text = " ".join(["{0}={1!r}".format(var, value) for var, value in vars(self).items()])
+        return "<{0.__class__.__name__} {1}>".format(self, var_text)

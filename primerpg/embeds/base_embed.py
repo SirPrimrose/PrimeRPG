@@ -18,6 +18,10 @@ class BaseEmbed:
         self.author = author
         pass
 
+    def __repr__(self):
+        var_text = " ".join(["{0}={1!r}".format(var, value) for var, value in vars(self).items()])
+        return "<{0.__class__.__name__} {1}>".format(self, var_text)
+
     @abstractmethod
     def generate_embed(self, *args) -> Embed:
         pass

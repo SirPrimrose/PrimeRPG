@@ -23,11 +23,5 @@ class Fish:
         self.weight = weight
 
     def __repr__(self):
-        response = "Unique Id: %s" % self.unique_id
-        response += "\nItem Id: %s" % self.item_id
-        response += "\nName: %s" % self.name
-        response += "\nStart Time: %s" % self.start_time
-        response += "\nEnd Time: %s" % self.end_time
-        response += "\nWeather: %s" % self.weather
-        response += "\nWeight: %s" % self.weight
-        return response
+        var_text = " ".join(["{0}={1!r}".format(var, value) for var, value in vars(self).items()])
+        return "<{0.__class__.__name__} {1}>".format(self, var_text)

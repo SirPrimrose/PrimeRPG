@@ -31,6 +31,10 @@ class BossFight:
         self.turn = 0
         self.fight_log = FightLog()
 
+    def __repr__(self):
+        var_text = " ".join(["{0}={1!r}".format(var, value) for var, value in vars(self).items()])
+        return "<{0.__class__.__name__} {1}>".format(self, var_text)
+
     def use_move(self, move: Move, attacker: EntityBase, defender: EntityBase):
         hit_successes = 0
         for i in range(move.hits):

@@ -10,7 +10,5 @@ class CommandUsage:
         self.time_last_used = time_last_used
 
     def __repr__(self):
-        response = "Player Id: %s" % self.player_id
-        response += "\nCommand Id: %s" % self.command_id
-        response += "\nTime Last Used: %s" % self.time_last_used
-        return response
+        var_text = " ".join(["{0}={1!r}".format(var, value) for var, value in vars(self).items()])
+        return "<{0.__class__.__name__} {1}>".format(self, var_text)

@@ -11,8 +11,5 @@ class BossCore:
         self.type_weakness_ids = type_weaknesses
 
     def __repr__(self):
-        response = "mob_id: %s" % self.mob_id
-        response += "\nzone_id: %s" % self.zone_id
-        response += "\ntype_strengths: %s" % self.type_strength_ids
-        response += "\ntype_weaknesses: %s" % self.type_weakness_ids
-        return response
+        var_text = " ".join(["{0}={1!r}".format(var, value) for var, value in vars(self).items()])
+        return "<{0.__class__.__name__} {1}>".format(self, var_text)

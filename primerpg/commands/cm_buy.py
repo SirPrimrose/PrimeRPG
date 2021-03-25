@@ -9,7 +9,6 @@ import discord
 from primerpg.commands.command import Command
 from primerpg.data_cache import get_item_id
 from primerpg.embeds.purchase_result_embed import PurchaseResultEmbed
-from primerpg.embeds.simple_embed import SimpleEmbed
 from primerpg.helpers.item_helper import attempt_purchase_item
 from primerpg.helpers.player_helper import get_player_profile, save_player_profile
 from primerpg.persistence.items_persistence import get_item

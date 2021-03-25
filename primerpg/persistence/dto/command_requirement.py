@@ -13,9 +13,5 @@ class CommandRequirement:
         self.allowed_state_ids = allowed_state_ids
 
     def __repr__(self):
-        response = "Unique Id: %s" % self.unique_id
-        response += "\nName: %s" % self.name
-        response += "\nZone Id: %s" % self.zone_id
-        response += "\nCooldown: %s" % self.cooldown
-        response += "\nAllowed State Ids: %s" % self.allowed_state_ids
-        return response
+        var_text = " ".join(["{0}={1!r}".format(var, value) for var, value in vars(self).items()])
+        return "<{0.__class__.__name__} {1}>".format(self, var_text)

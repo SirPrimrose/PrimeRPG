@@ -24,11 +24,6 @@ class PlayerProfile(EntityBase):
         self.core = core
         self._inventory = inventory
 
-    def __repr__(self):
-        response = super.__repr__(self)
-        response += "\nCore: \n%s" % self.core
-        return response
-
     def get_current_hp(self) -> float:
         return self.core.current_hp
 

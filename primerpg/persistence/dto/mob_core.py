@@ -17,8 +17,5 @@ class MobCore:
         self.icon_url = icon_url
 
     def __repr__(self):
-        response = "Unique ID: %s" % self.unique_id
-        response += "\nName: %s" % self.name
-        response += "\nWight: %s" % self.weight
-        response += "\nIcon URL: %s" % self.icon_url
-        return response
+        var_text = " ".join(["{0}={1!r}".format(var, value) for var, value in vars(self).items()])
+        return "<{0.__class__.__name__} {1}>".format(self, var_text)

@@ -17,8 +17,5 @@ class EquipmentStat:
         self.scales_with = scales_with
 
     def __repr__(self):
-        response = "Item Id: %s" % self.item_id
-        response += "\nEquipment Stat Category Id: %s" % self.equipment_stat_category_id
-        response += "\nValue: %s" % self.value
-        response += "\nScaling: %s" % self.scales_with
-        return response
+        var_text = " ".join(["{0}={1!r}".format(var, value) for var, value in vars(self).items()])
+        return "<{0.__class__.__name__} {1}>".format(self, var_text)

@@ -41,10 +41,8 @@ class EntityBase:
         self._current_hp = 0
 
     def __repr__(self):
-        response = "Current HP: %s" % self.get_current_hp()
-        response += "\nName: %s" % self.name
-        response += "\nSkills: %s" % self.skills
-        return response
+        var_text = " ".join(["{0}={1!r}".format(var, value) for var, value in vars(self).items()])
+        return "<{0.__class__.__name__} {1}>".format(self, var_text)
 
     def get_current_hp(self) -> float:
         return self._current_hp

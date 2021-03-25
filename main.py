@@ -7,6 +7,8 @@ import os
 import sys
 from traceback import print_exc
 
+from discord import Message
+
 from primerpg import command_handler
 from primerpg.consts import game_client, command_prefix
 from primerpg.data_cache import load_util_data
@@ -61,7 +63,7 @@ async def on_ready():
 
 
 @game_client.event
-async def on_message(msg):
+async def on_message(msg: Message):
     if msg.author == game_client.user:
         return
 

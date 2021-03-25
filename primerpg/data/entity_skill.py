@@ -13,11 +13,8 @@ class EntitySkill:
         self._level = self._calculate_level()
 
     def __repr__(self):
-        response = "\nEntity Id: %s" % self.entity_id
-        response += "\nSkill Id: %s" % self.skill_id
-        response += "\nTotal XP: %s" % self._total_xp
-        response += "\nLevel: %s" % self._level
-        return response
+        var_text = " ".join(["{0}={1!r}".format(var, value) for var, value in vars(self).items()])
+        return "<{0.__class__.__name__} {1}>".format(self, var_text)
 
     def get_total_xp(self):
         return self._total_xp

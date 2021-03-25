@@ -10,7 +10,5 @@ class EquipmentCategory:
         self.max_num = max_num
 
     def __repr__(self):
-        response = "Unique Id: %s" % self.unique_id
-        response += "\nName: %s" % self.name
-        response += "\nMaximum Number: %s" % self.max_num
-        return response
+        var_text = " ".join(["{0}={1!r}".format(var, value) for var, value in vars(self).items()])
+        return "<{0.__class__.__name__} {1}>".format(self, var_text)
