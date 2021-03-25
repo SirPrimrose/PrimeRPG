@@ -124,7 +124,7 @@
       "stats": [
         {
           "Physical Attack": {
-            "value": 6,
+            "value": 7,
             "scales_with": {
               "Strength": 6,
               "Dexterity": 6
@@ -166,7 +166,7 @@
       "stats": [
         {
           "Physical Attack": {
-            "value": 2,
+            "value": 4,
             "scales_with": {
               "Vitality": 25
             }
@@ -200,7 +200,7 @@
       "item_category_id": 3,
       "equipment_category_id": 2,
       "name": "Wooden Helmet",
-      "value": 100,
+      "value": 50,
       "shop_zone": "Grasslands",
       "stats": [
         {

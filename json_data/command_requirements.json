@@ -110,6 +110,12 @@
       "zone": "Grasslands",
       "cooldown": 3600,
       "allowed_states": ["Idling", "Boss"]
+    },
+    {
+      "name": "Sell",
+      "unique_id": 19,
+      "zone": "Grasslands",
+      "allowed_states": ["Idling"]
     }
   ]
 }
