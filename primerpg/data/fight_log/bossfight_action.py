@@ -34,7 +34,7 @@ class BossfightAction(ActionBase):
 
     def get_message(self) -> str:
         multi_hit_text = "(hit {}x)".format(self.multi_hit) if self.multi_hit else ""
-        move_text = "used {}".format(self.move_name) if self.move_name else ""
+        move_text = "used **{}**".format(self.move_name)
         return "{0} {1}{2} on {4} for **{5:.0f}**{6}".format(
             self.attacker_name,
             move_text,

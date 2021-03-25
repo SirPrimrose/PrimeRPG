@@ -9,7 +9,7 @@ import discord
 from primerpg.commands.command import Command
 from primerpg.data_cache import get_item_id
 from primerpg.embeds.simple_embed import SimpleEmbed
-from primerpg.helpers.item_helper import attempt_purchase_item, attempt_sell_item
+from primerpg.helpers.item_helper import attempt_sell_item
 from primerpg.helpers.player_helper import get_player_profile, save_player_profile
 from primerpg.persistence.items_persistence import get_item
 from primerpg.util import check_is_int
@@ -47,7 +47,7 @@ class Sell(Command):
                     content = transaction.err_message
                 else:
                     title = "Sell success"
-                    content = "{0} sold {1.quantity} {1.item_name} for {1.total_cost} coins".format(
+                    content = "{0} sold {1.quantity} {1.item.name} for {1.total_cost} coins".format(
                         msg.author.name, transaction
                     )
                 embed = SimpleEmbed(msg.author, title, content)

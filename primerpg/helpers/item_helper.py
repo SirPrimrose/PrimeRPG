@@ -25,28 +25,28 @@ def give_player_item(player_profile: PlayerProfile, item: ItemAmount) -> None:
 
 def attempt_purchase_item(player_profile: PlayerProfile, item: Item, quantity: int) -> ShopTransaction:
     if quantity < 1:
-        return ShopTransaction("Must purchase at least 1 of item.", item.name, quantity, 0)
+        return ShopTransaction("Must purchase at least 1 of item.", item, quantity, 0)
     coins = player_profile.get_coins()
     total_cost = item.value * quantity
     if coins < total_cost:
-        return ShopTransaction("Not enough coins.", item.name, quantity, total_cost)
+        return ShopTransaction("Not enough coins.", item, quantity, total_cost)
     else:
         give_player_item(player_profile, ItemAmount(item.unique_id, quantity))
         give_player_item(player_profile, ItemAmount(coin_item_id, -total_cost))
-        return ShopTransaction("", item.name, quantity, total_cost)
+        return ShopTransaction("", item, quantity, total_cost)
 
 
 def attempt_sell_item(player_profile: PlayerProfile, item: Item, quantity: int) -> ShopTransaction:
     if quantity < 1:
-        return ShopTransaction("Must sell at least 1 of item.", item.name, quantity, 0)
+        return ShopTransaction("Must sell at least 1 of item.", item, quantity, 0)
     player_items = player_profile.get_inventory_item(item.unique_id)
     total_value = floor(item.value * quantity * _sellback_ratio)
     if player_items.quantity < quantity:
-        return ShopTransaction("Not enough items.", item.name, quantity, total_value)
+        return ShopTransaction("Not enough items.", item, quantity, total_value)
     else:
         give_player_item(player_profile, ItemAmount(item.unique_id, -quantity))
         give_player_item(player_profile, ItemAmount(coin_item_id, total_value))
-        return ShopTransaction("", item.name, quantity, total_value)
+        return ShopTransaction("", item, quantity, total_value)
 
 
 def attempt_use_item(player_profile: PlayerProfile, item_id: int, use_count: int = 1) -> (bool, str):

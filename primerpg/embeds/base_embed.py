@@ -34,14 +34,19 @@ class BaseEmbed:
     async def handle_reaction(self, reaction_id: int):
         pass
 
-    # TODO Have this spawn a coroutine for listening for the reaction, so that this function can return
     async def connect_reaction_listener(self, embed_message: Message) -> None:
         self.embed_message = embed_message
         await self.embed_message.clear_reactions()
-        await asyncio.gather(
-            self._generate_reactions(),
-            self.listen_for_reaction(),
+        loop = asyncio.get_event_loop()
+        loop.create_task(
+            self.coro(
+                self._generate_reactions(),
+                self.listen_for_reaction(),
+            )
         )
+
+    async def coro(self, *tasks):
+        await asyncio.gather(*tasks)
 
     async def _generate_reactions(self):
         reaction_list = [self.embed_message.add_reaction(emoji_from_id(emoji)) for emoji in self.get_reaction_emojis()]

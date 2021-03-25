@@ -69,6 +69,8 @@ foraging_task_emoji_id = letter_c_high_emoji_id
 farming_task_emoji_id = letter_d_high_emoji_id
 collect_emoji_id = letter_f_high_emoji_id
 
+auto_equip_emoji_id = letter_s_high_emoji_id
+
 prev_page_emoji_id = letter_d_high_emoji_id
 next_page_emoji_id = letter_f_high_emoji_id
 
