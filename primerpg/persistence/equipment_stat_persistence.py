@@ -12,7 +12,6 @@ from primerpg.persistence.dto.equipment_stat import EquipmentStat
 from primerpg.persistence.equipment_stat_categories_persistence import (
     get_all_equipment_stat_categories,
 )
-from primerpg.persistence.persistence_exception import PersistenceException
 from primerpg.persistence.skill_category_persistence import get_all_skill_categories
 
 file_name = "items.json"
@@ -76,7 +75,7 @@ def get_equipment_stat(item_id: int, equipment_stat_category_id: int) -> Equipme
     return init_equipment_stat(result)
 
 
-def get_equipment_stats(item_id: int) -> list[EquipmentStat]:
+def get_equipment_stats(item_id: int) -> List[EquipmentStat]:
     cursor_obj = connection.cursor()
 
     stmt_args = (item_id,)
@@ -87,7 +86,7 @@ def get_equipment_stats(item_id: int) -> list[EquipmentStat]:
     return [init_equipment_stat(r) for r in result]
 
 
-def get_all_equipment_stats() -> list[EquipmentStat]:
+def get_all_equipment_stats() -> List[EquipmentStat]:
     cursor_obj = connection.cursor()
 
     statement = select_all_equipment_stats_query
@@ -106,4 +105,4 @@ def init_equipment_stat(db_row):
             eval(db_row[3]),
         )
     else:
-        raise PersistenceException(EquipmentStat)
+        return None

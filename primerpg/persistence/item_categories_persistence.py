@@ -9,7 +9,6 @@ from primerpg.consts import data_folder
 from primerpg.persistence.common_persistence import insert_dictionary, should_reload_from_file
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.item_category import ItemCategory
-from primerpg.persistence.persistence_exception import PersistenceException
 
 file_name = "item_categories.json"
 item_categories_table = "item_categories"
@@ -44,7 +43,7 @@ def get_item_category(unique_id: int):
     return init_item_category(result)
 
 
-def get_all_item_categories() -> list[ItemCategory]:
+def get_all_item_categories() -> List[ItemCategory]:
     cursor_obj = connection.cursor()
 
     statement = select_all_item_categories_query
@@ -54,11 +53,11 @@ def get_all_item_categories() -> list[ItemCategory]:
     return [init_item_category(r) for r in result]
 
 
-def init_item_category(db_row) -> ItemCategory:
+def init_item_category(db_row):
     if db_row:
         return ItemCategory(
             db_row[0],
             db_row[1],
         )
     else:
-        raise PersistenceException(ItemCategory)
+        return None

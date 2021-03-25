@@ -6,7 +6,6 @@ from typing import List
 
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.file_checksum import FileChecksum
-from primerpg.persistence.persistence_exception import PersistenceException
 
 file_checksums_table = "file_checksums"
 
@@ -32,7 +31,7 @@ def get_file_checksum(file_name: str) -> FileChecksum:
     return init_file_checksum(result)
 
 
-def get_all_file_checksums() -> list[FileChecksum]:
+def get_all_file_checksums() -> List[FileChecksum]:
     cursor_obj = connection.cursor()
 
     statement = select_all_file_checksums_query
@@ -58,11 +57,11 @@ def update_file_checksum(checksum: FileChecksum) -> None:
     cursor_obj.execute(stmt, stmt_args)
 
 
-def init_file_checksum(db_row) -> FileChecksum:
+def init_file_checksum(db_row):
     if db_row:
         return FileChecksum(
             db_row[0],
             db_row[1],
         )
     else:
-        raise PersistenceException(FileChecksum)
+        return None

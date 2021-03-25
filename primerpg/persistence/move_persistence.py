@@ -17,7 +17,6 @@ from primerpg.persistence.dto.move import Move
 from primerpg.persistence.equipment_stat_categories_persistence import (
     get_all_equipment_stat_categories,
 )
-from primerpg.persistence.persistence_exception import PersistenceException
 
 file_name = "moves.json"
 moves_table = "moves"
@@ -78,7 +77,7 @@ def get_move(unique_id: int) -> Move:
     return init_move(result)
 
 
-def get_all_moves() -> list[Move]:
+def get_all_moves() -> List[Move]:
     cursor_obj = connection.cursor()
 
     statement = select_all_moves_query
@@ -88,7 +87,7 @@ def get_all_moves() -> list[Move]:
     return [init_move(r) for r in result]
 
 
-def init_move(db_row) -> Move:
+def init_move(db_row):
     if db_row:
         return Move(
             db_row[0],
@@ -101,4 +100,4 @@ def init_move(db_row) -> Move:
             db_row[7],
         )
     else:
-        raise PersistenceException(Move)
+        return None

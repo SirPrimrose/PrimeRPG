@@ -9,7 +9,6 @@ from primerpg.consts import data_folder
 from primerpg.data.entity_skill import EntitySkill
 from primerpg.persistence.common_persistence import convert_dict_keys_to_id, insert_dictionary, should_reload_from_file
 from primerpg.persistence.connection_handler import connection, queue_transaction
-from primerpg.persistence.persistence_exception import PersistenceException
 from primerpg.persistence.skill_category_persistence import get_all_skill_categories
 from primerpg.util import req_xp_for_level
 
@@ -64,7 +63,7 @@ def get_mob_skill(mob_id: int, skill_id: int) -> EntitySkill:
     return init_mob_skill(result)
 
 
-def get_all_mob_skills(mob_id: int) -> list[EntitySkill]:
+def get_all_mob_skills(mob_id: int) -> List[EntitySkill]:
     cursor_obj = connection.cursor()
 
     stmt_args = (mob_id,)
@@ -95,8 +94,8 @@ def delete_mob_skills(mob_id: int):
     queue_transaction(mob_id, stmt, stmt_args)
 
 
-def init_mob_skill(db_row) -> EntitySkill:
+def init_mob_skill(db_row):
     if db_row:
         return EntitySkill(db_row[0], db_row[1], db_row[2])
     else:
-        raise PersistenceException(EntitySkill)
+        return None

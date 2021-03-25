@@ -3,13 +3,12 @@
 #  Author: Primm
 
 import json
-from typing import List, Optional
+from typing import List
 
 from primerpg.consts import data_folder
 from primerpg.persistence.common_persistence import insert_dictionary, should_reload_from_file, convert_name_to_id
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.task_category import TaskCategory
-from primerpg.persistence.persistence_exception import PersistenceException
 from primerpg.persistence.zone_persistence import get_all_zones
 
 file_name = "task_categories.json"
@@ -60,7 +59,7 @@ def get_task_category(unique_id: int) -> TaskCategory:
     return init_task_category(result)
 
 
-def get_task_categories(zone_id: int) -> list[TaskCategory]:
+def get_task_categories(zone_id: int) -> List[TaskCategory]:
     cursor_obj = connection.cursor()
 
     stmt_args = (zone_id,)
@@ -71,7 +70,7 @@ def get_task_categories(zone_id: int) -> list[TaskCategory]:
     return [init_task_category(r) for r in result]
 
 
-def get_all_task_categories() -> list[TaskCategory]:
+def get_all_task_categories() -> List[TaskCategory]:
     cursor_obj = connection.cursor()
 
     statement = select_all_task_categories_query
@@ -81,7 +80,7 @@ def get_all_task_categories() -> list[TaskCategory]:
     return [init_task_category(r) for r in result]
 
 
-def init_task_category(db_row) -> TaskCategory:
+def init_task_category(db_row):
     if db_row:
         return TaskCategory(
             db_row[0],
@@ -89,4 +88,4 @@ def init_task_category(db_row) -> TaskCategory:
             db_row[2],
         )
     else:
-        raise PersistenceException(TaskCategory)
+        return None

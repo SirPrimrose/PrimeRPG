@@ -6,7 +6,6 @@ from typing import List
 
 from primerpg.data.entity_skill import EntitySkill
 from primerpg.persistence.connection_handler import connection, queue_transaction
-from primerpg.persistence.persistence_exception import PersistenceException
 
 player_skills_table = "player_skills"
 
@@ -38,7 +37,7 @@ def get_player_skill(player_id: int, skill_id: int) -> EntitySkill:
     return init_player_skill(result)
 
 
-def get_all_player_skills(player_id: int) -> list[EntitySkill]:
+def get_all_player_skills(player_id: int) -> List[EntitySkill]:
     cursor_obj = connection.cursor()
 
     stmt_args = (player_id,)
@@ -69,8 +68,8 @@ def delete_player_skills(player_id: int):
     queue_transaction(player_id, stmt, stmt_args)
 
 
-def init_player_skill(db_row) -> EntitySkill:
+def init_player_skill(db_row):
     if db_row:
         return EntitySkill(db_row[0], db_row[1], db_row[2])
     else:
-        raise PersistenceException(EntitySkill)
+        return None

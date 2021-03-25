@@ -14,7 +14,6 @@ from primerpg.persistence.common_persistence import (
 )
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.command_requirement import CommandRequirement
-from primerpg.persistence.persistence_exception import PersistenceException
 from primerpg.persistence.player_state_persistence import get_all_player_states
 from primerpg.persistence.zone_persistence import get_all_zones
 
@@ -74,7 +73,7 @@ def get_command_requirement(unique_id: int) -> CommandRequirement:
     return init_command_requirement(result)
 
 
-def get_all_command_requirements() -> list[CommandRequirement]:
+def get_all_command_requirements() -> List[CommandRequirement]:
     cursor_obj = connection.cursor()
 
     statement = select_all_command_requirements_query
@@ -84,7 +83,7 @@ def get_all_command_requirements() -> list[CommandRequirement]:
     return [init_command_requirement(r) for r in result]
 
 
-def init_command_requirement(db_row) -> CommandRequirement:
+def init_command_requirement(db_row):
     if db_row:
         return CommandRequirement(
             db_row[0],
@@ -94,4 +93,4 @@ def init_command_requirement(db_row) -> CommandRequirement:
             eval(db_row[4]),
         )
     else:
-        raise PersistenceException(CommandRequirement)
+        return None

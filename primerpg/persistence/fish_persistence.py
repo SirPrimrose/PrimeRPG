@@ -8,7 +8,6 @@ from primerpg.consts import data_folder
 from primerpg.persistence.common_persistence import insert_dictionary, should_reload_from_file
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.fish import Fish
-from primerpg.persistence.persistence_exception import PersistenceException
 
 file_name = "fish.json"
 fish_table = "fish"
@@ -42,7 +41,7 @@ def populate_fish_table():
             insert_dictionary(fish_table, fish)
 
 
-def get_fish_from_id(unique_id: int) -> Fish:
+def get_fish_from_id(unique_id: int):
     cursor_obj = connection.cursor()
 
     stmt_args = (unique_id,)
@@ -53,7 +52,7 @@ def get_fish_from_id(unique_id: int) -> Fish:
     return init_fish(result)
 
 
-def get_fish(time: str, weather: str) -> list[Fish]:
+def get_fish(time: str, weather: str):
     cursor_obj = connection.cursor()
 
     stmt_args = (time, time, weather)
@@ -64,8 +63,8 @@ def get_fish(time: str, weather: str) -> list[Fish]:
     return [init_fish(x) for x in result]
 
 
-def init_fish(db_row) -> Fish:
+def init_fish(db_row):
     if db_row:
         return Fish(db_row[0], db_row[1], db_row[2], db_row[3], db_row[4], db_row[5], db_row[6])
     else:
-        raise PersistenceException(Fish)
+        return None

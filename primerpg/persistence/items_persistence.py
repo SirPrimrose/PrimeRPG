@@ -9,7 +9,6 @@ from primerpg.consts import data_folder
 from primerpg.persistence.common_persistence import insert_dictionary, should_reload_from_file, convert_name_to_id
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.item import Item
-from primerpg.persistence.persistence_exception import PersistenceException
 from primerpg.persistence.zone_persistence import get_all_zones
 
 file_name = "items.json"
@@ -71,7 +70,7 @@ def get_item(unique_id: int):
     return init_item(result)
 
 
-def get_shop_items(zone_id: int) -> list[Item]:
+def get_shop_items(zone_id: int) -> List[Item]:
     cursor_obj = connection.cursor()
 
     stmt_args = (zone_id,)
@@ -82,7 +81,7 @@ def get_shop_items(zone_id: int) -> list[Item]:
     return [init_item(r) for r in result]
 
 
-def get_all_items() -> list[Item]:
+def get_all_items() -> List[Item]:
     cursor_obj = connection.cursor()
 
     statement = select_all_items_query
@@ -92,7 +91,7 @@ def get_all_items() -> list[Item]:
     return [init_item(r) for r in result]
 
 
-def init_item(db_row) -> Item:
+def init_item(db_row):
     if db_row:
         return Item(
             db_row[0],
@@ -105,4 +104,4 @@ def init_item(db_row) -> Item:
             eval(db_row[7]),
         )
     else:
-        raise PersistenceException(Item)
+        return None

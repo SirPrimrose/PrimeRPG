@@ -9,7 +9,6 @@ from primerpg.consts import data_folder
 from primerpg.persistence.common_persistence import insert_dictionary, should_reload_from_file
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.equipment_stat_category import EquipmentStatCategory
-from primerpg.persistence.persistence_exception import PersistenceException
 
 file_name = "equipment_stat_categories.json"
 equipment_stat_categories_table = "equipment_stat_categories"
@@ -46,7 +45,7 @@ def get_equipment_stat_category(unique_id: int) -> EquipmentStatCategory:
     return init_equipment_stat_category(result)
 
 
-def get_all_equipment_stat_categories() -> list[EquipmentStatCategory]:
+def get_all_equipment_stat_categories() -> List[EquipmentStatCategory]:
     cursor_obj = connection.cursor()
 
     statement = select_all_equipment_stat_categories_query
@@ -56,11 +55,11 @@ def get_all_equipment_stat_categories() -> list[EquipmentStatCategory]:
     return [init_equipment_stat_category(r) for r in result]
 
 
-def init_equipment_stat_category(db_row) -> EquipmentStatCategory:
+def init_equipment_stat_category(db_row):
     if db_row:
         return EquipmentStatCategory(
             db_row[0],
             db_row[1],
         )
     else:
-        raise PersistenceException(EquipmentStatCategory)
+        return None

@@ -9,7 +9,6 @@ from primerpg.consts import data_folder
 from primerpg.persistence.common_persistence import insert_dictionary, should_reload_from_file
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.equipment_category import EquipmentCategory
-from primerpg.persistence.persistence_exception import PersistenceException
 
 file_name = "equipment_categories.json"
 equipment_categories_table = "equipment_categories"
@@ -36,7 +35,7 @@ def populate_equipment_categories_table():
             insert_dictionary(equipment_categories_table, item)
 
 
-def get_equipment_category(unique_id: int) -> EquipmentCategory:
+def get_equipment_category(unique_id: int):
     cursor_obj = connection.cursor()
 
     stmt_args = (unique_id,)
@@ -47,7 +46,7 @@ def get_equipment_category(unique_id: int) -> EquipmentCategory:
     return init_equipment_category(result)
 
 
-def get_all_equipment_categories() -> list[EquipmentCategory]:
+def get_all_equipment_categories() -> List[EquipmentCategory]:
     cursor_obj = connection.cursor()
 
     statement = select_all_equipment_categories_query
@@ -57,7 +56,7 @@ def get_all_equipment_categories() -> list[EquipmentCategory]:
     return [init_equipment_category(r) for r in result]
 
 
-def init_equipment_category(db_row) -> EquipmentCategory:
+def init_equipment_category(db_row):
     if db_row:
         return EquipmentCategory(
             db_row[0],
@@ -65,4 +64,4 @@ def init_equipment_category(db_row) -> EquipmentCategory:
             db_row[2],
         )
     else:
-        raise PersistenceException(EquipmentCategory)
+        return None

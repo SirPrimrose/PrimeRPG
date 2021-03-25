@@ -3,13 +3,12 @@
 #  Author: Primm
 
 import json
-from typing import Optional
+from typing import List
 
 from primerpg.consts import data_folder
 from primerpg.persistence.common_persistence import insert_dictionary, should_reload_from_file
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.zone import Zone
-from primerpg.persistence.persistence_exception import PersistenceException
 
 file_name = "zones.json"
 zones_table = "zones"
@@ -44,7 +43,7 @@ def get_zone(unique_id: int) -> Zone:
     return init_zone(result)
 
 
-def get_all_zones() -> list[Zone]:
+def get_all_zones() -> List[Zone]:
     cursor_obj = connection.cursor()
 
     statement = select_all_zones_query
@@ -54,11 +53,11 @@ def get_all_zones() -> list[Zone]:
     return [init_zone(r) for r in result]
 
 
-def init_zone(db_row) -> Zone:
+def init_zone(db_row):
     if db_row:
         return Zone(
             db_row[0],
             db_row[1],
         )
     else:
-        raise PersistenceException(Zone)
+        return None

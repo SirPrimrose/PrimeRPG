@@ -9,7 +9,6 @@ from primerpg.consts import data_folder
 from primerpg.persistence.common_persistence import insert_dictionary, should_reload_from_file
 from primerpg.persistence.connection_handler import connection
 from primerpg.persistence.dto.mob_core import MobCore
-from primerpg.persistence.persistence_exception import PersistenceException
 
 file_name = "mobs.json"
 mobs_table = "mobs"
@@ -53,7 +52,7 @@ def get_mob(unique_id: int) -> MobCore:
     return init_mob(result)
 
 
-def get_all_mobs() -> list[MobCore]:
+def get_all_mobs() -> List[MobCore]:
     cursor_obj = connection.cursor()
 
     statement = select_mobs_query
@@ -63,7 +62,7 @@ def get_all_mobs() -> list[MobCore]:
     return [init_mob(r) for r in result]
 
 
-def init_mob(db_row) -> MobCore:
+def init_mob(db_row):
     if db_row:
         return MobCore(
             db_row[0],
@@ -72,4 +71,4 @@ def init_mob(db_row) -> MobCore:
             db_row[3],
         )
     else:
-        raise PersistenceException(MobCore)
+        return None
