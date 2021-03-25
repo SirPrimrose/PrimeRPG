@@ -56,6 +56,7 @@ from primerpg.persistence.moveset_persistence import (
 )
 from primerpg.persistence.player_equipment_persistence import create_player_equipment_query
 from primerpg.persistence.player_persistence import create_players_query
+from primerpg.persistence.player_rank_persistence import create_player_ranks_query
 from primerpg.persistence.player_skill_persistence import create_player_skills_query
 from primerpg.persistence.player_state_persistence import create_player_states_query, populate_player_states_table
 from primerpg.persistence.player_task_persistence import create_player_tasks_query
@@ -112,6 +113,7 @@ def create_tables():
     cursor_obj.execute(create_player_skills_query)
     cursor_obj.execute(create_player_equipment_query)
     cursor_obj.execute(create_inventory_query)
+    cursor_obj.execute(create_player_ranks_query)
 
     # Populate raw data tables
     populate_zones_table()

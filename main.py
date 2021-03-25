@@ -15,6 +15,7 @@ from primerpg.data_cache import load_util_data
 from primerpg.helpers.regen_helper import regen_tick
 from primerpg.logging_handler import setup_logging
 from primerpg.persistence import persistence_main
+from primerpg.persistence.player_rank_persistence import generate_player_ranks
 from settings import env_setup, get_env_var
 
 # System Env Vars
@@ -25,6 +26,7 @@ ready = False
 game_tick_rate = 0.5  # seconds
 save_tick_rate = 1  # ticks
 regen_tick_rate = 120  # ticks
+rank_tick_rate = 900  # ticks
 
 # Quick Config Options
 start_app = True  # Start the bot application and connect to Discord. Disable to test without a connection.
@@ -49,6 +51,8 @@ async def game_tick():
                 persistence_main.save_queue()
             if tick % regen_tick_rate == 0:
                 regen_tick()
+            if tick % rank_tick_rate == 0:
+                generate_player_ranks()
         except Exception:
             print_exc()
             print("Encountered error: {0}".format(sys.exc_info()[1]))
