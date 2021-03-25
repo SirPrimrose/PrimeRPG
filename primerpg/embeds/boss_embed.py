@@ -124,7 +124,8 @@ class BossEmbed(BaseEmbed):
     async def take_turn_with_move(self, move: Optional[Move]):
         self.boss_fight.take_full_turn(move)
         if self.boss_fight.is_fight_done():
-            graduate_from_zone(self.boss_fight.player_profile, self.boss_fight.boss_profile.zone_id)
+            if self.boss_fight.boss_profile.is_dead():
+                graduate_from_zone(self.boss_fight.player_profile, self.boss_fight.boss_profile.zone_id)
             await self.show_rewards_embed()
             # TODO Show new "Tutorial Embed" for zone
         else:

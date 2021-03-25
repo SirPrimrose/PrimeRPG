@@ -79,6 +79,7 @@ class ReconEmbed(BaseEmbed):
             await self.embed_message.channel.send(msg)
             await self.update_embed_content()
         elif reaction_id == run_emoji_id:
+            # TODO Roll for chance at running, take some damage if you fail to run (doesn't auto fight)
             await self.embed_message.channel.send("Run success")
             set_player_state(self.fighter_profile.core.unique_id, idle_state_id)
         else:

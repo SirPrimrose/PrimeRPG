@@ -15,6 +15,7 @@ from primerpg.commands.cm_inventory import Inventory
 from primerpg.commands.cm_profile import Profile
 from primerpg.commands.cm_recon import Recon
 from primerpg.commands.cm_scrub import Scrub
+from primerpg.commands.cm_sell import Sell
 from primerpg.commands.cm_shop import Shop
 from primerpg.commands.cm_skills import Skills
 from primerpg.commands.cm_start import Start
@@ -48,6 +49,7 @@ def load_commands():
     register(Collect())
     register(Shop())
     register(Buy())
+    register(Sell())
     register(Use())
     register(Boss())
 
@@ -66,7 +68,6 @@ async def handle_command(msg, split_content: List[str]):
         if split_content[0].lower() in tuple(command.get_prefixes()):
             can_execute, err_msg = verify_command_usage(msg.author.id, command.get_name())
             if can_execute:
-                set_command_last_usage(msg.author.id, command.get_name())
                 await command.run_command(msg, split_content[1:])
                 return
             else:

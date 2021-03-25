@@ -30,7 +30,7 @@ def time_delta_to_readable_str(time_d: datetime.timedelta) -> str:
         if time_str:
             time_str += " "
         time_str += "{}m".format(minutes)
-    if seconds > 0:
+    if seconds > 0 or not time_str:
         if time_str:
             time_str += " "
         time_str += "{}s".format(seconds)

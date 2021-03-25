@@ -108,7 +108,7 @@
       "name": "Boss",
       "unique_id": 18,
       "zone": "Grasslands",
-      "cooldown": 0,
+      "cooldown": 3600,
       "allowed_states": ["Idling", "Boss"]
     }
   ]

@@ -1,6 +1,7 @@
 #  Copyright (c) 2021
 #  Project: PrimeRPG
 #  Author: Primm
+from math import floor
 
 from primerpg.consts import coin_item_id
 from primerpg.data.item_amount import ItemAmount
@@ -9,6 +10,8 @@ from primerpg.data.shop_transaction import ShopTransaction
 from primerpg.persistence.dto.item import Item
 from primerpg.persistence.dto.player_inventory_item import PlayerInventoryItem
 from primerpg.persistence.items_persistence import get_item
+
+_sellback_ratio = 0.4
 
 
 def give_player_item(player_profile: PlayerProfile, item: ItemAmount) -> None:
@@ -31,6 +34,19 @@ def attempt_purchase_item(player_profile: PlayerProfile, item: Item, quantity: i
         give_player_item(player_profile, ItemAmount(item.unique_id, quantity))
         give_player_item(player_profile, ItemAmount(coin_item_id, -total_cost))
         return ShopTransaction("", item.name, quantity, total_cost)
+
+
+def attempt_sell_item(player_profile: PlayerProfile, item: Item, quantity: int) -> ShopTransaction:
+    if quantity < 1:
+        return ShopTransaction("Must sell at least 1 of item.", item.name, quantity, 0)
+    player_items = player_profile.get_inventory_item(item.unique_id)
+    total_value = floor(item.value * quantity * _sellback_ratio)
+    if player_items.quantity < quantity:
+        return ShopTransaction("Not enough items.", item.name, quantity, total_value)
+    else:
+        give_player_item(player_profile, ItemAmount(item.unique_id, -quantity))
+        give_player_item(player_profile, ItemAmount(coin_item_id, total_value))
+        return ShopTransaction("", item.name, quantity, total_value)
 
 
 def attempt_use_item(player_profile: PlayerProfile, item_id: int, use_count: int = 1) -> (bool, str):

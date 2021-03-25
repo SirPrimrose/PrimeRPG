@@ -35,8 +35,8 @@ class BossResultsEmbed(BaseEmbed):
         else:
             embed.add_field(
                 name="Death",
-                value="{} has died. Receive no rewards from the fight and potentially lose xp in all skills. See "
-                "combat log for more info.".format(player.name),
+                value="{} has died. Receive no rewards from the fight, but you do not receive xp penalties for dying "
+                "in a boss fight. See combat log for more info.".format(player.name),
                 inline=False,
             )
         return embed

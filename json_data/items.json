@@ -98,12 +98,12 @@
       "item_category_id": 3,
       "equipment_category_id": 1,
       "name": "Wooden Club",
-      "value": 100,
+      "value": 50,
       "shop_zone": "Grasslands",
       "stats": [
         {
           "Physical Attack": {
-            "value": 6,
+            "value": 7,
             "scales_with": {
               "Strength": 10
             }
@@ -119,7 +119,7 @@
       "item_category_id": 3,
       "equipment_category_id": 1,
       "name": "Wooden Sword",
-      "value": 100,
+      "value": 50,
       "shop_zone": "Grasslands",
       "stats": [
         {
@@ -141,12 +141,12 @@
       "item_category_id": 3,
       "equipment_category_id": 1,
       "name": "Wooden Bow",
-      "value": 100,
+      "value": 50,
       "shop_zone": "Grasslands",
       "stats": [
         {
           "Physical Attack": {
-            "value": 6,
+            "value": 7,
             "scales_with": {
               "Dexterity": 10
             }

@@ -20,7 +20,7 @@ from primerpg.persistence.zone_persistence import get_all_zones
 file_name = "mobs.json"
 bosses_table = "bosses"
 
-select_boss_query = "SELECT * FROM %s WHERE mob_id = ?" % bosses_table
+select_boss_query = "SELECT * FROM %s WHERE zone_id = ?" % bosses_table
 select_bosses_query = "SELECT * FROM %s" % bosses_table
 create_bosses_query = (
     "CREATE TABLE IF NOT EXISTS %s ("
@@ -54,10 +54,10 @@ def populate_bosses_table():
             insert_dictionary(bosses_table, boss)
 
 
-def get_boss(unique_id: int) -> BossCore:
+def get_boss(zone_id: int) -> BossCore:
     cursor_obj = connection.cursor()
 
-    stmt_args = (unique_id,)
+    stmt_args = (zone_id,)
     statement = select_boss_query
     cursor_obj.execute(statement, stmt_args)
     result = cursor_obj.fetchone()
